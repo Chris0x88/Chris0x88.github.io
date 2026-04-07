@@ -1,0 +1,355 @@
+HELLO WORLD TEST<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chris — Autonomous AI Agents & DeFi Systems</title>
+<meta name="description" content="I build autonomous AI agents that take real actions in the real world. Trading bots, DeFi toolkits, developer tools. Freelance + consulting available." />
+<meta property="og:title" content="Chris — Autonomous AI Agents & DeFi Systems" />
+<meta property="og:description" content="Autonomous trading bots, Hedera DeFi toolkits, Claude Code tooling. Freelance + consulting available." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>" />
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#0b1020',
+          panel: '#0f162b',
+          line: '#1c2440',
+          ink: '#e6edf7',
+          mute: '#94a3b8',
+          accent: '#58a6ff',
+          accent2: '#50d2c1',
+          warn: '#ffd21e',
+          danger: '#ff6b6b'
+        },
+        fontFamily: {
+          sans: ['-apple-system','BlinkMacSystemFont','Inter','system-ui','sans-serif'],
+          mono: ['JetBrains Mono','ui-monospace','SFMono-Regular','Menlo','monospace']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(88,166,255,0.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(80,210,193,0.06), transparent 60%),
+    #0b1020;
+  }
+  .gridlines {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .card { transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+  .card:hover { transform: translateY(-2px); border-color: rgba(88,166,255,0.5); background: rgba(15,22,43,0.85); }
+  .cursor::after{
+    content:'▍'; display:inline-block; margin-left:2px;
+    animation: blink 1s steps(2,end) infinite; color:#58a6ff;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .tag { background:rgba(88,166,255,0.08); border:1px solid rgba(88,166,255,0.25); color:#9ecbff; }
+  .tag-green { background:rgba(80,210,193,0.08); border-color:rgba(80,210,193,0.25); color:#7ee8d7; }
+  .tag-amber { background:rgba(255,210,30,0.08); border-color:rgba(255,210,30,0.25); color:#ffe47a; }
+  .dot { width:8px; height:8px; border-radius:9999px; display:inline-block; background:#50d2c1; box-shadow:0 0 12px #50d2c1; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body class="text-ink font-sans antialiased">
+
+<!-- NAV -->
+<header class="sticky top-0 z-40 backdrop-blur bg-bg/70 border-b border-line">
+  <nav class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
+    <a href="#top" class="font-mono text-sm tracking-tight text-ink">
+      <span class="text-accent">~/</span>chris0x88
+    </a>
+    <div class="hidden sm:flex items-center gap-6 text-sm text-mute">
+      <a href="#work" class="hover:text-ink">Work</a>
+      <a href="#approach" class="hover:text-ink">Approach</a>
+      <a href="#stack" class="hover:text-ink">Stack</a>
+      <a href="#contact" class="hover:text-ink">Contact</a>
+    </div>
+    <a href="#contact" class="text-xs px-3 py-1.5 rounded-md border border-accent/40 text-accent hover:bg-accent/10 transition">
+      <span class="dot mr-1.5 align-middle"></span>Available
+    </a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative overflow-hidden">
+  <div class="absolute inset-0 gridlines opacity-60 pointer-events-none"></div>
+  <div class="relative max-w-6xl mx-auto px-5 pt-20 pb-24">
+    <p class="font-mono text-xs text-accent mb-4">// autonomous systems · production shipping · self-taught</p>
+    <h1 class="text-4xl sm:text-6xl font-bold leading-tight tracking-tight">
+      I build autonomous AI agents<br/>
+      that do <span class="text-accent2">real work</span><span class="cursor"></span>
+    </h1>
+    <p class="mt-6 text-lg text-mute max-w-2xl leading-relaxed">
+      Trading bots managing real capital. DeFi toolkits running on edge compute.
+      Developer tools used by engineers shipping daily. Not demos — systems with consequences.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="#work" class="px-5 py-3 rounded-md bg-accent text-bg font-medium hover:bg-accent/90 transition">See the work →</a>
+      <a href="#contact" class="px-5 py-3 rounded-md border border-line hover:border-accent/50 transition">Hire me</a>
+      <a href="https://github.com/Chris0x88" class="px-5 py-3 rounded-md border border-line hover:border-accent/50 transition">GitHub ↗</a>
+    </div>
+    <div class="mt-10 flex flex-wrap gap-2 text-xs font-mono">
+      <span class="tag px-2.5 py-1 rounded">Python</span>
+      <span class="tag px-2.5 py-1 rounded">TypeScript</span>
+      <span class="tag px-2.5 py-1 rounded">Claude Code</span>
+      <span class="tag px-2.5 py-1 rounded">Hedera</span>
+      <span class="tag px-2.5 py-1 rounded">Hyperliquid</span>
+      <span class="tag px-2.5 py-1 rounded">FastAPI</span>
+      <span class="tag px-2.5 py-1 rounded">Edge compute</span>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work" class="max-w-6xl mx-auto px-5 py-16">
+  <div class="flex items-end justify-between mb-8">
+    <div>
+      <p class="font-mono text-xs text-accent">// flagship projects</p>
+      <h2 class="text-3xl font-bold mt-1">Things I've shipped</h2>
+    </div>
+    <a href="https://github.com/Chris0x88?tab=repositories" class="text-sm text-mute hover:text-ink">All repos ↗</a>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-5">
+
+    <!-- Hyperliquid Agent -->
+    <article class="card rounded-xl border border-line bg-panel/60 p-6">
+      <div class="flex items-start justify-between">
+        <h3 class="text-xl font-semibold">Hyperliquid Agent</h3>
+        <span class="tag-green tag px-2 py-0.5 rounded text-[10px] font-mono uppercase">Live</span>
+      </div>
+      <p class="text-sm text-mute mt-1 font-mono">autonomous trading · 23 strategies</p>
+      <p class="mt-4 text-sm leading-relaxed">
+        Open-source autonomous trading agent for Hyperliquid. 23 strategies orchestrated by APEX,
+        zero fees layered on top, zero telemetry, designed to run on your own hardware.
+      </p>
+      <ul class="mt-4 space-y-1.5 text-sm text-mute">
+        <li>→ Multi-strategy orchestration with APEX router</li>
+        <li>→ Backtestable strategy interface, drop-in new ones</li>
+        <li>→ Runs local, no fees, no data leaving your box</li>
+        <li>→ Active public release branch, ships continuously</li>
+      </ul>
+      <div class="mt-5 flex gap-3">
+        <a href="https://github.com/Chris0x88/hyperliquid-agent" class="text-accent text-sm hover:underline">GitHub ↗</a>
+      </div>
+    </article>
+
+    <!-- Space Lord -->
+    <article class="card rounded-xl border border-line bg-panel/60 p-6">
+      <div class="flex items-start justify-between">
+        <h3 class="text-xl font-semibold">Space Lord</h3>
+        <span class="tag-green tag px-2 py-0.5 rounded text-[10px] font-mono uppercase">Live</span>
+      </div>
+      <p class="text-sm text-mute mt-1 font-mono">hedera · defi · edge compute</p>
+      <p class="mt-4 text-sm leading-relaxed">
+        AI-driven Hedera DeFi toolkit built on local edge compute. Token analysis, SaucerSwap
+        integration, and on-device decisioning — no third-party nodes in the critical path.
+      </p>
+      <ul class="mt-4 space-y-1.5 text-sm text-mute">
+        <li>→ Local-first architecture, no external dependencies</li>
+        <li>→ SaucerSwap V2 integration via my own SDK</li>
+        <li>→ Token scoring and risk heuristics</li>
+        <li>→ Composable primitives for Hedera DeFi work</li>
+      </ul>
+      <div class="mt-5 flex gap-3">
+        <a href="https://github.com/Chris0x88/spacelord" class="text-accent text-sm hover:underline">GitHub ↗</a>
+      </div>
+    </article>
+
+    <!-- claude-cli-auth -->
+    <article class="card rounded-xl border border-line bg-panel/60 p-6">
+      <div class="flex items-start justify-between">
+        <h3 class="text-xl font-semibold">claude-cli-auth</h3>
+        <span class="tag-amber tag px-2 py-0.5 rounded text-[10px] font-mono uppercase">New</span>
+      </div>
+      <p class="text-sm text-mute mt-1 font-mono">developer tooling · claude code</p>
+      <p class="mt-4 text-sm leading-relaxed">
+        Just shipped. Authentication tooling for the Claude Code ecosystem. Built to solve a
+        real friction point I hit daily — the kind of tool that's small, sharp, and useful.
+      </p>
+      <ul class="mt-4 space-y-1.5 text-sm text-mute">
+        <li>→ Purpose-built for Claude Code workflows</li>
+        <li>→ Minimal surface, maximum signal</li>
+        <li>→ <em>Add your 1-line description here</em></li>
+      </ul>
+      <div class="mt-5 flex gap-3">
+        <a href="https://github.com/Chris0x88/claude-cli-auth" class="text-accent text-sm hover:underline">GitHub ↗</a>
+      </div>
+    </article>
+
+    <!-- BTC Rebalancer -->
+    <article class="card rounded-xl border border-line bg-panel/60 p-6">
+      <div class="flex items-start justify-between">
+        <h3 class="text-xl font-semibold">BTC Rebalancer</h3>
+        <span class="tag-green tag px-2 py-0.5 rounded text-[10px] font-mono uppercase">Live</span>
+      </div>
+      <p class="text-sm text-mute mt-1 font-mono">hedera · saucerswap · automated rebalancing</p>
+      <p class="mt-4 text-sm leading-relaxed">
+        Automated BTC/USDC rebalancing robot built on Hedera and SaucerSwap. Simple, honest,
+        running in production.
+      </p>
+      <div class="mt-5 flex gap-3">
+        <a href="https://github.com/Chris0x88/btc-rebalancer" class="text-accent text-sm hover:underline">GitHub ↗</a>
+      </div>
+    </article>
+
+    <!-- SaucerSwap SDK -->
+    <article class="card rounded-xl border border-line bg-panel/60 p-6">
+      <div class="flex items-start justify-between">
+        <h3 class="text-xl font-semibold">SaucerSwap Python SDK</h3>
+        <span class="tag px-2 py-0.5 rounded text-[10px] font-mono uppercase">SDK</span>
+      </div>
+      <p class="text-sm text-mute mt-1 font-mono">infrastructure · hedera defi</p>
+      <p class="mt-4 text-sm leading-relaxed">
+        Build trading bots and DeFi apps on Hedera using SaucerSwap V2. The SDK I wished
+        existed, so I built it. Powers my own work and yours.
+      </p>
+      <div class="mt-5 flex gap-3">
+        <a href="https://github.com/Chris0x88/saucerswap-python-sdk" class="text-accent text-sm hover:underline">GitHub ↗</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section id="approach" class="bg-panel/40 border-y border-line">
+  <div class="max-w-6xl mx-auto px-5 py-16">
+    <p class="font-mono text-xs text-accent">// how I work</p>
+    <h2 class="text-3xl font-bold mt-1">Ship first. Polish what earns it.</h2>
+
+    <div class="grid md:grid-cols-3 gap-5 mt-8">
+      <div class="rounded-xl border border-line p-6">
+        <div class="text-accent font-mono text-xs mb-2">01 · architecture</div>
+        <h3 class="font-semibold">Least complex that ships</h3>
+        <p class="text-sm text-mute mt-2 leading-relaxed">
+          I reach for the simplest stack that gets it done. No resume-driven complexity,
+          no trendy frameworks I can't defend, no infrastructure I don't need.
+        </p>
+      </div>
+      <div class="rounded-xl border border-line p-6">
+        <div class="text-accent font-mono text-xs mb-2">02 · process</div>
+        <h3 class="font-semibold">Specs, then working software</h3>
+        <p class="text-sm text-mute mt-2 leading-relaxed">
+          Every feature starts with a spec: what you're building and how you'll know it works.
+          Then code. Then polish. The order matters.
+        </p>
+      </div>
+      <div class="rounded-xl border border-line p-6">
+        <div class="text-accent font-mono text-xs mb-2">03 · bias</div>
+        <h3 class="font-semibold">Edge-first, local-first</h3>
+        <p class="text-sm text-mute mt-2 leading-relaxed">
+          Systems that run on your own hardware, with your own data, answering to nobody.
+          It's a principle, not a gimmick.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack" class="max-w-6xl mx-auto px-5 py-16">
+  <p class="font-mono text-xs text-accent">// the toolbox</p>
+  <h2 class="text-3xl font-bold mt-1">What I reach for</h2>
+  <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mt-8 text-sm">
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">languages</div>
+      <div>Python · TypeScript · Bash</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">ai / agents</div>
+      <div>Claude Code · LangGraph · prompt specs</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">chains</div>
+      <div>Hedera · Hyperliquid · SaucerSwap</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">backend</div>
+      <div>FastAPI · SQLite · Postgres · Redis</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">infra</div>
+      <div>Docker · self-hosted · edge compute</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">frontend</div>
+      <div>Astro · Tailwind · vanilla when it's enough</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">tooling</div>
+      <div>pytest · ruff · gh actions · makefiles</div>
+    </div>
+    <div class="rounded-lg border border-line p-4">
+      <div class="text-mute text-xs font-mono mb-1">mindset</div>
+      <div>Ship. Measure. Iterate. Repeat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="border-t border-line bg-gradient-to-b from-panel/40 to-transparent">
+  <div class="max-w-6xl mx-auto px-5 py-20">
+    <p class="font-mono text-xs text-accent">// available for work</p>
+    <h2 class="text-3xl sm:text-4xl font-bold mt-1">Let's build something that ships.</h2>
+    <p class="mt-5 text-mute max-w-2xl leading-relaxed">
+      I take on freelance and consulting work building AI-powered products — autonomous
+      agents, trading systems, developer tools, and DeFi infrastructure. Best fit: projects
+      where the bar is "ship to production," not "explore possibilities."
+    </p>
+
+    <div class="mt-8 grid sm:grid-cols-2 gap-4 max-w-2xl">
+      <a href="mailto:christopherimg+chris0x88@gmail.com" class="rounded-xl border border-line hover:border-accent/50 transition p-5 flex items-center justify-between">
+        <div>
+          <div class="text-xs text-mute font-mono">email</div>
+          <div class="font-medium">christopherimg+chris0x88@gmail.com</div>
+        </div>
+        <span class="text-accent">→</span>
+      </a>
+      <a href="https://github.com/Chris0x88" class="rounded-xl border border-line hover:border-accent/50 transition p-5 flex items-center justify-between">
+        <div>
+          <div class="text-xs text-mute font-mono">github</div>
+          <div class="font-medium">Chris0x88</div>
+        </div>
+        <span class="text-accent">↗</span>
+      </a>
+      <a href="https://huggingface.co/Chris0x88" class="rounded-xl border border-line hover:border-accent/50 transition p-5 flex items-center justify-between">
+        <div>
+          <div class="text-xs text-mute font-mono">hugging face</div>
+          <div class="font-medium">Chris0x88</div>
+        </div>
+        <span class="text-accent">↗</span>
+      </a>
+      <a href="#" class="rounded-xl border border-line hover:border-accent/50 transition p-5 flex items-center justify-between">
+        <div>
+          <div class="text-xs text-mute font-mono">x / twitter</div>
+          <div class="font-medium">TODO</div>
+        </div>
+        <span class="text-accent">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-line">
+  <div class="max-w-6xl mx-auto px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-mute font-mono">
+    <div>© <span id="yr"></span> Chris · shipped from the terminal</div>
+    <div>Built in one session. Deployed static. Zero backend.</div>
+  </div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+</body>
+</html>
