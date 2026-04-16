@@ -1,0 +1,89 @@
+---
+interface Props {
+  title: string;
+  tagline: string;
+  status: string;
+  github?: string;
+  tags: string[];
+}
+
+const { title, tagline, status, github, tags } = Astro.props;
+
+// Fake but technical looking metadata for the HUD aesthetic
+const module_id = `MOD_${Math.floor(Math.random() * 9000) + 1000}`;
+const latency = `${Math.floor(Math.random() * 20) + 5}ms`;
+const uptime = "99.98%";
+---
+
+<article class="dashboard-card p-8 group overflow-hidden">
+  <div class="corner-marker marker-tl"></div>
+  <div class="corner-marker marker-tr opacity-20 group-hover:opacity-100 transition-opacity"></div>
+  <div class="corner-marker marker-br"></div>
+  
+  <div class="flex flex-col h-full">
+    <!-- Header -->
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex flex-col">
+        <span class="text-[9px] font-bold text-mute tracking-[0.2em]">{module_id} // INTERNAL_LINK</span>
+        <h3 class="text-2xl font-black font-outfit uppercase tracking-tighter text-white group-hover:text-cyan-400 transition-colors">
+          {title}
+        </h3>
+      </div>
+      <div class={`px-2 py-1 text-[9px] font-bold uppercase tracking-widest border ${
+        status === 'Live' ? 'border-green-500/40 text-green-500 bg-green-500/5' : 
+        status === 'New' ? 'border-amber-500/40 text-amber-500 bg-amber-500/5' : 
+        'border-cyan-500/40 text-cyan-500 bg-cyan-500/5'
+      }`}>
+        STATUS_{status}
+      </div>
+    </div>
+
+    <!-- Metadata Readouts -->
+    <div class="grid grid-cols-3 gap-2 py-4 border-y border-white/10 mb-8 text-[10px] font-black tracking-widest uppercase">
+      <div class="flex flex-col">
+          <span class="text-mute mb-1">LATENCY</span>
+          <span class="text-white bg-white/5 px-2 py-0.5 w-fit">{latency}</span>
+      </div>
+      <div class="flex flex-col">
+          <span class="text-mute mb-1">UPTIME</span>
+          <span class="text-white bg-white/5 px-2 py-0.5 w-fit">{uptime}</span>
+      </div>
+      <div class="flex flex-col">
+          <span class="text-mute mb-1">PROTOCOL</span>
+          <span class="text-white bg-white/5 px-2 py-0.5 w-fit">DIRECT</span>
+      </div>
+    </div>
+
+    <p class="text-[11px] uppercase font-black text-accent mb-8 tracking-widest bg-accent/10 px-3 py-1.5 w-fit rounded-sm">
+      {tagline}
+    </p>
+
+    <div class="text-mute text-base leading-relaxed mb-8 flex-grow font-medium">
+      <slot />
+    </div>
+
+    {tags.length > 0 && (
+      <div class="space-y-2 mb-8">
+        <div class="text-[9px] font-bold text-mute tracking-[0.2em] mb-3">SYSTEM_COMPONENTS:</div>
+        {tags.map(tag => (
+          <div class="text-[10px] font-bold text-mute flex items-center gap-2 group-hover:text-ink transition-colors">
+            <span class="text-cyan-500">>></span>
+            {tag}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {github && (
+      <div class="mt-auto pt-4 border-t border-white/5">
+        <a href={github} target="_blank" class="flex items-center justify-between text-cyan-400 hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-[0.2em] group/link">
+          <span>ACCESS_SOURCE_REPO</span>
+          <span class="group-hover/link:translate-x-1 transition-transform">--></span>
+        </a>
+      </div>
+    )}
+  </div>
+
+  <!-- Background Scan Effect -->
+  <div class="absolute inset-0 bg-white/[0.01] -z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-1000 ease-in-out"></div>
+</article>

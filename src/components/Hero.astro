@@ -1,0 +1,59 @@
+---
+---
+<section id="top" class="relative pt-40 pb-32 px-6">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="dashboard-card p-12 md:p-16 border-cyan-500/20 bg-cyan-500/[0.02]">
+      <div class="corner-marker marker-tl w-6 h-6 border-t-4 border-l-4"></div>
+      <div class="corner-marker marker-tr w-6 h-6 border-t-4 border-r-4"></div>
+      <div class="corner-marker marker-bl w-6 h-6 border-b-4 border-l-4"></div>
+      <div class="corner-marker marker-br w-6 h-6 border-b-4 border-r-4"></div>
+      
+      <div class="flex flex-col gap-8">
+        <div class="flex items-center gap-4">
+          <span class="px-3 py-1 bg-accent text-bg text-[10px] font-black uppercase tracking-widest">ARCHITECT_OVERVIEW</span>
+          <div class="h-px flex-grow bg-line"></div>
+          <span class="text-white text-[10px] font-bold">REV_3.0.4</span>
+        </div>
+
+        <h1 class="text-5xl md:text-8xl font-black font-outfit uppercase tracking-tighter leading-[0.85] text-white">
+          Autonomous<br/>
+          Systems <span class="text-accent">0X88</span>
+        </h1>
+
+        <div class="flex flex-col md:flex-row gap-12 mt-4">
+          <div class="flex-1 space-y-8">
+            <p class="text-2xl md:text-3xl text-white leading-none font-black uppercase tracking-tight">
+              Designing for the era of <span class="text-accent">self-custody</span> and edge intelligence. 
+            </p>
+            <p class="text-mute text-lg max-w-xl leading-relaxed font-medium">
+              Deeply experienced across engineering, energy markets, and trading — now applying that
+              operational discipline to autonomous agents, edge compute, and a direct network architecture.
+              Zero rent. Zero middle-layers.
+            </p>
+          </div>
+          
+          <div class="w-full md:w-64 space-y-4">
+            <a href="#work" class="flex items-center justify-between w-full px-6 py-4 bg-cyan-500 text-bg font-black uppercase text-xs hover:bg-white transition-colors">
+              <span>EXPLORE_CORE</span>
+              <span>→</span>
+            </a>
+            <a href="#contact" class="flex items-center justify-between w-full px-6 py-4 border border-cyan-500/30 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500/10 transition-colors">
+              <span>ESTABLISH_LINK</span>
+              <span>_</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 mt-8">
+          {["Python", "TypeScript", "Claude", "Hedera", "Hyperliquid", "OpenClaw", "FastAPI", "Edge"].map(tag => (
+            <div class="px-3 py-2 border border-white/5 bg-white/[0.02] text-[9px] font-bold text-mute uppercase text-center tracking-tighter">
+              {tag}_MOD
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>

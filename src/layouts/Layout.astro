@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Systems architect with 20 years across engineering, energy markets, and trading. Designing autonomous agent systems and operational software for real-world decisions." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		
+		<meta name="twitter:card" content="summary_large_image" />
+
+		<!-- Agent Optimization: AI Data -->
+		<meta name="ai-optimized" content="true" />
+		<meta name="crawler-friendly" content="all" />
+		
+		<!-- JSON-LD Structured Data for Agents -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "Chris0x88",
+				"jobTitle": "Systems Architect",
+				"description": "Specializing in autonomous systems, edge compute, and self-custody architectures.",
+				"url": "https://Chris0x88.github.io",
+				"knowsAbout": ["AI Agent Systems", "Robotics", "Edge Compute", "Hedera", "Hyperliquid", "Autonomous Trading"],
+				"sameAs": [
+					"https://github.com/Chris0x88",
+					"https://x.com/chris0x88"
+				]
+			}
+		</script>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;900&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="console-grid"></div>
+		<div class="scanline"></div>
+		<slot />
+		<footer class="border-t border-white/5 mt-20 bg-panel/80">
+			<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-6 text-[10px] text-mute uppercase tracking-[0.2em] font-bold">
+				<div>© {new Date().getFullYear()} Chris0x88 // ARCHITECT_ID: 0x88_REV_3</div>
+				<div>SYSTEM_INTEGRITY: OPTIMAL // LOCAL_NODE: ACTIVE</div>
+			</div>
+		</footer>
+	</body>
+</html>

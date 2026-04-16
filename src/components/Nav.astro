@@ -1,0 +1,18 @@
+---
+---
+<nav class="fixed top-12 right-6 z-50 flex flex-col gap-2 items-end">
+  {["WORK", "VISION", "APPROACH", "STACK", "CONTACT"].map(item => (
+    <a href={`#${item.toLowerCase()}`} class="group flex items-center gap-3">
+      <span class="text-[10px] font-bold text-mute group-hover:text-accent transition-colors duration-200 tracking-[0.2em] opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all">
+        SELECT_{item}
+      </span>
+      <div class="dashboard-card px-4 py-2 min-w-[120px] text-right">
+        <div class="corner-marker marker-tl"></div>
+        <div class="corner-marker marker-br"></div>
+        <span class="text-[11px] font-black tracking-widest text-ink group-hover:text-accent transition-colors">
+          {item}
+        </span>
+      </div>
+    </a>
+  ))}
+</nav>

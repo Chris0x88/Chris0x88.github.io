@@ -1,0 +1,51 @@
+---
+---
+<div class="fixed top-0 left-0 w-full z-[60] bg-[#020617]/90 backdrop-blur-sm border-b border-cyan-500/20 h-10 flex items-center px-6">
+  <div class="flex items-center justify-between w-full text-[10px] font-bold uppercase tracking-widest leading-none">
+    
+    <!-- Left: Status Indicators -->
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2">
+        <span class="text-mute">SYSTEM STATUS:</span>
+        <span class="text-green-500 animate-pulse">OPTIMAL</span>
+      </div>
+      <div class="hidden md:flex items-center gap-2">
+        <span class="text-mute">CPU LOAD:</span>
+        <span class="text-cyan-400">24%</span>
+      </div>
+      <div class="hidden lg:flex items-center gap-2">
+        <span class="text-mute">OPERATIONAL_MODE:</span>
+        <span class="text-white">DIRECT_NODE</span>
+      </div>
+    </div>
+
+    <!-- Right: Readouts -->
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2">
+        <span class="text-mute">NETWORK:</span>
+        <div class="flex gap-0.5">
+          <div class="w-1 h-3 bg-cyan-500"></div>
+          <div class="w-1 h-3 bg-cyan-500"></div>
+          <div class="w-1 h-3 bg-cyan-500/30"></div>
+          <div class="w-1 h-3 bg-cyan-500/10"></div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-mute">UTC:</span>
+        <span id="utc-clock" class="text-white min-w-[70px]">00:00:00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateClock() {
+    const clock = document.getElementById('utc-clock');
+    if (clock) {
+      const now = new Date();
+      clock.textContent = now.toISOString().slice(11, 19);
+    }
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
