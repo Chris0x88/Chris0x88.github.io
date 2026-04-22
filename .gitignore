@@ -20,3 +20,6 @@ yarn-error.log*
 # misc
 .DS_Store
 Thumbs.db
+
+# archived site
+v1_archive/
