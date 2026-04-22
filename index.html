@@ -227,7 +227,7 @@
                 <div>
                     <h2 class="text-4xl font-bold text-text mb-8 italic">Let's build.</h2>
                     <p class="text-sm text-text-dim leading-relaxed mb-8">
-                        Whether you have a clear brief or just a problem that needs solving, reach out. We're based in Brisbane and value real conversations over pitch decks.
+                        Whether you have a clear brief or just a problem that needs solving, reach out. We're based in Brisbane and value real conversations. AI is an algorithmic tool, not a Customer Service Representative. Rest assured you will be dealing with a human at all times.
                     </p>
                     <div class="space-y-4">
                         <a href="https://t.me/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
@@ -273,8 +273,9 @@
     function initLattice() {
       layers = [];
       packets = [];
-      const layerCount = 6;
-      const nodesPerLayer = 12;
+      const isMobile = window.innerWidth < 768;
+      const layerCount = isMobile ? 3 : 6;
+      const nodesPerLayer = isMobile ? 8 : 12;
       const xSpacing = W / (layerCount + 1);
       
       for (let i = 0; i < layerCount; i++) {
@@ -283,7 +284,7 @@
         for (let j = 0; j < nodesPerLayer; j++) {
           layer.push({
             x: xSpacing * (i + 1),
-            y: ySpacing * (j + 1) + (Math.random() - 0.5) * 50,
+            y: ySpacing * (j + 1) + (Math.random() - 0.5) * (isMobile ? 100 : 50),
             originalY: ySpacing * (j + 1)
           });
         }
@@ -296,8 +297,9 @@
       ctx.clearRect(0, 0, W, H);
       t += 0.01;
       
-      ctx.strokeStyle = 'rgba(200, 169, 110, 0.08)';
-      ctx.lineWidth = 1;
+      const isMobile = window.innerWidth < 768;
+      ctx.strokeStyle = isMobile ? 'rgba(200, 169, 110, 0.15)' : 'rgba(200, 169, 110, 0.08)';
+      ctx.lineWidth = isMobile ? 1.5 : 1;
 
       // Draw connections
       for (let i = 0; i < layers.length - 1; i++) {
