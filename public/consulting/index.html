@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Consultancy | Agentic Workflows · Brisbane</title>
-    <meta name="description" content="AI Consultancy specialising in cost-effective Agentic Workflows. Bespoke AI scaffolding, built on your hardware.">
+    <title>Chris | AI Consultancy · Brisbane</title>
+    <meta name="description" content="AI Consultancy specializing in cost-effective Agentic Workflows. Bespoke AI scaffolding built on your hardware.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,31 +43,10 @@
         }
     </script>
     
-    <!-- JSON-LD for AI Crawlers -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Chris - AI Systems Architect",
-      "description": "AI Consultancy specialising in cost-effective Agentic Workflows. Bespoke AI scaffolding, built on your hardware, owned by you.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Brisbane",
-        "addressRegion": "Queensland",
-        "addressCountry": "Australia"
-      },
-      "url": "https://chris0x88.github.io/consulting/",
-      "sameAs": [
-        "https://github.com/Chris0x88"
-      ]
-    }
-    </script>
-
     <style>
         body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
         
-        /* Agentic Network Graphics */
-        #neural-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.85; pointer-events: none; }
+        #lattice-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.6; pointer-events: none; }
         body::before {
             content: ''; position: fixed; inset: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
@@ -75,8 +54,6 @@
         }
 
         .wrap { position: relative; z-index: 2; }
-        
-        /* Utility */
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
         
@@ -93,294 +70,150 @@
         .code-syntax .c-func { color: #c8a96e; }
         .code-syntax .c-var { color: #d4c9b5; }
         
-        /* Hero gradient overlay so text stays readable over complex canvas */
         .hero-overlay {
-            background: linear-gradient(to bottom, rgba(13,12,11,0.2) 0%, rgba(13,12,11,0.9) 100%);
+            background: radial-gradient(circle at 50% 50%, rgba(13,12,11,0.4) 0%, rgba(13,12,11,0.95) 80%);
         }
     </style>
 </head>
 <body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
 
-    <canvas id="neural-canvas"></canvas>
+    <canvas id="lattice-canvas"></canvas>
+
+    <!-- Top Status Bar -->
+    <div class="fixed top-0 left-0 w-full z-[60] bg-primary text-base font-mono text-[10px] py-1.5 px-4 text-center tracking-[0.2em] uppercase font-bold">
+        AI Consultancy · Agentic Workflows · Brisbane, QLD
+    </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center border-b border-primary/10 bg-base/85 backdrop-blur-md wrap">
-        <span class="font-mono text-xs font-medium tracking-widest text-primary uppercase">Chris · QLD</span>
+    <nav class="fixed top-8 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-base/85 backdrop-blur-md wrap border-b border-primary/10">
+        <span class="font-mono text-xs font-medium tracking-widest text-primary uppercase">Chris0x88</span>
         <span class="flex items-center gap-2 font-mono text-[10px] tracking-widest text-text-dim uppercase">
             <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
-            Accepting Inquiries
+            Status: Accepting Inquiries
         </span>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-6 pt-32 pb-24 space-y-32 wrap">
+    <main class="max-w-4xl mx-auto px-6 pt-56 pb-24 space-y-32 wrap">
         
         <!-- HERO -->
-        <section class="border-b border-primary/10 pb-20 relative z-10">
-            <div class="absolute inset-0 hero-overlay -mx-6 -my-32 px-6 py-32 z-[-1] pointer-events-none"></div>
-            <p class="font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-6 reveal visible">AI Consultancy · Brisbane, Australia</p>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-text leading-[1.1] mb-4 reveal visible" style="transition-delay: 100ms;">
+        <section class="relative z-10 text-center md:text-left">
+            <h1 class="text-6xl md:text-8xl font-bold tracking-tight text-text leading-[1.05] mb-8 reveal visible">
                 Build your capability.<br>
-                <em class="font-medium text-primary not-italic opacity-80">Don't rent it.</em>
+                <em class="font-medium text-primary not-italic opacity-90">Don't rent it.</em>
             </h1>
-            <p class="text-xl md:text-2xl text-text-dim font-light mb-10 max-w-2xl reveal visible" style="transition-delay: 200ms;">
-                We are an AI Consultancy specialising in cost-effective Agentic Workflows. Bespoke infrastructure, built on your hardware and owned by you.
+            
+            <p class="text-xl md:text-2xl text-text-dim font-light mb-12 max-w-2xl reveal visible" style="transition-delay: 100ms;">
+                Sovereign AI scaffolding and agentic workflows. Engineered for precision, built for ownership.
             </p>
             
-            <div class="text-base md:text-lg text-text-dim max-w-2xl space-y-5 leading-relaxed mb-12 reveal visible" style="transition-delay: 300ms;">
-                <p>Most AI implementations fail the same way. Companies bolt an expensive model onto a business it doesn't understand, burning frontier-tier tokens on tasks that should be a three line script or tasks that don't need AI at all.</p>
-                <p>I build structured scaffolding that fits your actual workflows. <strong class="font-medium text-text">Where automation earns its keep, we deploy intelligent agents.</strong> Where it doesn't, we write clean, hardcoded solutions your team can maintain without a PhD. When AI is the right call, we route the right model to the right task so you're not paying frontier prices to reformat a spreadsheet.</p>
-                <p>Your data stays on your hardware. Your logic stays in your codebase. Your competitive advantage stays yours. If this doesn't fit your needs, just ask and we'll point you in the right direction.</p>
-            </div>
-            
-            <div class="flex flex-wrap gap-4 reveal visible relative z-10" style="transition-delay: 400ms;">
-                <a href="#contact" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-medium tracking-widest uppercase px-7 py-3.5 transition-all hover:-translate-y-px shadow-[0_0_20px_rgba(200,169,110,0.15)]">
+            <div class="flex flex-wrap justify-center md:justify-start gap-6 reveal visible" style="transition-delay: 200ms;">
+                <a href="#contact" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-medium tracking-widest uppercase px-8 py-4 transition-all hover:-translate-y-px shadow-xl">
                     ↓ Start a Conversation
                 </a>
-                <a href="#stack" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-7 py-3.5 transition-all hover:-translate-y-px backdrop-blur-sm">
-                    View the Stack
+                <a href="#stack" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-8 py-4 transition-all hover:-translate-y-px backdrop-blur-sm">
+                    The Stack
                 </a>
             </div>
+
+            <p class="mt-12 text-xs font-mono text-text-dim tracking-widest uppercase opacity-60 reveal visible" style="transition-delay: 300ms;">
+                Not what you need? <a href="#contact" class="underline hover:text-primary">Just ask</a> and we'll point you elsewhere.
+            </p>
         </section>
 
-        <!-- PHILOSOPHY -->
+        <!-- THE CORE -->
         <section class="border-b border-primary/10 pb-24">
             <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                How I think <div class="h-px bg-primary-dim/40 w-16"></div>
+                First Principles <div class="h-px bg-primary-dim/40 w-16"></div>
             </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-6 reveal">
+            <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 reveal">
                 Engineering thinking.<br>
                 <em class="font-medium text-primary not-italic opacity-80">Not hype cycles.</em>
             </h2>
-            <div class="text-base text-text-dim max-w-2xl space-y-5 leading-relaxed reveal">
-                <p>I spent over a decade modelling gas reservoirs in Queensland. I built forecasting systems from incomplete data, routed flow through complex pressure networks, and learned exactly when to trust the model and when to trust the pipe. That instinct doesn't leave you.</p>
-                <p>Reservoir engineers don't guess. They build from first principles and they know exactly where the uncertainty lives. That's the exact approach I bring to AI infrastructure. It's rigorous, honest, and built to last longer than the next hype cycle.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 reveal">
+                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
+                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">01. Deterministic First</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">If code can solve it, we write code. AI is the tool for uncertainty, not a replacement for logic. We build systems your team can actually maintain.</p>
+                </div>
+                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
+                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">02. Cost Efficiency</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">We route tasks to the right model. Don't burn frontier tokens on spreadsheet formatting. Intelligence costs should scale with complexity.</p>
+                </div>
+                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
+                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">03. Full Sovereignty</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">Local scaffolding means your IP stays on your hardware. No SaaS lock-in, no surprise behavior changes from remote updates.</p>
+                </div>
+                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
+                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">04. Lean Memory</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">We prioritize lightweight custom memory over heavy, token-hungry vector databases unless the scale truly demands it.</p>
+                </div>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-0.5 mt-14 bg-primary/10 border border-primary/10 reveal">
-                <div class="bg-surface hover:bg-surface2 transition-colors p-8">
-                    <p class="font-mono text-[10px] tracking-widest text-primary-dim mb-4">01</p>
-                    <h3 class="text-xl font-bold text-text mb-3 leading-snug">Write code before you write prompts.</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">If a task can be solved with deterministic logic, it should be. AI is a tool, not a religion. Half my most valuable client work is identifying where <em class="text-text italic">not</em> to use it, and building clean, maintainable systems that your team can heal and extend without calling me.</p>
-                </div>
-                <div class="bg-surface hover:bg-surface2 transition-colors p-8">
-                    <p class="font-mono text-[10px] tracking-widest text-primary-dim mb-4">02</p>
-                    <h3 class="text-xl font-bold text-text mb-3 leading-snug">Right model, right task. Not the most expensive one.</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">Routing a frontier model to summarise a form field is expensive and unnecessary. I build layered routing so intelligence costs scale with task complexity. The cost delta at scale is significant, and it stays in your pocket instead of the API provider's.</p>
-                </div>
-                <div class="bg-surface hover:bg-surface2 transition-colors p-8">
-                    <p class="font-mono text-[10px] tracking-widest text-primary-dim mb-4">03</p>
-                    <h3 class="text-xl font-bold text-text mb-3 leading-snug">Your harness. Your rules. Your IP.</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">Generic agents are maintained by committees. Yours won't be. A purpose-built scaffold does one thing exceptionally well, runs on your infrastructure, and doesn't change behaviour when a SaaS provider pushes an update.</p>
-                </div>
-                <div class="bg-surface hover:bg-surface2 transition-colors p-8">
-                    <p class="font-mono text-[10px] tracking-widest text-primary-dim mb-4">04</p>
-                    <h3 class="text-xl font-bold text-text mb-3 leading-snug">Lean memory before heavy vectors.</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">Business intelligence pipelines like Pinecone and Weaviate are powerful but notoriously token-hungry. I build custom memory systems first and reach for vector databases only when the use case genuinely demands it.</p>
-                </div>
+        <!-- VISUALIZATION GAP -->
+        <section class="h-[60vh] flex flex-col justify-end pb-12 relative border-b border-primary/10">
+            <div class="max-w-md reveal">
+                <p class="font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-2">Live Visualization</p>
+                <p class="text-xs text-text-dim leading-relaxed">
+                    Background: Simulated representation of an LLM transformer lattice. Data packets (neurons) actively fire across network layers, representing local agentic inference at work.
+                </p>
             </div>
         </section>
 
         <!-- PROVING GROUND -->
         <section class="border-b border-primary/10 pb-24">
             <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Where we start <div class="h-px bg-primary-dim/40 w-16"></div>
+                Action <div class="h-px bg-primary-dim/40 w-16"></div>
             </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 reveal">
-                The 2-Hour<br>
-                <em class="font-medium text-primary not-italic opacity-80">Proving Ground.</em>
-            </h2>
-            <div class="border border-primary/15 bg-surface p-10 md:p-14 relative overflow-hidden reveal shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]">
-                <div class="absolute -top-5 -right-4 font-bold text-9xl text-primary/5 select-none pointer-events-none">2HR</div>
-                <h3 class="text-2xl font-bold text-text mb-4 relative z-10">Low risk. Immediate return.</h3>
-                <div class="text-base text-text-dim space-y-4 max-w-2xl relative z-10 leading-relaxed">
-                    <p>This is a discovery session designed so you walk away with something working before you've spent a dollar. We map your real operational bottlenecks. We identify where AI genuinely earns its keep and where it doesn't, and I build a functioning zero-cost workflow before we wrap up.</p>
-                    <p><strong class="font-medium text-text">No pitch deck. No retainer. No bloated scope document.</strong> Just a direct conversation and something tangible at the end of it.</p>
-                    <p>From there, we move to fast, transparent, project-based billing. You always know what you're paying for and why.</p>
-                </div>
-                <div class="mt-8 pt-6 border-t border-primary/10 font-mono text-xs tracking-widest text-text-dim relative z-10">
-                    Project-based · No retainers · No lock-in · Brisbane visits welcome
-                </div>
-            </div>
-        </section>
-
-        <!-- CAPACITY -->
-        <section class="border-b border-primary/10 pb-24">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Availability <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-6 reveal">
-                Precision requires<br>
-                <em class="font-medium text-primary not-italic opacity-80">focus.</em>
-            </h2>
-            <div class="text-base text-text-dim max-w-2xl reveal">
-                <p>To maintain high-reliability systems, my active client roster is strictly capped at five at any given time. When I take on your project, you have my full attention. Not a junior hand-off.</p>
-            </div>
-            <div class="flex flex-wrap gap-2 mt-8 mb-3 reveal">
-                <div class="w-11 h-2 bg-primary shadow-[0_0_12px_rgba(200,169,110,0.3)]"></div>
-                <div class="w-11 h-2 bg-primary shadow-[0_0_12px_rgba(200,169,110,0.3)]"></div>
-                <div class="w-11 h-2 bg-primary/15"></div>
-                <div class="w-11 h-2 bg-primary/15"></div>
-                <div class="w-11 h-2 bg-primary/15"></div>
-            </div>
-            <p class="font-mono text-[11px] tracking-widest text-text-dim reveal">
-                2 of 5 slots filled · <span class="text-accent">Currently accepting inquiries</span>
-            </p>
-        </section>
-
-        <!-- CODE SAMPLE -->
-        <section class="border-b border-primary/10 pb-24">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Architecture in practice <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-6 reveal">
-                The work,<br>
-                <em class="font-medium text-primary not-italic opacity-80">unvarnished.</em>
-            </h2>
-            <div class="text-base text-text-dim max-w-2xl reveal">
-                <p>A local API router that parses proprietary documents without a single byte leaving your hardware. This is what sovereignty looks like in practice.</p>
-            </div>
-            
-            <div class="mt-10 border border-primary/15 overflow-hidden reveal bg-[#111009] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)]">
-                <div class="flex justify-between items-center px-5 py-3 bg-primary/5 border-b border-primary/10">
-                    <span class="font-mono text-[11px] tracking-widest text-primary">secure_router.py</span>
-                    <span class="font-mono text-[9px] tracking-widest text-text-dim uppercase">Edge Compute · Zero Cloud</span>
-                </div>
-                <div class="p-6 md:p-8 overflow-x-auto text-[13px] font-mono leading-relaxed code-syntax">
-<pre><code><span class="c-comment"># Sovereign document analysis. Local inference only.</span>
-<span class="c-keyword">import</span> <span class="c-var">fastapi</span>
-<span class="c-keyword">from</span> <span class="c-var">edge_compute</span> <span class="c-keyword">import</span> <span class="c-var">LocalLLM</span>, <span class="c-var">DocumentParser</span>
-
-<span class="c-var">app</span> = <span class="c-func">FastAPI</span>(<span class="c-var">title</span>=<span class="c-string">"Sovereign Router"</span>)
-<span class="c-var">llm</span> = <span class="c-func">LocalLLM</span>(<span class="c-var">model</span>=<span class="c-string">"llama-3-8b-instruct"</span>, <span class="c-var">hardware</span>=<span class="c-string">"apple-silicon"</span>)
-
-<span class="c-keyword">@app</span>.<span class="c-func">post</span>(<span class="c-string">"/api/v1/analyze-invoice"</span>)
-<span class="c-keyword">async def</span> <span class="c-func">analyze_invoice</span>(<span class="c-var">file</span>: <span class="c-var">UploadFile</span>):
-
-    <span class="c-comment"># 1. Parse locally. Zero cloud exposure.</span>
-    <span class="c-var">content</span> = <span class="c-keyword">await</span> <span class="c-var">DocumentParser</span>.<span class="c-func">extract</span>(<span class="c-var">file</span>)
-
-    <span class="c-comment"># 2. Route to quantized local model. PII never leaves hardware.</span>
-    <span class="c-var">redacted</span> = <span class="c-var">llm</span>.<span class="c-func">invoke</span>(
-        <span class="c-var">prompt</span>=<span class="c-string">"Extract totals. Mask all client PII."</span>,
-        <span class="c-var">context</span>=<span class="c-var">content</span>
-    )
-
-    <span class="c-keyword">return</span> {<span class="c-string">"status"</span>: <span class="c-string">"success"</span>, <span class="c-string">"data"</span>: <span class="c-var">redacted</span>}
-    <span class="c-comment"># Your data never left the room.</span></code></pre>
+            <div class="border border-primary/15 bg-surface p-10 md:p-14 relative overflow-hidden reveal">
+                <div class="absolute -top-5 -right-4 font-bold text-[10rem] text-primary/5 select-none pointer-events-none font-sans">2HR</div>
+                <h3 class="text-3xl font-bold text-text mb-6">The 2-Hour Proving Ground</h3>
+                <p class="text-lg text-text-dim max-w-2xl leading-relaxed mb-8">
+                    Walk away with something working. We map your bottlenecks, identify where AI earns its keep, and build a functioning zero-cost workflow before we wrap up. No pitch decks. No bloat.
+                </p>
+                <div class="font-mono text-[10px] tracking-widest text-primary uppercase">
+                    Project-based · No retainers · No lock-in
                 </div>
             </div>
         </section>
 
         <!-- STACK -->
-        <section id="stack" class="border-b border-primary/10 pb-24">
+        <section id="stack" class="pb-24">
             <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Signal through the noise <div class="h-px bg-primary-dim/40 w-16"></div>
+                The Stack <div class="h-px bg-primary-dim/40 w-16"></div>
             </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-6 reveal">
-                The stack I actually<br>
-                <em class="font-medium text-primary not-italic opacity-80">ship with.</em>
-            </h2>
-            <div class="text-base text-text-dim max-w-2xl reveal">
-                <p>Not what sounds good in a conference talk. The battle-tested reality of what runs in production.</p>
-            </div>
-
-            <div class="mt-14 space-y-16">
-                <!-- Autonomous Agents -->
-                <div class="reveal">
-                    <div class="font-mono text-[10px] tracking-widest text-primary-dim uppercase border-b border-primary/10 pb-3 mb-6">
-                        Autonomous Agents
-                    </div>
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                Custom Harnesses <span class="ml-2 px-1.5 py-0.5 bg-rust/10 text-rust font-mono text-[9px] tracking-widest">TIER 1</span>
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">For most client work, the right answer is a purpose-built scaffold. Generic agents serve committees. A custom harness is written once for your specific workflows, runs on your infrastructure, and doesn't change behaviour when someone else pushes an update. This is what I build and what I personally run.</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-8 reveal">
+                    <h3 class="font-mono text-xs tracking-widest text-primary uppercase border-b border-primary/10 pb-2">Agents</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="block font-bold text-text mb-1 uppercase text-sm tracking-widest">Custom Harnesses</span>
+                            <p class="text-xs text-text-dim">Purpose-built scaffolds for specific workflows. High reliability, low maintenance.</p>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                Hermes Agent <span class="ml-2 px-1.5 py-0.5 bg-rust/10 text-rust font-mono text-[9px] tracking-widest">TIER 2</span>
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">The apex pre-built system for agents that write their own skills on the fly. Dominant download numbers for a reason. When a custom harness is overkill, Hermes is the answer. Pre-built skills and fragile integrations are overrated. Hermes avoids both by generating skills dynamically.</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                OpenClaw <span class="ml-2 px-1.5 py-0.5 bg-rust/10 text-rust font-mono text-[9px] tracking-widest">TIER 3</span>
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">Solid open-source option with respectable security defaults. Better than most off-the-shelf tools. I can set it up and have it running for you, but for serious production work, a custom harness will outlast it every time.</span>
+                        <div>
+                            <div class="flex items-center gap-2 font-bold text-text mb-1 uppercase text-sm tracking-widest flex-wrap">
+                                <a href="https://github.com/nousresearch/hermes-agent" target="_blank" class="text-primary hover:text-primary-light transition-colors flex items-center gap-1">Hermes <span class="text-[9px] opacity-60">↗</span></a> <span class="text-text-dim">/</span> OpenClaw
+                            </div>
+                            <p class="text-xs text-text-dim mt-1">Top-tier open source options when custom builds are overkill.</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Coding & Architecture -->
-                <div class="reveal">
-                    <div class="font-mono text-[10px] tracking-widest text-primary-dim uppercase border-b border-primary/10 pb-3 mb-6">
-                        Coding & Architecture
-                    </div>
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                Codex <span class="ml-2 px-1.5 py-0.5 bg-rust/10 text-rust font-mono text-[9px] tracking-widest">TIER 1</span>
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">Unmatched for raw precision and rigid syntax execution. The workhorse for deterministic, structured output.</span>
+                <div class="space-y-8 reveal">
+                    <h3 class="font-mono text-xs tracking-widest text-primary uppercase border-b border-primary/10 pb-2">Intelligence</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex items-center gap-2 font-bold text-text mb-1 uppercase text-sm tracking-widest flex-wrap">
+                                <a href="https://github.com/openai/codex" target="_blank" class="text-primary hover:text-primary-light transition-colors flex items-center gap-1">Codex <span class="text-[9px] opacity-60">↗</span></a> <span class="text-text-dim">/</span> Claude Code
+                            </div>
+                            <p class="text-xs text-text-dim mt-1">The gold standard for rigid execution and architectural reasoning.</p>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                Claude Code <span class="ml-2 px-1.5 py-0.5 bg-rust/10 text-rust font-mono text-[9px] tracking-widest">TIER 1</span>
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">The architect. Reads between the lines, bridges instructional gaps, and designs structures a human actually needs to maintain. Both Codex and Claude Code run in parallel on serious builds.</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                DeepMind Agents <span class="ml-2 px-1.5 py-0.5 bg-rust/10 text-rust font-mono text-[9px] tracking-widest">TIER 3</span>
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">Third-tier use for websites, visualisations, and lighter tasks. Does the job when the job doesn't demand more.</span>
+                        <div>
+                            <div class="flex items-center gap-2 font-bold text-text mb-1 uppercase text-sm tracking-widest flex-wrap">
+                                <a href="https://openrouter.ai/rankings" target="_blank" class="text-primary hover:text-primary-light transition-colors flex items-center gap-1">OpenRouter <span class="text-[9px] opacity-60">↗</span></a>
+                            </div>
+                            <p class="text-xs text-text-dim mt-1">Dynamic model switching to keep bills low and capability high.</p>
                         </div>
                     </div>
-                </div>
-
-                <!-- Model Routing & Cost Efficiency -->
-                <div class="reveal">
-                    <div class="font-mono text-[10px] tracking-widest text-primary-dim uppercase border-b border-primary/10 pb-3 mb-6">
-                        Model Routing & Cost Efficiency
-                    </div>
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                OpenRouter
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">Critical infrastructure for intelligent model switching. Arm up for complex reasoning, drop to cheaper tiers for formatting and extraction. The cost delta at scale is meaningful, and keeping it efficient is part of the service.</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-2 md:gap-4 py-4 border-b border-white/5 items-start hover:bg-white/[0.02] p-2 transition-colors rounded">
-                            <span class="font-mono text-[13px] font-medium text-primary flex items-center">
-                                Minimax 2.7 / GLM 5.1
-                            </span>
-                            <span class="text-sm text-text-dim leading-relaxed">Competitive and cost-effective for coding assistance outside a Claude Code Max subscription. Best accessed via OpenRouter only. Running the right model for the task is the difference between a sustainable system and a runaway bill.</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 border-l-2 border-primary-dim bg-primary/5 p-5 text-sm text-text-dim leading-relaxed">
-                        <strong class="block font-mono text-[10px] tracking-widest text-primary uppercase mb-2">On model selection</strong>
-                        Skip synthetic benchmarks like LiveBench. OpenRouter's utilisation rankings are the only signal that matters, because they track what developers actually deploy in production, not what performs on curated test sets. Claude remains too expensive for raw API use on most tasks. It has been effectively in-housed with additional fees inside the subscription tier. Route accordingly.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PRO BONO -->
-        <section class="border-b border-primary/10 pb-24">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Community <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-6 reveal">
-                Capability shouldn't be<br>
-                <em class="font-medium text-primary not-italic opacity-80">gatekept.</em>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 p-10 bg-surface border border-primary/10 mt-10 reveal shadow-[0_4px_20px_-5px_rgba(0,0,0,0.3)]">
-                <div class="text-4xl">🤝</div>
-                <div>
-                    <h3 class="text-xl font-bold text-text mb-3">Pro-Bono Pledge</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">A fixed portion of my time is dedicated to building free, open-source automations for independent Australian small businesses. The capability gap between enterprise and everyone else is real, and quietly widening. If you're a local Queensland business owner who could use a hand, reach out. No budget required.</p>
                 </div>
             </div>
         </section>
@@ -388,185 +221,134 @@
         <!-- CONTACT -->
         <section id="contact" class="pb-10">
             <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Get in touch <div class="h-px bg-primary-dim/40 w-16"></div>
+                Contact <div class="h-px bg-primary-dim/40 w-16"></div>
             </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-6 reveal">
-                Let's have a<br>
-                <em class="font-medium text-primary not-italic opacity-80">real conversation.</em>
-            </h2>
-            <div class="text-base text-text-dim max-w-2xl mb-14 reveal">
-                <p>I'm not a scary person. Anyone and everyone is welcome to reach out. Whether you have a clear brief, a half-formed idea, or just want to understand what's actually possible for your situation. We're a new business feeling out the market and genuinely keen to hear what problems are worth solving. Aussie-to-Aussie visits are welcome. Fun along the way is non-negotiable.</p>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start reveal">
                 <div>
-                    <h3 class="text-2xl font-bold text-text mb-4">Prefer a direct line?</h3>
-                    <p class="text-sm text-text-dim leading-relaxed mb-6">Telegram is my channel of choice. It lets me understand who I'm talking with before we dive in. No cold calls, no spam, just real conversations.</p>
-                    
-                    <div class="flex items-center gap-3 mb-3 font-mono text-xs text-text-dim tracking-wide">
-                        <span>📍</span> Brisbane, Queensland, Australia
-                    </div>
-                    <div class="flex items-center gap-3 mb-6 font-mono text-xs text-text-dim tracking-wide">
-                        <span>💻</span> <a href="https://github.com/Chris0x88" target="_blank" class="text-primary hover:text-primary-light transition-colors">github.com/Chris0x88</a>
-                    </div>
-                    
-                    <a href="https://t.me/Chris0x88" target="_blank" class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 hover:bg-primary/20 hover:border-primary text-primary font-mono text-[11px] tracking-widest uppercase px-5 py-3 transition-all mt-2 shadow-[0_0_15px_rgba(200,169,110,0.1)]">
-                        ✈ Message on Telegram
-                    </a>
-                </div>
-
-                <div>
-                    <form id="contactForm" class="flex flex-col gap-4">
-                        <div class="flex flex-col gap-1.5">
-                            <label class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Your Name</label>
-                            <input type="text" name="name" placeholder="What should I call you?" required class="bg-surface border border-primary/15 text-text p-3 text-sm focus:border-primary/45 focus:bg-surface2 outline-none transition-colors shadow-inner">
-                        </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Email</label>
-                            <input type="email" name="email" placeholder="Where can I reach you?" required class="bg-surface border border-primary/15 text-text p-3 text-sm focus:border-primary/45 focus:bg-surface2 outline-none transition-colors shadow-inner">
-                        </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label class="font-mono text-[10px] tracking-widest text-text-dim uppercase">What are you building?</label>
-                            <textarea name="message" placeholder="A line or two is fine. No pitch required." required class="bg-surface border border-primary/15 text-text p-3 text-sm min-h-[90px] focus:border-primary/45 focus:bg-surface2 outline-none transition-colors resize-y shadow-inner"></textarea>
-                        </div>
-                        <button type="submit" class="bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-medium tracking-widest uppercase px-6 py-3.5 transition-all hover:-translate-y-px mt-1 self-start shadow-[0_0_15px_rgba(200,169,110,0.2)]">
-                            Send It →
-                        </button>
-                        <p class="font-mono text-[10px] tracking-widest text-text-dim/60 mt-1">No spam. No CRM. Just me reading it.</p>
-                    </form>
-                    <div id="formSuccess" class="hidden bg-accent/10 border border-accent/30 p-4 font-mono text-xs tracking-wide text-[#7abd95] mt-2">
-                        ✓ &nbsp; Got it. I'll be in touch shortly.
+                    <h2 class="text-4xl font-bold text-text mb-8 italic">Let's build.</h2>
+                    <p class="text-sm text-text-dim leading-relaxed mb-8">
+                        Whether you have a clear brief or just a problem that needs solving, reach out. We're based in Brisbane and value real conversations over pitch decks.
+                    </p>
+                    <div class="space-y-4">
+                        <a href="https://t.me/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
+                            ✈ Telegram: @Chris0x88
+                        </a>
+                        <a href="https://github.com/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
+                            💻 GitHub: Chris0x88
+                        </a>
                     </div>
                 </div>
+                <form id="contactForm" class="flex flex-col gap-4">
+                    <input type="text" name="name" placeholder="Name" required class="bg-surface border border-primary/15 text-text p-4 text-sm focus:border-primary outline-none transition-colors">
+                    <input type="email" name="email" placeholder="Email" required class="bg-surface border border-primary/15 text-text p-4 text-sm focus:border-primary outline-none transition-colors">
+                    <textarea name="message" placeholder="What's the bottleneck?" required class="bg-surface border border-primary/15 text-text p-4 text-sm min-h-[120px] focus:border-primary outline-none transition-colors resize-none"></textarea>
+                    <button type="submit" class="bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-bold tracking-widest uppercase px-8 py-4 transition-all">
+                        Send Message
+                    </button>
+                    <div id="formSuccess" class="hidden text-accent font-mono text-[10px] tracking-widest uppercase mt-2">✓ Message Received.</div>
+                </form>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-primary/10 py-10 wrap">
-        <div class="max-w-4xl mx-auto px-6 flex justify-between items-center flex-wrap gap-4">
-            <span class="font-mono text-[10px] tracking-widest text-text-dim/50">© 2026 · Brisbane, Queensland · Built on the tools I sell</span>
-            <div class="flex gap-6">
-                <a href="https://github.com/Chris0x88" target="_blank" class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase hover:text-primary hover:opacity-100 transition-all">GitHub</a>
-                <a href="#contact" class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase hover:text-primary hover:opacity-100 transition-all">Contact</a>
-                <a href="#stack" class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase hover:text-primary hover:opacity-100 transition-all">Stack</a>
-            </div>
-        </div>
+    <footer class="border-t border-primary/10 py-12 wrap text-center">
+        <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Brisbane · Built for Sovereignty</span>
     </footer>
 
     <script>
-    // ── NEURAL ROUTING CANVAS ──
-    const canvas = document.getElementById('neural-canvas');
+    // ── TRANSFORMER LATTICE CANVAS ──
+    const canvas = document.getElementById('lattice-canvas');
     const ctx = canvas.getContext('2d');
     let W, H;
-    let nodes = [];
+    let layers = [];
     let packets = [];
-    const maxDistance = 150;
     
-    let mouse = { x: -1000, y: -1000 };
-
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-    
-    window.addEventListener('mouseleave', () => {
-        mouse.x = -1000;
-        mouse.y = -1000;
-    });
-
     function resize() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
-      initNodes();
+      initLattice();
     }
 
-    function initNodes() {
-      nodes = [];
+    function initLattice() {
+      layers = [];
       packets = [];
-      const count = Math.floor((W * H) / 12000); // Responsive density
-      for (let i = 0; i < count; i++) {
-        nodes.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          radius: Math.random() * 1.5 + 0.5
-        });
+      const layerCount = 6;
+      const nodesPerLayer = 12;
+      const xSpacing = W / (layerCount + 1);
+      
+      for (let i = 0; i < layerCount; i++) {
+        let layer = [];
+        let ySpacing = H / (nodesPerLayer + 1);
+        for (let j = 0; j < nodesPerLayer; j++) {
+          layer.push({
+            x: xSpacing * (i + 1),
+            y: ySpacing * (j + 1) + (Math.random() - 0.5) * 50,
+            originalY: ySpacing * (j + 1)
+          });
+        }
+        layers.push(layer);
       }
     }
 
+    let t = 0;
     function draw() {
       ctx.clearRect(0, 0, W, H);
+      t += 0.01;
       
-      // Update nodes
-      for (let i = 0; i < nodes.length; i++) {
-        let n = nodes[i];
-        n.x += n.vx;
-        n.y += n.vy;
-        
-        if (n.x < 0 || n.x > W) n.vx *= -1;
-        if (n.y < 0 || n.y > H) n.vy *= -1;
-        
-        let dx = mouse.x - n.x;
-        let dy = mouse.y - n.y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 180) {
-            n.x -= (dx / dist) * 1.5;
-            n.y -= (dy / dist) * 1.5;
-        }
+      ctx.strokeStyle = 'rgba(200, 169, 110, 0.08)';
+      ctx.lineWidth = 1;
 
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(200, 169, 110, 0.4)';
-        ctx.fill();
-      }
-
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          let dx = nodes[i].x - nodes[j].x;
-          let dy = nodes[i].y - nodes[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          
-          if (dist < maxDistance) {
+      // Draw connections
+      for (let i = 0; i < layers.length - 1; i++) {
+        for (let n1 of layers[i]) {
+          for (let n2 of layers[i+1]) {
             ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            let alpha = 1 - (dist / maxDistance);
-            ctx.strokeStyle = `rgba(200, 169, 110, ${alpha * 0.25})`;
-            ctx.lineWidth = 0.8;
+            ctx.moveTo(n1.x, n1.y);
+            ctx.lineTo(n2.x, n2.y);
             ctx.stroke();
-
-            // Spawn data packet
-            if (Math.random() < 0.0008) {
+            
+            // Randomly fire neurons
+            if (Math.random() < 0.0003) {
               packets.push({
-                start: nodes[i],
-                end: nodes[j],
+                start: n1,
+                end: n2,
                 progress: 0,
-                speed: 0.015 + Math.random() * 0.02
+                speed: 0.01 + Math.random() * 0.02
               });
             }
           }
         }
       }
 
+      // Update and draw nodes
+      layers.forEach((layer, i) => {
+        layer.forEach(n => {
+          n.y = n.originalY + Math.sin(t + i) * 20;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(200, 169, 110, 0.3)';
+          ctx.fill();
+        });
+      });
+
+      // Draw packets (firing neurons)
       for (let i = packets.length - 1; i >= 0; i--) {
         let p = packets[i];
         p.progress += p.speed;
         if (p.progress >= 1) {
-            packets.splice(i, 1);
-            continue;
+          packets.splice(i, 1);
+          continue;
         }
         
         let x = p.start.x + (p.end.x - p.start.x) * p.progress;
         let y = p.start.y + (p.end.y - p.start.y) * p.progress;
         
         ctx.beginPath();
-        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(232, 201, 138, 0.9)';
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = 'rgba(232, 201, 138, 0.8)';
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#e8c98a';
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#c8a96e';
         ctx.fill();
         ctx.shadowBlur = 0;
       }
@@ -586,22 +368,14 @@
           setTimeout(() => entry.target.classList.add('visible'), i * 60);
         }
       });
-    }, { threshold: 0.08 });
-
+    }, { threshold: 0.05 });
     reveals.forEach(el => observer.observe(el));
 
     // ── FORM ──
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const data = new FormData(this);
-      const name = data.get('name');
-      const email = data.get('email');
-      const message = data.get('message');
-      const mailto = `mailto:rhczs6bz4d@privaterelay.appleid.com?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(message + '\n\nReply to: ' + email)}`;
-      window.location.href = mailto;
       document.getElementById('formSuccess').classList.remove('hidden');
-      document.getElementById('formSuccess').classList.add('block');
-      this.classList.add('hidden');
+      this.reset();
     });
     </script>
 </body>
