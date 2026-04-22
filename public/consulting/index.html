@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Systems Architect | Edge Compute & Local Scaffolding</title>
+    <meta name="description" content="Bespoke agentic AI systems and local scaffolding. Built on your hardware. Owned by you.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            900: '#0F1115',
+                            800: '#161B22',
+                            700: '#21262D',
+                        },
+                        primary: {
+                            400: '#58A6FF',
+                            500: '#3182CE',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- JSON-LD for AI Crawlers -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Chris0x88 - AI Systems Architect",
+      "description": "Bespoke agentic AI systems and local scaffolding for Australian businesses. Specializing in Edge Compute and Sovereign workflows.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Brisbane",
+        "addressCountry": "Australia"
+      },
+      "url": "https://chris0x88.github.io/consulting/",
+      "sameAs": [
+        "https://github.com/Chris0x88",
+        "https://x.com/chris0x88"
+      ]
+    }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glow-button {
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        .code-window {
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 antialiased selection:bg-primary-500 selection:text-white">
+
+    <main class="max-w-4xl mx-auto px-6 py-12 md:py-24 space-y-32">
+        
+        <!-- 1. Hero Section -->
+        <header class="text-center md:text-left space-y-6 pt-10">
+            <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+                Build your capability. <br class="hidden md:block"/>
+                <span class="text-gray-500">Don't rent it.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl font-light">
+                Bespoke agentic AI systems and local scaffolding. Built on your hardware. Owned by you.
+            </p>
+            <div class="pt-6">
+                <a href="#contact" class="glow-button inline-block bg-white text-gray-900 font-semibold px-8 py-4 rounded-full hover:bg-gray-100">
+                    Book a Discovery Session
+                </a>
+            </div>
+        </header>
+
+        <!-- 2. The Manifesto -->
+        <section aria-labelledby="manifesto-heading" class="border-l-2 border-gray-700 pl-6 md:pl-10">
+            <h2 id="manifesto-heading" class="text-3xl font-semibold text-white mb-6">Stop feeding the machine. Start owning your workflows.</h2>
+            <div class="space-y-4 text-lg text-gray-400 max-w-3xl leading-relaxed">
+                <p>AI is moving too fast for you to get locked into a single SaaS provider's ecosystem. Renting intelligence means renting your competitive advantage.</p>
+                <p>I build flexible, API-agnostic scaffolding that automates soul-crushing data tasks, reduces operational overhead, and keeps your intellectual property secure on your own hardware. True edge compute for independent businesses.</p>
+            </div>
+        </section>
+
+        <!-- 3. The Offer -->
+        <section aria-labelledby="offer-heading" class="bg-gray-800/50 rounded-2xl p-8 md:p-12 border border-gray-800">
+            <h2 id="offer-heading" class="text-3xl font-semibold text-white mb-6">The 2-Hour Proving Ground.</h2>
+            <div class="space-y-4 text-lg text-gray-400">
+                <p>A low-risk discovery session designed for immediate ROI. We map your business bottlenecks, and I build an immediate, zero-cost AI workflow to summarize our chat and deploy instant efficiency tweaks to your operation.</p>
+                <p>From there, we move to fast, transparent, project-based billing. No retainers. No bloated scopes.</p>
+            </div>
+        </section>
+
+        <!-- 4. Scarcity & Focus -->
+        <section aria-labelledby="focus-heading" class="flex flex-col md:flex-row items-center justify-between gap-8 py-8 border-y border-gray-800">
+            <div>
+                <h2 id="focus-heading" class="text-2xl font-semibold text-white mb-2">Precision requires focus.</h2>
+                <p class="text-gray-400 text-lg">To maintain high-reliability systems, my roster is strictly capped to 5 active client slots at any given time.</p>
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-3 bg-green-500/10 text-green-400 px-5 py-3 rounded-full border border-green-500/20 font-medium tracking-wide">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+                Current Status: Accepting Inquiries
+            </div>
+        </section>
+
+        <!-- 5. The Proof -->
+        <section aria-labelledby="proof-heading" class="space-y-8">
+            <h2 id="proof-heading" class="text-3xl font-semibold text-white">Code & Architecture.</h2>
+            <p class="text-lg text-gray-400 max-w-2xl">A local API router that securely parses proprietary documents without sending sensitive data to public cloud endpoints.</p>
+            
+            <div class="code-window rounded-xl overflow-hidden bg-[#0d1117] border border-gray-700">
+                <!-- Window Header -->
+                <div class="bg-[#161b22] px-4 py-3 flex items-center gap-2 border-b border-gray-700">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="ml-4 text-xs font-mono text-gray-500">secure_router.py</span>
+                </div>
+                <!-- Code Content -->
+                <div class="p-6 overflow-x-auto text-sm font-mono leading-relaxed">
+<pre><code class="text-gray-300"><span class="text-primary-400">import</span> fastapi
+<span class="text-primary-400">from</span> edge_compute <span class="text-primary-400">import</span> LocalLLM, DocumentParser
+
+app = fastapi.FastAPI(title=<span class="text-green-400">"Sovereign Router"</span>)
+llm = LocalLLM(model=<span class="text-green-400">"llama-3-8b-instruct"</span>, hardware=<span class="text-green-400">"apple-silicon"</span>)
+
+<span class="text-yellow-400">@app.post</span>(<span class="text-green-400">"/api/v1/analyze-invoice"</span>)
+<span class="text-primary-400">async def</span> <span class="text-blue-300">analyze_invoice</span>(file: fastapi.UploadFile):
+    <span class="text-gray-500"># 1. Parse document locally (Zero cloud exposure)</span>
+    content = await DocumentParser.extract(file)
+    
+    <span class="text-gray-500"># 2. Route to local quantized model for PII redaction</span>
+    redacted_data = llm.invoke(
+        prompt=<span class="text-green-400">"Extract invoice totals. Mask all client PII."</span>,
+        context=content
+    )
+    
+    <span class="text-primary-400">return</span> {<span class="text-green-400">"status"</span>: <span class="text-green-400">"success"</span>, <span class="text-green-400">"data"</span>: redacted_data}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Signal Through The Noise (The Stack) -->
+        <section aria-labelledby="stack-heading" class="space-y-8 pb-12">
+            <h2 id="stack-heading" class="text-3xl font-semibold text-white">Signal Through The Noise.</h2>
+            <p class="text-lg text-gray-400 max-w-3xl">The AI landscape is flooded with hype. This is the unvarnished, battle-tested reality of the stack I use to build production systems.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <!-- Agents -->
+                <div class="bg-gray-800/30 p-6 rounded-xl border border-gray-700/50 hover:border-primary-500/50 transition-colors">
+                    <h3 class="text-xl font-medium text-white mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        Autonomous Agents
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><strong class="text-gray-200">Hermes Agent:</strong> The apex system for letting agents write their own skills. Dominating with massive downloads to date. <a href="https://github.com/NousResearch/Hermes" target="_blank" class="text-primary-400 hover:underline">View Source</a></li>
+                        <li><strong class="text-gray-200">OpenClaw:</strong> The premier open-source alternative. Pairs exceptionally well with custom memory systems (Codex + Claw Code repo combo). <a href="https://github.com/openclaw/openclaw" target="_blank" class="text-primary-400 hover:underline">View Source</a></li>
+                    </ul>
+                </div>
+
+                <!-- Coding -->
+                <div class="bg-gray-800/30 p-6 rounded-xl border border-gray-700/50 hover:border-primary-500/50 transition-colors">
+                    <h3 class="text-xl font-medium text-white mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        Coding & Architecture
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><strong class="text-gray-200">Codex:</strong> Unmatched for raw detail, precision, and rigid syntax execution.</li>
+                        <li><strong class="text-gray-200">Claude Code:</strong> The architect. Excels at reading between the lines, bridging instructional gaps, and designing structures that a human actually needs to maintain.</li>
+                    </ul>
+                </div>
+
+                <!-- Infrastructure & Routing -->
+                <div class="bg-gray-800/30 p-6 rounded-xl border border-gray-700/50 hover:border-primary-500/50 transition-colors">
+                    <h3 class="text-xl font-medium text-white mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        Model Routing
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-2">
+                        <strong class="text-gray-200">OpenRouter:</strong> Critical infrastructure for rapid model switching. Arm up for complex logic, drop to cheaper models for formatting.
+                    </p>
+                    <p class="text-sm text-gray-400">
+                        <em>Pro Tip:</em> Ignore synthetic benchmarks like LiveBench. OpenRouter's rankings page is the only one that matters because it tracks <strong>actual real-world utilization</strong>.
+                    </p>
+                </div>
+
+                <!-- The Meta Models -->
+                <div class="bg-gray-800/30 p-6 rounded-xl border border-gray-700/50 hover:border-primary-500/50 transition-colors">
+                    <h3 class="text-xl font-medium text-white mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        The Current Model Meta
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><span class="text-green-400 font-mono text-xs border border-green-400/30 bg-green-400/10 px-1 rounded mr-1">S-TIER</span> <strong>GLM 5.1</strong>, <strong>GPT 5.4</strong> (5.5 imminent)</li>
+                        <li><span class="text-green-400 font-mono text-xs border border-green-400/30 bg-green-400/10 px-1 rounded mr-1">S-TIER</span> <strong>Claude Opus 4.7</strong>, <strong>Sonnet 4.6</strong></li>
+                        <li class="pt-2"><span class="text-yellow-400 font-mono text-xs border border-yellow-400/30 bg-yellow-400/10 px-1 rounded mr-1">WATCH</span> <strong>Gemma series</strong> (local compute), <strong>Nemotron</strong> (awaiting deployment fixes).</li>
+                    </ul>
+                </div>
+                
+                <!-- Technical Truths (Span Full Width) -->
+                <div class="md:col-span-2 bg-gray-800/30 p-6 rounded-xl border border-gray-700/50">
+                    <h3 class="text-xl font-medium text-white mb-4">Architectural Truths</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-400">
+                        <div>
+                            <strong class="text-gray-200 block mb-1">Pre-built Skills are Overrated</strong>
+                            Stop downloading fragile integrations. Have your agent write its own skills on the fly. Hermes dominates this approach.
+                        </div>
+                        <div>
+                            <strong class="text-gray-200 block mb-1">MCPs are for Corporates</strong>
+                            We enable plugins, but bypass MCP servers by default. Outside massive enterprise systems, they are fiddly, token-heavy, and soon to be superseded.
+                        </div>
+                        <div>
+                            <strong class="text-gray-200 block mb-1">Beware Rigid RAG</strong>
+                            Business intelligence vectors (Pinecone, Weaviate) are powerful but notoriously high token count. I build lean, custom memory systems before resorting to heavy vector databases.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 7. Community & Resources -->
+    <footer id="contact" class="border-t border-gray-800 bg-gray-900 mt-10">
+        <div class="max-w-4xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            <div class="space-y-6">
+                <h3 class="text-xl font-semibold text-white">Pro-Bono Pledge</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    A portion of my time is strictly dedicated to building free, open-source automations for local Australian mum-and-dad shops. Capability should not be gatekept by enterprise budgets.
+                </p>
+            </div>
+
+            <div class="space-y-6 md:pl-12">
+                <h3 class="text-xl font-semibold text-white">Direct Line</h3>
+                <div class="space-y-4 font-medium text-gray-300">
+                    <p class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Brisbane, Australia
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <a href="mailto:rhczs6bz4d@privaterelay.appleid.com" class="hover:text-white transition-colors">rhczs6bz4d@privaterelay.appleid.com</a>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                        <a href="https://github.com/Chris0x88" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">github.com/Chris0x88</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>
