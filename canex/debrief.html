@@ -166,22 +166,62 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
-        <div class="bg-surface p-8 hover:bg-surface2 transition-all">
-          <div class="font-bold text-[10rem] leading-none text-primary/5 select-none pointer-events-none absolute">01</div>
-          <div class="mono-tag mb-4">Step 01</div>
-          <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Lock down a real skill</h3>
-          <p class="text-sm text-text-dim leading-relaxed">Open the <span class="font-mono text-primary">.md</span> for the skill we drafted together today and review it line by line. Or ask Hector to write a new one from scratch. Either way, tweak with Sonnet 4.6 until the prose matches the job you actually want done.</p>
-        </div>
-        <div class="bg-surface p-8 hover:bg-surface2 transition-all">
-          <div class="mono-tag mb-4">Step 02</div>
-          <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Bring Beatrice online</h3>
-          <p class="text-sm text-text-dim leading-relaxed">New Telegram bot via <span class="font-mono text-primary">BotFather</span>. Default her to <span class="font-mono text-primary">GPT-5.4-mini</span> via OpenRouter. Separate workspace, separate memory, cheaper brain.</p>
-        </div>
-        <div class="bg-surface p-8 hover:bg-surface2 transition-all">
-          <div class="mono-tag mb-4">Step 03</div>
-          <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Cron one job</h3>
-          <p class="text-sm text-text-dim leading-relaxed">Daily worker report, or weekly Dropbox backup. Pick the easiest. Let Beatrice run it on schedule. Set it and forget it. That's the stability flywheel.</p>
-        </div>
+        <details class="bg-surface hover:bg-surface2 transition-all">
+          <summary class="p-8 block">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="mono-tag mb-4">Step 01</div>
+                <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Lock down a real skill</h3>
+                <p class="text-sm text-text-dim leading-relaxed">Open the <span class="font-mono text-primary">.md</span> for the skill we drafted together today and review it line by line. Or ask Hector to write a new one from scratch. Either way, tweak with Sonnet 4.6 until the prose matches the job you actually want done.</p>
+              </div>
+              <span class="chev text-primary text-xl pt-1 shrink-0">›</span>
+            </div>
+          </summary>
+          <div class="px-8 pb-8 -mt-2 border-t border-primary/10 pt-5 text-sm text-text-dim leading-relaxed space-y-3">
+            <p>Skills are named <span class="font-mono text-primary">.md</span> files that describe a job in enough detail that the agent produces the same output every time. Without them, every reply is free form and every result drifts.</p>
+            <p>Today's workflow: track down the skill we drafted, open it, and read every line as if you were briefing a new employee. Anywhere the prose is vague, tighten it. Anywhere it skips a step, add the step.</p>
+            <p>Test the skill three times with slightly different inputs. If the output drifts between runs, the skill isn't tight enough yet. Keep iterating with Sonnet 4.6 until it doesn't.</p>
+            <p class="text-xs font-mono text-primary-dim uppercase tracking-widest pt-1">Jump to: Consistency is the product · below</p>
+          </div>
+        </details>
+
+        <details class="bg-surface hover:bg-surface2 transition-all">
+          <summary class="p-8 block">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="mono-tag mb-4">Step 02</div>
+                <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Bring Beatrice online</h3>
+                <p class="text-sm text-text-dim leading-relaxed">New Telegram bot via <span class="font-mono text-primary">BotFather</span>. Default her to <span class="font-mono text-primary">GPT-5.4-mini</span> via OpenRouter. Separate workspace, separate memory, cheaper brain.</p>
+              </div>
+              <span class="chev text-primary text-xl pt-1 shrink-0">›</span>
+            </div>
+          </summary>
+          <div class="px-8 pb-8 -mt-2 border-t border-primary/10 pt-5 text-sm text-text-dim leading-relaxed space-y-3">
+            <p>Hit BotFather in Telegram, create a new bot, copy the token. In OpenClaw's Channels tab, add Beatrice as a new agent and paste the token in.</p>
+            <p>Create an OpenRouter account first and load US$10 of credits. In Config, set Beatrice's default model to <span class="font-mono text-primary">GPT-5.4-mini</span>. Paid tier only, never free models, they'll corrupt the config file.</p>
+            <p>She gets her own workspace and memory by default. Hector can't see inside them, and she can't see inside his. That isolation is the whole point, it's what keeps context rot from killing performance as you pile on jobs.</p>
+            <p class="text-xs font-mono text-primary-dim uppercase tracking-widest pt-1">Jump to: Two agents · below</p>
+          </div>
+        </details>
+
+        <details class="bg-surface hover:bg-surface2 transition-all">
+          <summary class="p-8 block">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="mono-tag mb-4">Step 03</div>
+                <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Cron one job</h3>
+                <p class="text-sm text-text-dim leading-relaxed">Daily worker report, or weekly Dropbox backup. Pick the easiest. Let Beatrice run it on schedule. Set it and forget it. That's the stability flywheel.</p>
+              </div>
+              <span class="chev text-primary text-xl pt-1 shrink-0">›</span>
+            </div>
+          </summary>
+          <div class="px-8 pb-8 -mt-2 border-t border-primary/10 pt-5 text-sm text-text-dim leading-relaxed space-y-3">
+            <p>Don't start Beatrice on discovery work, she'll drift and disappoint. Give her one routine that can be locked into a skill and forgotten.</p>
+            <p>Weekly Dropbox backup is the safest first pick. File copy is not an intelligence problem, so the dumbest cheap model handles it. When it runs clean for a week, you've proven the whole loop end to end: skill → schedule → tool call → result.</p>
+            <p>Once the backup is stable, layer on a daily worker report or an activity summary. Now you've got real leverage, the bulk of Canex's recurring work running on cheap scheduled loops while you sleep.</p>
+            <p class="text-xs font-mono text-primary-dim uppercase tracking-widest pt-1">Jump to: First jobs for Beatrice · below</p>
+          </div>
+        </details>
       </div>
     </section>
 
