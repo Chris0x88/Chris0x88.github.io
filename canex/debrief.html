@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<!--
+  Client:   Canex (Labour Hire) — Kelvin Grove, Brisbane
+  Session:  2-hour workshop, 2026-04-23
+  Present:  Mark (CEO), Jayden (AI build)
+  Author:   Chris0x88
+  Status:   Friendly pre-startup pilot, unpaid
+-->
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canex · Workshop Debrief · 2026-04-23</title>
+  <meta name="description" content="Canex AI workshop debrief. Agents, skills, cost routing, and the immediate path forward.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['IBM Plex Mono', 'monospace'],
+          },
+          colors: {
+            base: '#0d0c0b',
+            surface: '#1a1815',
+            surface2: '#232018',
+            primary: { DEFAULT: '#c8a96e', light: '#e8c98a', dim: '#8a6f3e' },
+            text: { DEFAULT: '#e8e2d5', dim: '#a09888' },
+            accent: '#4a7c5c',
+            rust: '#c4622d'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+      opacity: 0.04; z-index: 1; pointer-events: none;
+    }
+    .wrap { position: relative; z-index: 2; }
+
+    .pulse-dot { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); animation: pulse 2.5s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,124,92,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,124,92,0); }
+    }
+
+    .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); }
+    .kicker-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .kicker-row .rule { height: 1px; background: theme('colors.primary.dim'); opacity: 0.4; width: 4rem; }
+
+    .callout { border-left: 2px solid theme('colors.primary.DEFAULT'); background: theme('colors.surface'); padding: 1rem 1.25rem; font-size: 0.875rem; color: theme('colors.text.dim'); }
+    .mono-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); }
+
+    /* Diagram nodes */
+    .node { position: absolute; border: 1px solid rgba(200,169,110,0.18); border-left-width: 3px; background: theme('colors.surface'); padding: 0.65rem 0.8rem; cursor: pointer; transition: all 0.18s ease; z-index: 2; }
+    .node:hover { background: theme('colors.surface2'); transform: translateY(-1px); }
+    .node.selected { background: theme('colors.surface2'); box-shadow: 0 0 0 1px theme('colors.primary.DEFAULT'); }
+    .node .node-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; }
+    .node .node-sub { font-size: 11px; color: theme('colors.text.dim'); margin-top: 3px; }
+    /* Group colour coding via left-border + title colour */
+    .node.g-hector   { border-left-color: #c4622d; } .node.g-hector   .node-title { color: #c4622d; }
+    .node.g-beatrice { border-left-color: #4a7c5c; } .node.g-beatrice .node-title { color: #4a7c5c; }
+    .node.g-shared   { border-left-color: #c8a96e; } .node.g-shared   .node-title { color: #c8a96e; }
+    .node.g-infra    { border-left-color: #8a6f3e; } .node.g-infra    .node-title { color: #a09888; }
+    .group-label { position: absolute; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: theme('colors.text.dim'); opacity: 0.6; }
+    #edges { z-index: 1; }
+    #edges path { fill: none; }
+    .node { z-index: 3; }
+
+    /* Injected prompt layers */
+    .inj-layer { padding: 0.7rem 0.9rem; cursor: pointer; opacity: 0.35; transition: opacity 0.35s ease, background-color 0.35s ease, border-color 0.35s ease; border-left: 3px solid transparent; }
+    .inj-layer:hover { opacity: 1; }
+    .inj-layer .inj-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: theme('colors.text.dim'); margin-bottom: 3px; }
+    .inj-layer .inj-text { font-size: 12px; color: theme('colors.text.dim'); line-height: 1.4; }
+    .inj-layer.lit { opacity: 1; background: theme('colors.surface2'); border-left-color: theme('colors.primary.DEFAULT'); }
+    .inj-layer.lit .inj-label { color: theme('colors.primary.DEFAULT'); }
+    .inj-layer.lit .inj-text { color: theme('colors.text.DEFAULT'); }
+    .inj-layer.active { box-shadow: inset 0 0 0 1px theme('colors.primary.DEFAULT'); }
+    #prompt-stack.sent { box-shadow: 0 0 0 1px theme('colors.primary.DEFAULT'), 0 0 28px rgba(200,169,110,0.25); transition: box-shadow 0.5s ease; }
+
+    /* Play/Pause button pulsing dot */
+    #loop-toggle-icon.playing { background: theme('colors.accent'); animation: pulse 1.2s infinite; }
+    #loop-toggle-icon.paused  { background: theme('colors.base'); border: 1px solid theme('colors.base'); }
+
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .chev { transform: rotate(90deg); }
+    .chev { display: inline-block; transition: transform 0.15s ease; }
+  </style>
+</head>
+<body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
+
+  <main class="max-w-4xl mx-auto px-6 pt-20 pb-24 wrap">
+
+    <!-- Document header -->
+    <header class="flex items-center justify-between mb-16 pb-6 border-b border-primary/10 flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
+        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Session Debrief · Canex · 2026-04-23</span>
+      </div>
+      <span class="font-mono text-[10px] tracking-widest text-primary-dim uppercase">Prepared by Chris</span>
+    </header>
+
+    <!-- HERO -->
+    <section class="mb-24">
+      <div class="kicker-row">
+        <span class="kicker">Session Debrief · 2026-04-23</span>
+        <div class="rule"></div>
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-text leading-[1.05] mb-8">
+        Canex<br>
+        <em class="font-medium text-primary not-italic opacity-90">OpenClaw Workshop</em>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-text-dim font-light mb-10 max-w-2xl leading-relaxed">
+        Two hours in Kelvin Grove with Mark and Jayden. A working AI stack already in place. Now we sharpen it for cost, consistency, and capability.
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Client</div>
+          <div class="text-sm text-text">Canex · Labour Hire</div>
+        </div>
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Location</div>
+          <div class="text-sm text-text">Kelvin Grove, QLD</div>
+        </div>
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Duration</div>
+          <div class="text-sm text-text">2 hours · Workshop</div>
+        </div>
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Attending</div>
+          <div class="text-sm text-text">Mark · Jayden</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- THE THREE -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Do these first</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        Three moves<br>
+        <em class="font-medium text-primary not-italic opacity-80">In this order</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+        Everything below this section expands and explains. If Jayden only has an hour this week, execute these three in sequence. They close the biggest capability gap and knock a large chunk off the monthly bill.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8 hover:bg-surface2 transition-all">
+          <div class="font-bold text-[10rem] leading-none text-primary/5 select-none pointer-events-none absolute">01</div>
+          <div class="mono-tag mb-4">Step 01</div>
+          <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Lock down a real skill</h3>
+          <p class="text-sm text-text-dim leading-relaxed">Open the <span class="font-mono text-primary">.md</span> for the skill we drafted together today and review it line by line. Or ask Hector to write a new one from scratch. Either way, tweak with Sonnet 4.6 until the prose matches the job you actually want done.</p>
+        </div>
+        <div class="bg-surface p-8 hover:bg-surface2 transition-all">
+          <div class="mono-tag mb-4">Step 02</div>
+          <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Bring Beatrice online</h3>
+          <p class="text-sm text-text-dim leading-relaxed">New Telegram bot via <span class="font-mono text-primary">BotFather</span>. Default her to <span class="font-mono text-primary">GPT-5.4-mini</span> via OpenRouter. Separate workspace, separate memory, cheaper brain.</p>
+        </div>
+        <div class="bg-surface p-8 hover:bg-surface2 transition-all">
+          <div class="mono-tag mb-4">Step 03</div>
+          <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Cron one job</h3>
+          <p class="text-sm text-text-dim leading-relaxed">Daily worker report, or weekly Dropbox backup. Pick the easiest. Let Beatrice run it on schedule. Set it and forget it. That's the stability flywheel.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STARTING POSITION -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Where we started</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        The inherited stack<br>
+        <em class="font-medium text-primary not-italic opacity-80">More capable than you realised</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        Jayden had built the entire thing from the TUI, which we joked was basically DOS. Working, but flying blind. Opening the Dashboard today changed the picture.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Runtime</div>
+          <ul class="text-sm text-text-dim space-y-2 leading-relaxed">
+            <li>· OpenClaw agent harness on the office Mac Mini</li>
+            <li>· Anthropic API key, Sonnet 4.6 on everything</li>
+            <li>· Hector configured as assistant to the CEO</li>
+            <li>· Telegram bot wired to Hector for remote chat</li>
+            <li>· Dropbox linked · VOIP connection pending</li>
+          </ul>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Spend (month-to-date)</div>
+          <div class="flex items-baseline gap-3 mb-3">
+            <span class="text-4xl font-bold text-primary">US$379</span>
+            <span class="text-text-dim font-mono text-xs">≈ AU$526</span>
+          </div>
+          <p class="text-sm text-text-dim leading-relaxed">All Sonnet 4.6 API. No model routing. No scheduled jobs yet. This is effectively the cost of interactive chat plus Hector's spin up Haiku sub agent.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Skills</div>
+          <p class="text-sm text-text-dim leading-relaxed">Zero custom. Only the out of the box set. This is the single biggest short term value gap, and the fastest one to close.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Backups</div>
+          <p class="text-sm text-text-dim leading-relaxed">Four manual snapshots on disk. No schedule. No off-machine redundancy yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">The Dashboard</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Local only<br>
+        <em class="font-medium text-primary not-italic opacity-80">But load bearing</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        I opened the Dashboard in your browser. It should now be in Favourites. It only runs locally, so no remote access, but when you chat with Hector from Telegram he's operating on the same data underneath. Get familiar with four tabs.
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Tab · Skills</div>
+          <p class="text-sm text-text-dim leading-relaxed">See which skills are enabled. Confirm the agent actually has the skill you think it does before asking it to use one.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Tab · Agents</div>
+          <p class="text-sm text-text-dim leading-relaxed">Hector today, Beatrice once you've spun her up. Each has its own workspace, memory, and Telegram bot.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Tab · Channels</div>
+          <p class="text-sm text-text-dim leading-relaxed">Where each agent's inputs and outputs are wired up. Telegram bots, schedulers, anything that sends work in or delivers work out lives here.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Tab · Config</div>
+          <p class="text-sm text-text-dim leading-relaxed">Where model lists and keys live. Editing here is how you wire OpenRouter in. Also where the agent is most likely to write a bug when helping you.</p>
+        </div>
+      </div>
+
+      <div class="callout mt-8">
+        <span class="mono-tag mr-2">Reminder</span> The Dashboard only works locally on the Mac Mini. Chatting via Telegram still benefits from being dashboard literate. You can ask Hector to change a setting and then eyeball it here to confirm.
+      </div>
+    </section>
+
+    <!-- OBJECTIVE FRAMING -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Framing the work</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Two streams<br>
+        <em class="font-medium text-primary not-italic opacity-80">Don't mix them up</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        "Business efficiencies via AI" is too broad to action. We split it in the room into two streams, with different tools for each.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-10">
+          <div class="mono-tag mb-4">Stream A · Discovery</div>
+          <h3 class="text-xl font-bold text-text mb-3">Find what's broken</h3>
+          <p class="text-sm text-text-dim leading-relaxed mb-4">Inefficiencies you don't yet know about. Human led, AI assisted. Mark already has a paid ChatGPT subscription, so run this stream on <span class="font-mono text-primary">Codex</span>. It's a stronger build environment than OpenClaw for exploratory work, and you're already paying for it.</p>
+          <p class="text-xs font-mono text-primary-dim tracking-widest uppercase">Tool · Codex · conversational</p>
+        </div>
+        <div class="bg-surface p-10">
+          <div class="mono-tag mb-4">Stream B · Automation</div>
+          <h3 class="text-xl font-bold text-text mb-3">Kill the known work</h3>
+          <p class="text-sm text-text-dim leading-relaxed mb-4">Jobs you already do by hand today and want gone. Automated via skills and cron jobs. This is <span class="font-mono text-primary">OpenClaw's</span> sweet spot, and where Beatrice lives. Once it's set up you leave it running.</p>
+          <p class="text-xs font-mono text-primary-dim tracking-widest uppercase">Tool · OpenClaw · scheduled</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-text-dim mt-8 max-w-2xl leading-relaxed">
+        Start with Stream B. Daily reports, backups, data parsing. Move to Stream A only once you've got a working rhythm with scheduled agents and the bill under control.
+      </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Skills · The Biggest Gap</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Consistency is the product<br>
+        <em class="font-medium text-primary not-italic opacity-80">Skills deliver it</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        You have zero custom skills today. Every interaction is free-form, which means every output is a little bit different. Skills are how you get the same thing, the same way, every time.
+      </p>
+
+      <div class="border border-primary/15 bg-surface p-10 md:p-14 relative overflow-hidden mb-10">
+        <div class="absolute -top-5 -right-4 font-bold text-[10rem] text-primary/5 select-none pointer-events-none font-sans">SKL</div>
+        <h3 class="text-2xl font-bold text-text mb-6">The authoring loop</h3>
+        <ol class="text-text-dim space-y-4 leading-relaxed max-w-2xl list-none">
+          <li><span class="mono-tag mr-2">01</span> Ask Hector (on Sonnet 4.6) to write a skill for a job you already do by hand. Describe the job in detail.</li>
+          <li><span class="mono-tag mr-2">02</span> Find the generated <span class="font-mono text-primary">.md</span> file on disk and open it. Read every line.</li>
+          <li><span class="mono-tag mr-2">03</span> Tweak by hand, or instruct Sonnet with very specific corrections. Keep iterating until the prose matches exactly how you'd brief a junior employee.</li>
+          <li><span class="mono-tag mr-2">04</span> Give the skill a clear name. From now on, when you ask the agent to do that job, reference the skill by name: "use the <span class="font-mono text-primary">weekly_backup</span> skill."</li>
+          <li><span class="mono-tag mr-2">05</span> Test it three times. If the output drifts, the skill is under-specified. Tighten it.</li>
+        </ol>
+      </div>
+
+      <div class="callout">
+        <span class="mono-tag mr-2">Today</span> We created a skill together for Hector. Jayden, track down that file, open it, read it end to end. That's the first skill to polish. Don't skip the manual read. The agent won't catch its own vagueness.
+      </div>
+    </section>
+
+    <!-- BEATRICE + ARCHITECTURE -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Separation of concerns</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Two agents<br>
+        <em class="font-medium text-primary not-italic opacity-80">Different jobs, different brains</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        We set Beatrice up today as a second agent. She runs in her own workspace, with her own memory, and her own Telegram bot (Jayden, hit BotFather for a fresh token). Agents can share via tools, but they don't see each other's workspace directly. That's the point.
+      </p>
+
+      <!-- INTERACTIVE DIAGRAM -->
+      <div class="border border-primary/15 bg-surface p-6 md:p-8 mb-10">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <div>
+            <div class="mono-tag mb-1">Live Diagram</div>
+            <div class="text-sm text-text">Click any node for its role · solid lines = direct access · dashed = via tools</div>
+          </div>
+          <div class="flex items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-dim">
+            <span class="flex items-center gap-2"><span class="inline-block w-6 h-px bg-primary"></span>direct</span>
+            <span class="flex items-center gap-2"><span class="inline-block w-6 border-t border-dashed border-primary-dim"></span>indirect</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto -mx-6 md:mx-0 px-6 md:px-0">
+          <div id="diagram" class="relative bg-base/60 border border-primary/10" style="height: 520px; min-width: 680px;">
+            <svg id="edges" class="absolute inset-0 w-full h-full pointer-events-none"></svg>
+
+          <!-- Group labels -->
+          <div class="group-label" style="left: 20px; top: 14px;">Hector · CEO Assistant</div>
+          <div class="group-label" style="right: 20px; top: 14px; text-align: right;">Beatrice · Routine Worker</div>
+          <div class="group-label" style="left: 50%; transform: translateX(-50%); top: 14px;">Shared · Infra</div>
+
+          <!-- Hector column -->
+          <div class="node g-hector" data-id="hector" style="left: 20px; top: 44px; width: 190px;">
+            <div class="node-title">Hector</div>
+            <div class="node-sub">Sonnet 4.6 · interactive</div>
+          </div>
+          <div class="node g-hector" data-id="h-workspace" style="left: 20px; top: 128px; width: 190px;">
+            <div class="node-title">Workspace H</div>
+            <div class="node-sub">files, context, scratchpad</div>
+          </div>
+          <div class="node g-hector" data-id="h-memory" style="left: 20px; top: 212px; width: 190px;">
+            <div class="node-title">Memory H</div>
+            <div class="node-sub">long term state</div>
+          </div>
+          <div class="node g-hector" data-id="h-bot" style="left: 20px; top: 438px; width: 190px;">
+            <div class="node-title">Telegram · Hector</div>
+            <div class="node-sub">Mark's daily channel</div>
+          </div>
+
+          <!-- Beatrice column -->
+          <div class="node g-beatrice" data-id="beatrice" style="right: 20px; top: 44px; width: 190px;">
+            <div class="node-title">Beatrice</div>
+            <div class="node-sub">GPT 5.4 mini · scheduled</div>
+          </div>
+          <div class="node g-beatrice" data-id="b-workspace" style="right: 20px; top: 128px; width: 190px;">
+            <div class="node-title">Workspace B</div>
+            <div class="node-sub">isolated from Hector</div>
+          </div>
+          <div class="node g-beatrice" data-id="b-memory" style="right: 20px; top: 212px; width: 190px;">
+            <div class="node-title">Memory B</div>
+            <div class="node-sub">long term state</div>
+          </div>
+          <div class="node g-beatrice" data-id="b-bot" style="right: 20px; top: 438px; width: 190px;">
+            <div class="node-title">Telegram · Beatrice</div>
+            <div class="node-sub">new BotFather token</div>
+          </div>
+
+          <!-- Shared middle -->
+          <div class="node g-shared" data-id="skills" style="left: 50%; transform: translateX(-50%); top: 44px; width: 230px;">
+            <div class="node-title">Skills Library</div>
+            <div class="node-sub">called by name · .md files</div>
+          </div>
+          <div class="node g-shared" data-id="config" style="left: 50%; transform: translateX(-50%); top: 128px; width: 230px;">
+            <div class="node-title">Config File</div>
+            <div class="node-sub">model list · keys · routing</div>
+          </div>
+          <div class="node g-shared" data-id="tools" style="left: 50%; transform: translateX(-50%); top: 212px; width: 230px;">
+            <div class="node-title">Tools</div>
+            <div class="node-sub">FS · Dropbox · VOIP · APIs</div>
+          </div>
+          <div class="node g-infra" data-id="cron" style="left: 50%; transform: translateX(-50%); top: 354px; width: 230px;">
+            <div class="node-title">Cron Scheduler</div>
+            <div class="node-sub">fires Beatrice on a clock</div>
+          </div>
+          <div class="node g-infra" data-id="router" style="left: 50%; transform: translateX(-50%); top: 438px; width: 230px;">
+            <div class="node-title">OpenRouter + Anthropic</div>
+            <div class="node-sub">model providers</div>
+          </div>
+          </div>
+        </div>
+
+        <div id="node-detail" class="mt-4 p-5 bg-base/60 border border-primary/10 min-h-[88px]">
+          <div class="mono-tag mb-2">Node · select one</div>
+          <div class="text-sm text-text-dim">Click any node above. Details appear here.</div>
+        </div>
+      </div>
+
+      <p class="text-sm text-text-dim max-w-2xl leading-relaxed mb-6">
+        Both agents have full tool access to the machine. But what's <em class="text-primary not-italic">immediately visible</em> to each is only its own workspace and memory. They reach each other indirectly, by reading files, summarising Dropbox folders, or calling a shared skill. That separation is what keeps performance high.
+      </p>
+
+      <div class="callout">
+        <span class="mono-tag mr-2">Context Rot</span> Agents degrade as you pile on irrelevant information. Keeping Hector and Beatrice on separate concerns isn't an aesthetic choice. It's a performance requirement.
+      </div>
+    </section>
+
+    <!-- MODEL COST -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Cost routing</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Don't burn frontier tokens<br>
+        <em class="font-medium text-primary not-italic opacity-80">On spreadsheet work</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        Right now Sonnet 4.6 is doing everything, including tasks that a cheaper model will handle just as well. The immediate win is routing by job type. Spin up an OpenRouter account (start with US$10 of credits) and wire it into the config.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 mb-10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Keep on Sonnet 4.6</div>
+          <ul class="text-sm text-text-dim space-y-2 leading-relaxed">
+            <li>· Skill authoring + refinement</li>
+            <li>· Interactive problem-solving with Mark</li>
+            <li>· Anything that needs judgement</li>
+          </ul>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Move to GPT-5.4-mini</div>
+          <ul class="text-sm text-text-dim space-y-2 leading-relaxed">
+            <li>· Bulk data parsing (ingest → spreadsheet)</li>
+            <li>· Scheduled cron jobs on Beatrice</li>
+            <li>· File copy / backup / summarisation</li>
+          </ul>
+          <p class="text-xs text-primary-dim font-mono uppercase tracking-widest mt-4">~5× cheaper · often as good</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-text-dim max-w-2xl leading-relaxed mb-6">
+        With the router key live, ask Hector to set up a <span class="font-mono text-primary">/models</span> command in Telegram so you can switch mid chat. Filter the list to current gen paid models only. The latest MiMo Kimiko 2.6, MiniMax 2.7, GPT 5.4 micro / mini / full, GLM 5.1. Test each one against a skill that Sonnet wrote and see which stays on spec.
+      </p>
+
+      <div class="callout" style="border-left-color: #c4622d;">
+        <span class="mono-tag mr-2" style="color: #c4622d;">Warning</span> Avoid all <em>free</em> OpenRouter models. They use a different configuration scheme and will corrupt your OpenClaw config file. Paid tier only.
+      </div>
+    </section>
+
+    <!-- EVALUATION -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Quality control</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Have the AI check the AI<br>
+        <em class="font-medium text-primary not-italic opacity-80">From a different seat</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        That candidate scrape spreadsheet you showed me, with job types landing in the referee column and names in phone fields, those are exactly the kind of mistakes a model can spot instantly <em>when told what to look for</em>.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Skill · Do</div>
+          <p class="text-sm text-text-dim leading-relaxed">The main skill. Performs the job. Owns the happy path.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Skill · Check</div>
+          <p class="text-sm text-text-dim leading-relaxed">A second, separate skill. Reads the output of the first. Looks for a catalogued list of known failure modes: wrong column, missing field, nonsense pattern. Flags or fixes.</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-text-dim max-w-2xl leading-relaxed mt-8">
+        The checker works best as its own file because it forces the agent to re read the output from a fresh context. Keep a running list of real mistakes you've caught. That list <em>is</em> the checker skill.
+      </p>
+    </section>
+
+    <!-- BACKUPS + BEATRICE JOBS -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">First jobs for Beatrice</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Cheap model<br>
+        <em class="font-medium text-primary not-italic opacity-80">Predictable jobs</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        Don't start Beatrice on discovery work. Give her routines that can be locked down in a skill, run on a clock, and forgotten about. Three good candidates:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Job 01</div>
+          <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tighter">Weekly Dropbox backup</h3>
+          <p class="text-sm text-text-dim leading-relaxed">Copy both agents' configs and workspaces to Dropbox once a week. Use the dumbest model that works. File copy is not an intelligence problem.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Job 02</div>
+          <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tighter">Daily worker report</h3>
+          <p class="text-sm text-text-dim leading-relaxed">If the data point for 130 workers is easy to access, Beatrice produces the report file. Hector delivers it to Mark via Telegram. Clean handoff.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Job 03</div>
+          <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tighter">Activity summary</h3>
+          <p class="text-sm text-text-dim leading-relaxed">Cron Beatrice to summarise both her and Hector's activity daily. Cheap model, consistent format, builds a paper trail of what your agents actually did.</p>
+        </div>
+      </div>
+
+      <div class="callout mt-8">
+        <span class="mono-tag mr-2">Reminder</span> You currently have 4 manual backups and no schedule. Set up the backup cron first. It's the lowest risk way to prove Beatrice's loop works end to end.
+      </div>
+    </section>
+
+    <!-- LONG TERM -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">The next horizon</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Once the bill is sane<br>
+        <em class="font-medium text-primary not-italic opacity-80">Build deterministic tools</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        OpenClaw + skills gets you a long way. But for high value recurring work, say the report you'll send Mark every day for the next two years, probabilistic AI is a liability. The same prompt can produce different output. That's fine for discovery. It's wrong for reporting.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 mb-10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Tool · Claude Code</div>
+          <p class="text-sm text-text-dim leading-relaxed mb-3">AU$169/mo subscription. Gives you ~5× the Sonnet usage of raw API. Use it as your build environment to write real code that deterministically produces the same report every day.</p>
+          <p class="text-xs font-mono text-primary-dim uppercase tracking-widest">Deterministic beats probabilistic · for repeat tasks</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Tool · Codex</div>
+          <p class="text-sm text-text-dim leading-relaxed">OpenAI's coding agent. Arguably ahead right now, because OpenAI has more compute to train and serve. Strong second option if Claude Code hits capacity issues, and already useful for Stream A given Mark's existing ChatGPT subscription.</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-text-dim max-w-2xl leading-relaxed">
+        The pattern: Claude Code writes a small program that produces the report from your actual data sources. Agent doesn't need to run every day. Code does. Once a month you use Claude Code to update the program when a spreadsheet schema changes. You get a live report system that never drifts, and your AI bill collapses to "I wrote some code this month."
+      </p>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">How to work</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Push it until it breaks<br>
+        <em class="font-medium text-primary not-italic opacity-80">Then pull back</em>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Find the edge</div>
+          <p class="text-sm text-text-dim leading-relaxed">Keep adding tools, connectivity, skills, until things start to fail. That's the information. You now know your agent's actual ceiling.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Pull back to stable</div>
+          <p class="text-sm text-text-dim leading-relaxed">Revert to the last working state. Harden the small number of things that already work. Don't ship half-built.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Highest saving × easiest build</div>
+          <p class="text-sm text-text-dim leading-relaxed">Prioritise this quadrant ruthlessly. Cheap model routing on cron jobs is the obvious one right now.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Work at the Mac Mini</div>
+          <p class="text-sm text-text-dim leading-relaxed">Build directly on the office machine for full ease of access. Dial in remotely only ad hoc and after hours.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAVEATS -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">Things to stay aware of</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Your data is their training set<br>
+        <em class="font-medium text-primary not-italic opacity-80">Act accordingly</em>
+      </h2>
+
+      <div class="space-y-4 max-w-3xl">
+        <details class="border border-primary/10 bg-surface">
+          <summary class="p-5 flex items-center gap-3">
+            <span class="chev text-primary">›</span>
+            <span class="mono-tag">Economics</span>
+            <span class="text-sm text-text">AI companies lose money on every token, so your usage is subsidised.</span>
+          </summary>
+          <div class="px-5 pb-5 pt-1 text-sm text-text-dim leading-relaxed">
+            They're betting on getting more efficient over time. In the meantime, they're farming your prompts and outputs for training. Everything you send and receive is read by a big American company. That includes the skills you author.
+          </div>
+        </details>
+
+        <details class="border border-primary/10 bg-surface">
+          <summary class="p-5 flex items-center gap-3">
+            <span class="chev text-primary">›</span>
+            <span class="mono-tag">IP leakage</span>
+            <span class="text-sm text-text">Skills you teach the model become available to everyone, eventually.</span>
+          </summary>
+          <div class="px-5 pb-5 pt-1 text-sm text-text-dim leading-relaxed">
+            Unless you build defences. One pattern I use: skills that call purpose built local programs. The agent only sees the tool to call, not the code or data. That's how you preserve proprietary process while still getting the benefit of agentic orchestration.
+          </div>
+        </details>
+
+        <details class="border border-primary/10 bg-surface">
+          <summary class="p-5 flex items-center gap-3">
+            <span class="chev text-primary">›</span>
+            <span class="mono-tag">Capacity</span>
+            <span class="text-sm text-text">Anthropic is constrained. Codex is catching up fast.</span>
+          </summary>
+          <div class="px-5 pb-5 pt-1 text-sm text-text-dim leading-relaxed">
+            Anthropic got popular faster than they scaled, so they're the most expensive and the most restricted. OpenAI bought far more compute. Expect Codex to close ground quickly. Keep a second option warm.
+          </div>
+        </details>
+
+        <details class="border border-primary/10 bg-surface">
+          <summary class="p-5 flex items-center gap-3">
+            <span class="chev text-primary">›</span>
+            <span class="mono-tag">Memory</span>
+            <span class="text-sm text-text">OpenClaw's default memory isn't great.</span>
+          </summary>
+          <div class="px-5 pb-5 pt-1 text-sm text-text-dim leading-relaxed">
+            We didn't cover what memory system you're running. If Hector starts forgetting things or his quality drops, tell me and I'll share an upgrade path. The best options right now combine lightweight open source memory snippets with a small RAG layer and a local wiki the agent can read and write. Worth following Andrej Karpathy as well, his recent wiki post on agent memory is the best plain English primer I've seen.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- CHRIS'S STACK -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">For reference · my own setup</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Where I'm running<br>
+        <em class="font-medium text-primary not-italic opacity-80">So you can see where this all leads</em>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">01 · Harness</div>
+          <p class="text-sm text-text-dim leading-relaxed">A custom agent harness. Hybrid of Claude Code, Codex, OpenClaw, and Hermes. Each for what it's best at.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">02 · Skills that call programs</div>
+          <p class="text-sm text-text-dim leading-relaxed">Most of my skills are thin wrappers that invoke purpose built local programs. Deterministic output. Data never hits the API. Code stays out of the training set.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">03 · Memory</div>
+          <p class="text-sm text-text-dim leading-relaxed">Hand rolled from open source memory snippets. Short term scratchpad, a small RAG index for facts, and a local wiki the agent reads and writes. No heavy vector database unless the scale genuinely demands it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOLLOW UPS -->
+    <section class="mb-24">
+      <div class="kicker-row">
+        <span class="kicker">Open items</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-10">
+        Follow ups<br>
+        <em class="font-medium text-primary not-italic opacity-80">Who owes what</em>
+      </h2>
+
+      <div class="space-y-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-5 flex items-start gap-5">
+          <div class="mono-tag pt-1 w-24 shrink-0">Jayden</div>
+          <ul class="text-sm text-text-dim space-y-2 leading-relaxed flex-1">
+            <li>· Find the Dashboard in browser Favourites, it's already open</li>
+            <li>· Locate the skill we created today for Hector. Open the <span class="font-mono text-primary">.md</span>. Read every line. Tweak.</li>
+            <li>· Create an OpenRouter account. Load US$10. Wire key into Config.</li>
+            <li>· BotFather → new Telegram bot for Beatrice</li>
+            <li>· Connect VOIP + Dropbox to the agents for full access</li>
+            <li>· Ask Hector to add a <span class="font-mono text-primary">/models</span> command to Telegram (paid router models only)</li>
+            <li>· Spin up the weekly Dropbox backup cron on Beatrice</li>
+          </ul>
+        </div>
+        <div class="bg-surface p-5 flex items-start gap-5">
+          <div class="mono-tag pt-1 w-24 shrink-0">Chris</div>
+          <ul class="text-sm text-text-dim space-y-2 leading-relaxed flex-1">
+            <li>· Share memory system upgrade notes if Hector's quality starts slipping</li>
+            <li>· Introduce RAG and local wiki patterns when we get there</li>
+            <li>· Send Jayden the Andrej Karpathy wiki post on agent memory, and recommend following him for the clearest signal in this space</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPENCLAW INJECTION -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">For interest</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        You type five words<br>
+        <em class="font-medium text-primary not-italic opacity-80">The model sees five thousand</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        This is the single most useful thing to understand about OpenClaw, or any agent harness. Before the LLM sees anything, the harness silently wraps your message in layers of context you never wrote. That invisible wrapping is what makes Hector <em>Hector</em>, and not a generic chatbot. It's also why your bill is what it is.
+      </p>
+
+      <div class="border border-primary/15 bg-surface p-6 md:p-8">
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+          <div>
+            <div class="mono-tag mb-1">Prompt Assembly</div>
+            <div class="text-sm text-text">Press play and watch the layers stack up</div>
+          </div>
+          <div class="flex gap-2 items-center">
+            <button id="loop-toggle" class="font-mono text-[10px] tracking-widest uppercase px-4 py-2 bg-primary text-base hover:bg-primary-light transition-colors inline-flex items-center gap-2">
+              <span id="loop-toggle-icon" class="inline-block w-1.5 h-1.5 rounded-full bg-base"></span>
+              <span id="loop-toggle-label">Play</span>
+            </button>
+            <button id="loop-reset" class="font-mono text-[10px] tracking-widest uppercase px-4 py-2 border border-primary/30 text-primary hover:bg-primary/5 transition-colors">Reset</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1.4fr] gap-6 items-start">
+          <!-- LEFT: what you typed -->
+          <div>
+            <div class="mono-tag mb-2">What you typed</div>
+            <div class="border border-primary/20 bg-base/60 p-4 font-mono text-sm text-text leading-relaxed">
+              "Backup my files to Dropbox"
+            </div>
+            <div class="text-[11px] text-text-dim mt-2 font-mono">5 words · ~7 tokens</div>
+          </div>
+
+          <!-- MIDDLE: arrow / harness label -->
+          <div class="flex md:flex-col items-center justify-center md:pt-12 gap-2 md:gap-3">
+            <div class="mono-tag" style="color: #c4622d;">OpenClaw</div>
+            <div class="text-primary text-xl md:rotate-0 rotate-90">→</div>
+            <div class="mono-tag opacity-60">wraps</div>
+          </div>
+
+          <!-- RIGHT: the assembled prompt -->
+          <div>
+            <div class="mono-tag mb-2">What the LLM actually receives</div>
+            <div id="prompt-stack" class="border border-primary/20 bg-base/60 divide-y divide-primary/10">
+              <div class="inj-layer" data-step="system">
+                <div class="inj-label">System Prompt</div>
+                <div class="inj-text">"You are Hector, assistant to Mark, CEO of Canex Labour Hire..."</div>
+              </div>
+              <div class="inj-layer" data-step="memory">
+                <div class="inj-label">Memory Recall</div>
+                <div class="inj-text">"Last backup: 3 days ago. Mark prefers morning summaries..."</div>
+              </div>
+              <div class="inj-layer" data-step="skills">
+                <div class="inj-label">Skills Available</div>
+                <div class="inj-text">backup_dropbox · weekly_report · send_telegram · parse_csv ...</div>
+              </div>
+              <div class="inj-layer" data-step="tools">
+                <div class="inj-label">Tool Manifest</div>
+                <div class="inj-text">read_file · write_file · call_api · invoke_skill · list_dir ...</div>
+              </div>
+              <div class="inj-layer" data-step="user">
+                <div class="inj-label">Your Message</div>
+                <div class="inj-text font-mono">"Backup my files to Dropbox"</div>
+              </div>
+            </div>
+            <div class="text-[11px] text-text-dim mt-2 font-mono">≈ 2,400 tokens sent to Sonnet 4.6</div>
+          </div>
+        </div>
+
+        <div id="loop-detail" class="mt-8 p-5 bg-base/60 border border-primary/10 min-h-[88px]">
+          <div class="mono-tag mb-2" id="loop-detail-title">Hit play</div>
+          <div class="text-sm text-text-dim leading-relaxed" id="loop-detail-body">Watch the harness wrap your tiny message in layers of context the model needs to act. None of this is written by you. All of it costs tokens, every single call.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LLM LATTICE -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">What's actually happening</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Under the hood<br>
+        <em class="font-medium text-primary not-italic opacity-80">The LLM is a lattice</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        A bit of bonus conceptual reading. An LLM isn't magic, it's a very large grid of simple nodes wired together in layers. A prompt enters on the left, gets transformed layer by layer, and a response falls out the right. What you see below is a simulation of that lattice. Every bright packet is the kind of activation a real model fires billions of times per response.
+      </p>
+
+      <div class="relative border border-primary/15 bg-base overflow-hidden" style="height: 360px;">
+        <canvas id="lattice-canvas-inline" class="absolute inset-0 w-full h-full"></canvas>
+        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 50%, rgba(13,12,11,0.15) 0%, rgba(13,12,11,0.85) 90%);"></div>
+        <div class="absolute bottom-5 left-5 right-5 flex justify-between items-end gap-4 flex-wrap pointer-events-none">
+          <div>
+            <div class="mono-tag mb-1" style="color: #c8a96e;">Live · Transformer Lattice</div>
+            <div class="text-xs text-text-dim max-w-md leading-relaxed">Data packets firing across layers. Every response is the sum of millions of these activations.</div>
+          </div>
+          <div class="text-[10px] font-mono uppercase tracking-widest text-text-dim/70">Input · layers · output</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10 mt-6">
+        <div class="bg-surface p-6">
+          <div class="mono-tag mb-2">Layers</div>
+          <p class="text-xs text-text-dim leading-relaxed">Each vertical column is a transformer layer. A production model has dozens to hundreds. More layers, more abstract reasoning.</p>
+        </div>
+        <div class="bg-surface p-6">
+          <div class="mono-tag mb-2">Neurons</div>
+          <p class="text-xs text-text-dim leading-relaxed">The dots are individual nodes. Each one does a tiny bit of arithmetic on what the previous layer passed forward. Simple units, colossal networks.</p>
+        </div>
+        <div class="bg-surface p-6">
+          <div class="mono-tag mb-2">Packets</div>
+          <p class="text-xs text-text-dim leading-relaxed">The glowing trails are activations firing between nodes. In a real model these are numerical weights, not little dots, but the shape of the flow is the same.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGN OFF -->
+    <section class="pt-12 border-t border-primary/10">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+          <p class="font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-3">Signed</p>
+          <p class="text-2xl font-bold text-text">Chris</p>
+        </div>
+        <div class="md:text-right space-y-1">
+          <p class="font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-3">Reach me</p>
+          <p class="text-sm text-text">Mobile · <a href="tel:+61446537166" class="font-mono text-primary hover:text-primary-light">+61 446 537 166</a></p>
+          <p class="text-sm text-text">Telegram · <a href="https://t.me/Chris0x88" target="_blank" class="font-mono text-primary hover:text-primary-light">@Chris0x88</a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Interactive diagram — edges and node detail panel
+    const edges = [
+      // Hector internal — direct
+      { from: 'hector', to: 'h-workspace', type: 'direct' },
+      { from: 'hector', to: 'h-memory',    type: 'direct' },
+      { from: 'hector', to: 'h-bot',       type: 'direct' },
+      // Beatrice internal — direct
+      { from: 'beatrice', to: 'b-workspace', type: 'direct' },
+      { from: 'beatrice', to: 'b-memory',    type: 'direct' },
+      { from: 'beatrice', to: 'b-bot',       type: 'direct' },
+      // Shared — both agents consult these directly
+      { from: 'hector',   to: 'skills', type: 'direct' },
+      { from: 'beatrice', to: 'skills', type: 'direct' },
+      { from: 'hector',   to: 'config', type: 'direct' },
+      { from: 'beatrice', to: 'config', type: 'direct' },
+      // Tools
+      { from: 'hector',   to: 'tools', type: 'direct' },
+      { from: 'beatrice', to: 'tools', type: 'direct' },
+      // Cron fires Beatrice
+      { from: 'cron', to: 'beatrice', type: 'direct' },
+      // Model providers
+      { from: 'config', to: 'router', type: 'direct' },
+      // Cross-agent indirect access via tools
+      { from: 'tools', to: 'h-workspace', type: 'indirect' },
+      { from: 'tools', to: 'b-workspace', type: 'indirect' },
+    ];
+
+    const detail = {
+      'hector':      ['Hector',            'Your interactive agent. Assistant to the CEO. Runs on Sonnet 4.6. Handles chat, judgement, discovery. Delivers reports to Mark via Telegram.'],
+      'h-workspace': ['Workspace · Hector','Files and scratchpad Hector sees directly. Other agents only reach it via tools.'],
+      'h-memory':    ['Memory · Hector',   'Hector\'s long-term state. Separate from Beatrice. Upgrade path TBD.'],
+      'h-bot':       ['Telegram · Hector', 'The bot Mark already chats with. One bot per agent.'],
+      'beatrice':    ['Beatrice',          'New today. Scheduled / routine worker. Default model: GPT-5.4-mini via OpenRouter. Cheap, consistent, cron-driven.'],
+      'b-workspace': ['Workspace · Beatrice','Isolated from Hector\'s workspace. Context rot stays local.'],
+      'b-memory':    ['Memory · Beatrice', 'Beatrice\'s long-term state. Separate from Hector.'],
+      'b-bot':       ['Telegram · Beatrice','Needs a new BotFather token. Each agent owns its own bot.'],
+      'skills':      ['Skills Library',    'Named .md files describing a job in detail. Called by name: "use the weekly_backup skill". Both agents share the library but invoke per-task.'],
+      'config':      ['Config File',       'Where model lists, API keys, and routing live. Edit here to wire in OpenRouter. Agent assisted edits can write bugs, so always eyeball after.'],
+      'tools':       ['Tools',             'File system, Dropbox, VOIP, Anthropic API, OpenRouter. Both agents have full tool access. Tools are also how they reach each other indirectly.'],
+      'cron':        ['Cron Scheduler',    'Fires Beatrice on a clock. Weekly backups, daily reports, summary jobs.'],
+      'router':      ['Model Providers',   'Anthropic for Sonnet 4.6. OpenRouter for everything else. Avoid free OpenRouter models. They break the config file.'],
+    };
+
+    const svg = document.getElementById('edges');
+    const diagram = document.getElementById('diagram');
+    const panel = document.getElementById('node-detail');
+
+    // Return the rectangle of a node relative to the diagram.
+    function nodeRect(id) {
+      const el = diagram.querySelector(`[data-id="${id}"]`);
+      if (!el) return null;
+      const dRect = diagram.getBoundingClientRect();
+      const nRect = el.getBoundingClientRect();
+      return {
+        left:   nRect.left   - dRect.left,
+        right:  nRect.right  - dRect.left,
+        top:    nRect.top    - dRect.top,
+        bottom: nRect.bottom - dRect.top,
+        cx:     nRect.left - dRect.left + nRect.width / 2,
+        cy:     nRect.top  - dRect.top  + nRect.height / 2,
+        w:      nRect.width,
+        h:      nRect.height,
+        el:     el,
+      };
+    }
+
+    // Pick the port on each rect that is closest to the other node. Horizontal
+    // preference when nodes are in different columns, vertical when stacked.
+    function anchorPoints(a, b) {
+      const dx = b.cx - a.cx, dy = b.cy - a.cy;
+      const sameColumn = Math.abs(dx) < Math.max(a.w, b.w) * 0.4;
+      let pa, pb;
+      if (sameColumn) {
+        pa = { x: a.cx, y: dy > 0 ? a.bottom : a.top };
+        pb = { x: b.cx, y: dy > 0 ? b.top    : b.bottom };
+      } else {
+        pa = { x: dx > 0 ? a.right : a.left, y: a.cy };
+        pb = { x: dx > 0 ? b.left  : b.right, y: b.cy };
+      }
+      return { pa, pb, sameColumn };
+    }
+
+    // Build a cubic bezier that curves away from the middle column for side
+    // nodes, keeping lines out of the shared-column boxes.
+    function bezierPath(pa, pb, sameColumn) {
+      const dx = pb.x - pa.x, dy = pb.y - pa.y;
+      if (sameColumn) {
+        const c1x = pa.x, c1y = pa.y + dy * 0.4;
+        const c2x = pb.x, c2y = pb.y - dy * 0.4;
+        return `M${pa.x},${pa.y} C${c1x},${c1y} ${c2x},${c2y} ${pb.x},${pb.y}`;
+      }
+      // Horizontal flow: bow out to the side of origin so the line arcs around
+      // anything in the middle.
+      const bow = Math.min(Math.abs(dx) * 0.55, 90);
+      const c1x = pa.x + (dx > 0 ?  bow : -bow), c1y = pa.y;
+      const c2x = pb.x + (dx > 0 ? -bow :  bow), c2y = pb.y;
+      return `M${pa.x},${pa.y} C${c1x},${c1y} ${c2x},${c2y} ${pb.x},${pb.y}`;
+    }
+
+    const edgeColor = {
+      hector:   '#c4622d',
+      beatrice: '#4a7c5c',
+      shared:   '#c8a96e',
+      infra:    '#8a6f3e',
+    };
+    const groupOf = id => {
+      const el = diagram.querySelector(`[data-id="${id}"]`);
+      if (!el) return 'shared';
+      if (el.classList.contains('g-hector'))   return 'hector';
+      if (el.classList.contains('g-beatrice')) return 'beatrice';
+      if (el.classList.contains('g-infra'))    return 'infra';
+      return 'shared';
+    };
+
+    function drawEdges() {
+      svg.innerHTML = '';
+      const w = diagram.clientWidth, h = diagram.clientHeight;
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      edges.forEach(e => {
+        const a = nodeRect(e.from), b = nodeRect(e.to);
+        if (!a || !b) return;
+        const { pa, pb, sameColumn } = anchorPoints(a, b);
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', bezierPath(pa, pb, sameColumn));
+        const color = edgeColor[groupOf(e.from)] || '#c8a96e';
+        path.setAttribute('stroke', color);
+        path.setAttribute('stroke-width', '1');
+        path.setAttribute('opacity', e.type === 'direct' ? '0.55' : '0.35');
+        if (e.type === 'indirect') path.setAttribute('stroke-dasharray', '4 4');
+        svg.appendChild(path);
+      });
+    }
+
+    diagram.querySelectorAll('.node').forEach(n => {
+      n.addEventListener('click', () => {
+        diagram.querySelectorAll('.node').forEach(x => x.classList.remove('selected'));
+        n.classList.add('selected');
+        const id = n.dataset.id;
+        const [title, body] = detail[id] || ['—', '—'];
+        panel.innerHTML = `
+          <div class="mono-tag mb-2">${title}</div>
+          <div class="text-sm text-text-dim leading-relaxed">${body}</div>
+        `;
+      });
+    });
+
+    window.addEventListener('load', drawEdges);
+    window.addEventListener('resize', drawEdges);
+
+    // ── LATTICE CANVAS (inline, bounded) ──
+    (function() {
+      const canvas = document.getElementById('lattice-canvas-inline');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let layers = [], packets = [], w = 0, h = 0;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        w = rect.width; h = rect.height;
+        canvas.width  = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width  = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        initLattice();
+      }
+
+      function initLattice() {
+        layers = [];
+        packets = [];
+        const layerCount = w < 640 ? 4 : 7;
+        const nodesPerLayer = w < 640 ? 7 : 11;
+        const xSpacing = w / (layerCount + 1);
+        const ySpacing = h / (nodesPerLayer + 1);
+        for (let i = 0; i < layerCount; i++) {
+          const layer = [];
+          for (let j = 0; j < nodesPerLayer; j++) {
+            layer.push({
+              x: xSpacing * (i + 1),
+              y: ySpacing * (j + 1) + (Math.random() - 0.5) * 26,
+              originalY: ySpacing * (j + 1),
+            });
+          }
+          layers.push(layer);
+        }
+      }
+
+      let t = 0;
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        t += 0.01;
+
+        ctx.strokeStyle = 'rgba(200, 169, 110, 0.08)';
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < layers.length - 1; i++) {
+          for (const n1 of layers[i]) {
+            for (const n2 of layers[i + 1]) {
+              ctx.beginPath();
+              ctx.moveTo(n1.x, n1.y);
+              ctx.lineTo(n2.x, n2.y);
+              ctx.stroke();
+              if (Math.random() < 0.0006) {
+                packets.push({ start: n1, end: n2, progress: 0, speed: 0.012 + Math.random() * 0.022 });
+              }
+            }
+          }
+        }
+
+        layers.forEach((layer, i) => {
+          layer.forEach(n => {
+            n.y = n.originalY + Math.sin(t + i * 0.6) * 10;
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(200, 169, 110, 0.35)';
+            ctx.fill();
+          });
+        });
+
+        for (let i = packets.length - 1; i >= 0; i--) {
+          const p = packets[i];
+          p.progress += p.speed;
+          if (p.progress >= 1) { packets.splice(i, 1); continue; }
+          const x = p.start.x + (p.end.x - p.start.x) * p.progress;
+          const y = p.start.y + (p.end.y - p.start.y) * p.progress;
+          ctx.beginPath();
+          ctx.arc(x, y, 2.4, 0, Math.PI * 2);
+          ctx.fillStyle = '#e8c98a';
+          ctx.shadowBlur = 14;
+          ctx.shadowColor = '#c8a96e';
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      // Defer until layout settles
+      setTimeout(() => { resize(); draw(); }, 30);
+    })();
+
+    // ── OPENCLAW PROMPT INJECTION (interactive) ──
+    (function() {
+      const stack   = document.getElementById('prompt-stack');
+      if (!stack) return;
+      const toggle  = document.getElementById('loop-toggle');
+      const icon    = document.getElementById('loop-toggle-icon');
+      const label   = document.getElementById('loop-toggle-label');
+      const reset   = document.getElementById('loop-reset');
+      const title   = document.getElementById('loop-detail-title');
+      const body    = document.getElementById('loop-detail-body');
+
+      // Ordered narrative: each step lights a layer and updates the description.
+      // Step 6 ("send") pulses the whole stack to show it hitting the LLM.
+      const steps = [
+        { id: 'system',  title: 'Step 1 · System Prompt',
+          body: 'OpenClaw prepends a system prompt that tells the model who it is ("You are Hector..."), who it works for, what tone to use, and what rules to follow. You never see this text. You never wrote it. It sets every single reply.' },
+        { id: 'memory',  title: 'Step 2 · Memory Recall',
+          body: 'The harness pulls relevant snippets from Hector\'s memory store and staples them to the prompt. Last decisions, user preferences, prior summaries. This is why Hector "remembers" things. Without this layer every message starts from scratch.' },
+        { id: 'skills',  title: 'Step 3 · Skills Available',
+          body: 'A list of every skill Hector is allowed to call, with each skill\'s description so the model knows when to use which. This is why writing clear skill definitions matters. The model can only call what OpenClaw describes here.' },
+        { id: 'tools',   title: 'Step 4 · Tool Manifest',
+          body: 'The low level tool list: read a file, call an API, invoke a skill, send a Telegram. The model doesn\'t know these exist unless the harness injects them. More tools means more context, which means more tokens.' },
+        { id: 'user',    title: 'Step 5 · Your Message',
+          body: 'Finally your actual five words get appended. They arrive last, after everything else. The model has thousands of tokens of context before it even sees what you wanted.' },
+        { id: 'send',    title: 'Step 6 · Sent to the LLM',
+          body: 'The entire assembled prompt goes to Sonnet 4.6 in a single API call. You typed 7 tokens. Around 2,400 get sent. That\'s why routing cheap jobs to GPT 5.4 mini cuts the bill so sharply. The wrapping is almost always the bulk of the cost.' },
+      ];
+
+      const layerSteps = ['system','memory','skills','tools','user'];
+
+      function setPlaying(p) {
+        if (p) { icon.classList.add('playing'); icon.classList.remove('paused'); label.textContent = 'Pause'; }
+        else   { icon.classList.add('paused');  icon.classList.remove('playing'); label.textContent = 'Play';  }
+      }
+
+      function clearStack() {
+        stack.classList.remove('sent');
+        stack.querySelectorAll('.inj-layer').forEach(el => el.classList.remove('lit', 'active'));
+      }
+
+      function applyStep(i) {
+        const step = steps[i];
+        // Light every layer up to and including this one.
+        stack.querySelectorAll('.inj-layer').forEach(el => {
+          const s = el.dataset.step;
+          const idx = layerSteps.indexOf(s);
+          el.classList.toggle('lit',    idx >= 0 && idx <= (step.id === 'send' ? 4 : layerSteps.indexOf(step.id)));
+          el.classList.toggle('active', s === step.id);
+        });
+        stack.classList.toggle('sent', step.id === 'send');
+        title.textContent = step.title;
+        body.textContent  = step.body;
+      }
+
+      let idx = 0, timer = null;
+      function tick() {
+        applyStep(idx);
+        idx = (idx + 1) % steps.length;
+        if (idx === 0) {
+          // Brief pause on the "sent" state before restarting the sequence.
+          stop();
+          setTimeout(() => { if (!timer) { clearStack(); start(); } }, 2200);
+        }
+      }
+      function start() { if (timer) return; setPlaying(true); tick(); timer = setInterval(tick, 2000); }
+      function stop()  { clearInterval(timer); timer = null; setPlaying(false); }
+
+      toggle.addEventListener('click', () => timer ? stop() : start());
+      reset.addEventListener('click',  () => { stop(); idx = 0; clearStack(); title.textContent = 'Hit play'; body.textContent = 'Watch the harness wrap your tiny message in layers of context the model needs to act. None of this is written by you. All of it costs tokens, every single call.'; });
+
+      stack.querySelectorAll('.inj-layer').forEach(el => {
+        el.addEventListener('click', () => {
+          stop();
+          const s = el.dataset.step;
+          const i = steps.findIndex(x => x.id === s);
+          if (i < 0) return;
+          idx = (i + 1) % steps.length;
+          applyStep(i);
+        });
+      });
+
+      setPlaying(false);
+      setTimeout(start, 400);
+    })();
+  </script>
+</body>
+</html>
