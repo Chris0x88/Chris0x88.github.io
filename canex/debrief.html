@@ -1063,8 +1063,15 @@
       });
     });
 
+    function debounce(fn, wait) {
+      let t;
+      return function() {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, arguments), wait);
+      };
+    }
     window.addEventListener('load', drawEdges);
-    window.addEventListener('resize', drawEdges);
+    window.addEventListener('resize', debounce(drawEdges, 180));
 
     // ── LATTICE CANVAS (inline, bounded) ──
     (function() {
@@ -1072,9 +1079,15 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let layers = [], packets = [], w = 0, h = 0;
+      let lastW = 0, visible = true, resizeTimer = null;
 
+      // Mobile browsers fire 'resize' every time the URL bar shows or hides,
+      // which made the lattice reinitialise mid scroll and visibly glitch the
+      // page. Only rebuild when the width actually changes, and debounce it.
       function resize() {
         const rect = canvas.getBoundingClientRect();
+        if (Math.abs(rect.width - lastW) < 4) return;
+        lastW = rect.width;
         const dpr = window.devicePixelRatio || 1;
         w = rect.width; h = rect.height;
         canvas.width  = w * dpr;
@@ -1084,6 +1097,10 @@
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
         initLattice();
+      }
+      function onResize() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 180);
       }
 
       function initLattice() {
@@ -1108,6 +1125,7 @@
 
       let t = 0;
       function draw() {
+        if (!visible) { requestAnimationFrame(draw); return; }
         ctx.clearRect(0, 0, w, h);
         t += 0.01;
 
@@ -1156,7 +1174,14 @@
         requestAnimationFrame(draw);
       }
 
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', onResize);
+      // Pause the draw loop when the canvas scrolls out of view, so the
+      // animation stops fighting for paint while the reader is elsewhere.
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+          visible = entries[0].isIntersecting;
+        }, { threshold: 0.01 }).observe(canvas);
+      }
       // Defer until layout settles
       setTimeout(() => { resize(); draw(); }, 30);
     })();
