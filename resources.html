@@ -170,7 +170,7 @@
       <div class="kicker-row"><span class="kicker">01 · People to Follow</span><div class="rule"></div></div>
       <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
         Six worth your time<br>
-        <em class="font-medium text-primary not-italic opacity-80">Plus how they're tangled together</em>
+        <em class="font-medium text-primary not-italic opacity-80">And how they're all connected</em>
       </h2>
       <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
         AI Twitter is a swamp. These six are signal. Each is responsible for an outsized chunk of where we are right now, and each posts publicly enough to actually learn from.
@@ -297,7 +297,7 @@
           <div class="role">The Teacher</div>
           <h3>Andrej Karpathy</h3>
           <p class="bio">
-            Co-founder of OpenAI, then Director of AI at Tesla, then back to OpenAI briefly, now running <a href="https://eurekalabs.ai" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Eureka Labs</a>. Author of <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">nanoGPT</a>, <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">micrograd</a>, and the <a href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">"Neural Networks: Zero to Hero"</a> YouTube series, which is the gold-standard self-taught path into modern ML. Coined <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">"vibe coding"</a> in February 2025, somewhat hilariously holding out from really trusting agentic coding until late in the cycle. Now he's its loudest advocate.
+            Co-founder of OpenAI, then Director of AI at Tesla, then back to OpenAI briefly, now running <a href="https://eurekalabs.ai" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Eureka Labs</a>. Author of <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">nanoGPT</a>, <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">micrograd</a>, and the <a href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">"Neural Networks: Zero to Hero"</a> YouTube series, which is the gold-standard self-taught path into modern ML. Coined <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">"vibe coding"</a> in February 2025, which is funny given he was one of the last in the cohort to actually trust agentic coding. Now he's its loudest advocate.
           </p>
           <p class="why"><strong>Why follow:</strong> nobody else makes the inside of these models legible like Karpathy. If you have an engineer on your team you want to level up, send them his videos.</p>
           <div class="links">
@@ -352,7 +352,7 @@
       </div>
 
       <div class="callout mt-8">
-        <span class="mono-tag mr-2">Honourable mentions</span> François Chollet (creator of <a href="https://arcprize.org" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">ARC-AGI</a> and the Keras library), Yann LeCun (Meta's chief AI scientist, the loudest LLM-sceptic in the room), Jeff Dean (Google's chief scientist). Worth knowing, less essential for day-to-day operator wisdom. Two more voices, Elon Musk and Leopold Aschenbrenner, get their own treatment in the next two sections, they're not here as cards but they shape the conversation more than most.
+        <span class="mono-tag mr-2">Honourable mentions</span> François Chollet (creator of <a href="https://arcprize.org" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">ARC-AGI</a> and the Keras library), Yann LeCun (Meta's chief AI scientist, the loudest LLM-sceptic in the room), Jeff Dean (Google's chief scientist). Worth knowing, less essential for day-to-day operator wisdom. Two more voices — Elon Musk and Leopold Aschenbrenner — shape this conversation as much as anyone above. They get their own treatment in the next two sections.
       </div>
     </section>
 
@@ -363,7 +363,7 @@
       <div class="kicker-row"><span class="kicker">02 · The AGI Ceiling</span><div class="rule"></div></div>
       <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
         What Tesla FSD keeps telling us<br>
-        <em class="font-medium text-primary not-italic opacity-80">Edge cases don't pre-train</em>
+        <em class="font-medium text-primary not-italic opacity-80">You can't pre-train an edge case</em>
       </h2>
 
       <div class="prose max-w-3xl">
@@ -499,7 +499,7 @@
 
       <div class="prose max-w-3xl">
         <h3 class="text-text font-bold text-xl mt-8 mb-3 uppercase tracking-tight">A note on context rot</h3>
-        <p>The hardest current problem in agentic AI is memory. Stuff too much into the context window and the agent gets confused about what to prioritise (formally called <strong>context rot</strong>, output quality drops, hallucinations rise). Provide too little and the agent answers shallowly with no history of your project. Both failure modes are common and both are bad.</p>
+        <p>The hardest current problem in agentic AI is memory. Stuff too much into the context window and the agent loses track of what matters — formally, this is <strong>context rot</strong>: output quality drops and hallucinations rise. Provide too little and the agent answers shallowly with no history of your project. Both failure modes are common, and both are bad.</p>
         <p><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP servers</a> and skill files are useful, but mildly overrated. They're patches on a deeper architectural shortfall in how today's models retrieve and prioritise information before answering. I'd expect the model and harness architecture to bend significantly toward better memory over the next 18 to 24 months. Until then, summarisation-based memory systems also quietly inflate your bill: many of them call an LLM to re-summarise the entire conversation after every prompt, and important detail leaks out in the process.</p>
         <p><strong>Until memory is solved, agents are exceptional in single-shot or 3 to 5 turn workflows, and degrade fast past that.</strong> Design accordingly.</p>
       </div>
@@ -530,7 +530,7 @@
       </h2>
 
       <div class="prose max-w-3xl mb-10">
-        <p>If you've been watching the AI story through a software lens, you've been missing the bigger half of it. The interesting trade right now isn't whether OpenAI or Anthropic ships next, it's <strong>which industrial assets become unspeakably valuable when the entire western world tries to plug in 50 gigawatts of new compute over the next five years.</strong></p>
+        <p>If you've been watching the AI story through a software lens, you've been missing the bigger half of it. The interesting trade right now isn't whether OpenAI or Anthropic ships next, it's <strong>which industrial assets become absurdly valuable when the entire western world tries to plug in 50 gigawatts of new compute over the next five years.</strong></p>
         <p>The clearest voice on this is Leopold Aschenbrenner.</p>
       </div>
 
@@ -626,27 +626,27 @@
 
       <div class="space-y-2 mb-8">
         <div class="grid grid-cols-12 gap-3 items-baseline border-b border-primary/10 pb-3">
-          <div class="col-span-3 md:col-span-2 mono-tag">1830s,50s</div>
+          <div class="col-span-3 md:col-span-2 mono-tag">1830s–50s</div>
           <div class="col-span-5 md:col-span-4 text-text font-bold">Railways</div>
           <div class="col-span-12 md:col-span-6 text-sm text-text-dim">Bottleneck was steel rail and rolling stock. Carnegie made his fortune.</div>
         </div>
         <div class="grid grid-cols-12 gap-3 items-baseline border-b border-primary/10 pb-3">
-          <div class="col-span-3 md:col-span-2 mono-tag">1880s,1910s</div>
+          <div class="col-span-3 md:col-span-2 mono-tag">1880s–1910s</div>
           <div class="col-span-5 md:col-span-4 text-text font-bold">Electrification</div>
           <div class="col-span-12 md:col-span-6 text-sm text-text-dim">Bottleneck was generation, transmission, and the standardised wall socket. GE was born here.</div>
         </div>
         <div class="grid grid-cols-12 gap-3 items-baseline border-b border-primary/10 pb-3">
-          <div class="col-span-3 md:col-span-2 mono-tag">1920s,40s</div>
+          <div class="col-span-3 md:col-span-2 mono-tag">1920s–40s</div>
           <div class="col-span-5 md:col-span-4 text-text font-bold">Automotive & oil</div>
           <div class="col-span-12 md:col-span-6 text-sm text-text-dim">Bottleneck was crude supply and refining capacity. Standard Oil's heirs ran the century.</div>
         </div>
         <div class="grid grid-cols-12 gap-3 items-baseline border-b border-primary/10 pb-3">
-          <div class="col-span-3 md:col-span-2 mono-tag">1990s,2000s</div>
+          <div class="col-span-3 md:col-span-2 mono-tag">1990s–2000s</div>
           <div class="col-span-5 md:col-span-4 text-text font-bold">Internet</div>
           <div class="col-span-12 md:col-span-6 text-sm text-text-dim">Bottleneck was fibre, routers, and Cisco. Then mobile and the same story for towers.</div>
         </div>
         <div class="grid grid-cols-12 gap-3 items-baseline pb-3">
-          <div class="col-span-3 md:col-span-2 mono-tag" style="color: #c4622d;">2024,?</div>
+          <div class="col-span-3 md:col-span-2 mono-tag" style="color: #c4622d;">2024 →</div>
           <div class="col-span-5 md:col-span-4 text-primary font-bold">AI infrastructure</div>
           <div class="col-span-12 md:col-span-6 text-sm text-text-dim">Bottleneck is power, transformers, cooling, leading-edge fabs. The picks-and-shovels list is on this page.</div>
         </div>
@@ -663,7 +663,7 @@
     <section id="hardware" class="mb-32 border-b border-primary/10 pb-24">
       <div class="kicker-row"><span class="kicker">06 · Hardware</span><div class="rule"></div></div>
       <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
-        Buy modestly. Buy soon-ish, not now.<br>
+        Spend modestly. Wait one cycle.<br>
         <em class="font-medium text-primary not-italic opacity-80">The whole rig is about to get 100× cheaper</em>
       </h2>
 
@@ -712,14 +712,14 @@
       </h2>
 
       <div class="prose max-w-3xl">
-        <p>The pace and excitement around AI is genuinely too much for a normal human nervous system to keep up with. People are getting weird about it. Some are doing 18-hour sessions and grinding themselves into the ground. Others are forming actual emotional attachments to chatbots and slipping into magical thinking. Both are bad outcomes and both are increasingly common.</p>
+        <p>The pace of AI right now is more than most nervous systems can metabolise, and people are getting weird about it. Some are doing 18-hour sessions and grinding themselves into the ground. Others are forming real emotional attachments to chatbots and sliding into magical thinking. Both outcomes are bad, and both are increasingly common.</p>
         <p>A few rules I run on, professional and personal:</p>
         <ul class="list-none space-y-2 my-5">
           <li><strong class="text-text">·</strong> <strong class="text-text">Long, deep sessions are fine for hard work.</strong> Architecting a complex system or hunting a tricky bug benefits from staying in flow. Take real breaks between, sleep properly, eat actual food.</li>
           <li><strong class="text-text">·</strong> <strong class="text-text">Light, fun work in short bursts.</strong> Dashboards, websites, image-heavy projects, do them in a morning, ship them, move on. Don't over-stay these.</li>
-          <li><strong class="text-text">·</strong> <strong class="text-text">Stuck on a model? Wait two weeks.</strong> A new release will probably solve the bug for you. The advantage of moving fast is real, but the advantage of moving fast in the <em>right direction</em> is much bigger. Shipping a wrong-thing-fast is a special form of expensive.</li>
+          <li><strong class="text-text">·</strong> <strong class="text-text">Stuck on a model? Wait two weeks.</strong> A new release will probably solve the bug for you. The advantage of moving fast is real, but the advantage of moving fast in the <em>right direction</em> is much bigger. Shipping the wrong thing quickly is its own kind of expensive.</li>
           <li><strong class="text-text">·</strong> <strong class="text-text">The model is not alive.</strong> It is a probabilistic next-token predictor running on enormous matrices of numbers. It is genuinely impressive, sometimes uncanny, and absolutely not conscious. If you find yourself emotionally attached to it, log off and go talk to a person.</li>
-          <li><strong class="text-text">·</strong> <strong class="text-text">Local beats global.</strong> Most of the value left on the table is in combining these tools in clever ways for <em>your</em> specific business or workflow. You don't need to compete with OpenAI to win.</li>
+          <li><strong class="text-text">·</strong> <strong class="text-text">Pick the smaller fight.</strong> Most of the value left on the table is in combining these tools in clever ways for <em>your</em> specific business or workflow. You don't need to compete with OpenAI to win.</li>
         </ul>
         <p>Move fast. Don't move at break-neck speed. There's a difference, and the difference is whether you're still functional in three months.</p>
       </div>
