@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris | AI Consultancy · Brisbane</title>
-    <meta name="description" content="AI Consultancy specializing in cost-effective Agentic Workflows. Bespoke AI scaffolding built on your hardware.">
-    
-    <!-- Fonts -->
+    <title>Chris0x88 · AI Engineering · Brisbane</title>
+    <meta name="description" content="Independent AI engineering practice in Brisbane. Sovereign agentic workflows, custom scaffolding, and an audit kit you can run yourself today.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -27,26 +25,27 @@
                         surface: '#1a1815',
                         surface2: '#232018',
                         primary: {
-                            DEFAULT: '#c8a96e',
-                            light: '#e8c98a',
-                            dim: '#8a6f3e',
+                            DEFAULT: '#d4b87a',
+                            light: '#ecd49a',
+                            dim: '#8a7340',
                         },
                         text: {
                             DEFAULT: '#e8e2d5',
                             dim: '#a09888',
                         },
                         accent: '#4a7c5c',
-                        rust: '#c4622d'
+                        rust: '#c4622d',
+                        live: '#7fd4ff'
                     }
                 }
             }
         }
     </script>
-    
+
     <style>
         body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
-        
-        #lattice-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.6; pointer-events: none; }
+
+        #lattice-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.5; pointer-events: none; }
         body::before {
             content: ''; position: fixed; inset: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
@@ -54,364 +53,662 @@
         }
 
         .wrap { position: relative; z-index: 2; }
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        
-        .pulse-dot { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); animation: pulse 2.5s infinite; }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); }
-            70% { box-shadow: 0 0 0 8px rgba(74,124,92,0); }
-            100% { box-shadow: 0 0 0 0 rgba(74,124,92,0); }
+
+        /* Live dot · cyan, signals "this is doing something" */
+        .live-dot {
+            display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+            background: theme('colors.live');
+            box-shadow: 0 0 0 0 rgba(127,212,255,0.55);
+            animation: live-pulse 2s infinite;
+        }
+        @keyframes live-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(127,212,255,0.55); }
+            70% { box-shadow: 0 0 0 7px rgba(127,212,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(127,212,255,0); }
         }
 
-        .code-syntax .c-comment { color: #4a4438; }
-        .code-syntax .c-keyword { color: #c8a96e; }
-        .code-syntax .c-string { color: #8ab887; }
-        .code-syntax .c-func { color: #c8a96e; }
-        .code-syntax .c-var { color: #d4c9b5; }
-        
-        .hero-overlay {
-            background: radial-gradient(circle at 50% 50%, rgba(13,12,11,0.4) 0%, rgba(13,12,11,0.95) 80%);
+        /* Header */
+        .nav-shell {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(13,12,11,0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212,184,122,0.08);
         }
+        .monogram {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            color: theme('colors.primary.DEFAULT');
+            text-transform: uppercase;
+        }
+
+        /* Tabs */
+        .tab-btn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: theme('colors.text.dim');
+            padding: 8px 14px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.15s ease, border-color 0.15s ease;
+            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+        .tab-btn:hover { color: theme('colors.text.DEFAULT'); }
+        .tab-btn.active { color: theme('colors.primary.DEFAULT'); border-bottom-color: theme('colors.primary.DEFAULT'); }
+        .tab-row { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+        @media (max-width: 720px) {
+            .tab-btn { padding: 6px 8px; font-size: 10px; letter-spacing: 0.14em; }
+        }
+
+        /* CTA pill */
+        .cta-pill {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: theme('colors.primary.DEFAULT');
+            color: theme('colors.base');
+            padding: 8px 16px;
+            border-radius: 0;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+        .cta-pill:hover { background: theme('colors.primary.light'); transform: translateY(-1px); }
+
+        /* Panes */
+        .pane { display: none; }
+        .pane.active { display: block; animation: pane-in 0.35s ease; }
+        @keyframes pane-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Section helpers */
+        .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); }
+        .kicker-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+        .kicker-row .rule { height: 1px; background: theme('colors.primary.dim'); opacity: 0.4; width: 4rem; }
+        .mono-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); }
+
+        /* Hero */
+        .hero-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: theme('colors.primary.DEFAULT');
+        }
+        .now-line {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            color: theme('colors.text.dim');
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .now-line .label { color: theme('colors.live'); letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; }
+
+        /* Tile */
+        .tile {
+            background: theme('colors.surface');
+            border: 1px solid rgba(212,184,122,0.12);
+            padding: 28px;
+            transition: all 0.18s ease;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .tile:hover { background: theme('colors.surface2'); border-color: rgba(212,184,122,0.3); transform: translateY(-2px); }
+        .tile .lead { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); }
+        .tile h3 { font-size: 1.25rem; font-weight: 700; color: theme('colors.text.DEFAULT'); letter-spacing: -0.01em; }
+        .tile p { font-size: 0.9rem; color: theme('colors.text.dim'); line-height: 1.6; flex: 1; }
+        .tile .arrow { color: theme('colors.primary.DEFAULT'); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding-top: 4px; }
+
+        /* Code block · install one-liner */
+        .install-line {
+            background: theme('colors.base');
+            border: 1px solid rgba(212,184,122,0.2);
+            border-left: 3px solid theme('colors.live');
+            padding: 16px 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: theme('colors.text.DEFAULT');
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .install-line .prompt { color: theme('colors.primary.dim'); }
+        .install-line .live-marker { color: theme('colors.live'); }
+
+        /* Person mini-card */
+        .pmini { background: theme('colors.surface'); border: 1px solid rgba(212,184,122,0.12); padding: 18px; transition: all 0.18s ease; }
+        .pmini:hover { background: theme('colors.surface2'); border-color: rgba(212,184,122,0.3); }
+        .pmini .role { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); margin-bottom: 4px; }
+        .pmini h4 { font-size: 1rem; font-weight: 700; color: theme('colors.text.DEFAULT'); margin-bottom: 4px; }
+        .pmini p { font-size: 0.8rem; color: theme('colors.text.dim'); line-height: 1.5; }
+
+        /* Tool mini */
+        .toolmini { background: theme('colors.surface'); border: 1px solid rgba(212,184,122,0.12); padding: 20px; display: flex; gap: 16px; align-items: flex-start; transition: all 0.18s ease; }
+        .toolmini:hover { background: theme('colors.surface2'); border-color: rgba(212,184,122,0.3); }
+        .toolmini .logo { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: theme('colors.base'); border: 1px solid rgba(212,184,122,0.15); }
+        .toolmini .logo img { width: 20px; height: 20px; object-fit: contain; }
+        .toolmini .logo .glyph { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 12px; color: theme('colors.primary.DEFAULT'); }
+        .toolmini .body { flex: 1; min-width: 0; }
+        .toolmini .rank { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); margin-bottom: 2px; }
+        .toolmini h4 { font-size: 0.95rem; font-weight: 700; color: theme('colors.text.DEFAULT'); margin-bottom: 4px; }
+        .toolmini p { font-size: 0.82rem; color: theme('colors.text.dim'); line-height: 1.55; }
     </style>
 </head>
 <body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
 
     <canvas id="lattice-canvas"></canvas>
 
-    <!-- Top Status Bar -->
-    <div class="fixed top-0 left-0 w-full z-[60] bg-primary text-base font-mono text-[10px] py-1.5 px-4 text-center tracking-[0.2em] uppercase font-bold">
-        AI Consultancy · Agentic Workflows · Brisbane, QLD
-    </div>
+    <!-- Header (sticky) -->
+    <header class="nav-shell wrap">
+        <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4 flex-wrap">
+            <a href="#start" class="monogram shrink-0" data-tab="start">C0x88</a>
+            <nav class="tab-row order-3 w-full md:w-auto md:order-2">
+                <button class="tab-btn" data-tab="start">Start</button>
+                <button class="tab-btn" data-tab="notes">Notes</button>
+                <button class="tab-btn" data-tab="stack">Stack</button>
+                <button class="tab-btn" data-tab="wave">Wave</button>
+                <button class="tab-btn" data-tab="kit">Kit</button>
+            </nav>
+            <a href="#start" data-tab="start" data-scroll="contact" class="cta-pill order-2 md:order-3 hidden sm:inline-block">Book Discovery →</a>
+        </div>
+    </header>
 
-    <!-- Navigation -->
-    <nav class="fixed top-8 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-base/85 backdrop-blur-md wrap border-b border-primary/10">
-        <span class="font-mono text-xs font-medium tracking-widest text-primary uppercase">Chris0x88</span>
-        <span class="flex items-center gap-2 font-mono text-[10px] tracking-widest text-text-dim uppercase">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
-            Status: Accepting Inquiries
-        </span>
-    </nav>
+    <main class="max-w-5xl mx-auto px-6 py-16 md:py-24 wrap">
 
-    <main class="max-w-4xl mx-auto px-6 pt-56 pb-24 space-y-32 wrap">
-        
-        <!-- HERO -->
-        <section class="relative z-10 text-center md:text-left">
-            <h1 class="text-6xl md:text-8xl font-bold tracking-tight text-text leading-[1.05] mb-8 reveal visible">
-                Build your capability.<br>
-                <em class="font-medium text-primary not-italic opacity-90">Don't rent it.</em>
-            </h1>
-            
-            <p class="text-xl md:text-2xl text-text-dim font-light mb-12 max-w-2xl reveal visible" style="transition-delay: 100ms;">
-                Sovereign AI scaffolding and agentic workflows. Engineered for precision, built for ownership.
-            </p>
-            
-            <div class="flex flex-wrap justify-center md:justify-start gap-6 reveal visible" style="transition-delay: 200ms;">
-                <a href="#contact" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-medium tracking-widest uppercase px-8 py-4 transition-all hover:-translate-y-px shadow-xl">
-                    ↓ Start a Conversation
-                </a>
-                <a href="#stack" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-8 py-4 transition-all hover:-translate-y-px backdrop-blur-sm">
-                    The Stack
-                </a>
-            </div>
+        <!-- ===================================================== -->
+        <!-- PANE · START -->
+        <!-- ===================================================== -->
+        <section class="pane" data-pane="start">
 
-            <p class="mt-12 text-xs font-mono text-text-dim tracking-widest uppercase opacity-60 reveal visible" style="transition-delay: 300ms;">
-                Not quite what you need? <a href="#contact" class="underline hover:text-primary">Drop us a line</a> and we'll get you on track.
-            </p>
-        </section>
-
-        <!-- THE CORE -->
-        <section class="border-b border-primary/10 pb-24">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                First Principles <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 reveal">
-                Engineering thinking.<br>
-                <em class="font-medium text-primary not-italic opacity-80">Not hype cycles.</em>
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 reveal">
-                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
-                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">01. Deterministic First</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">If code can solve it, we write code. AI is the tool for uncertainty, not a replacement for logic. We build systems your team can actually maintain.</p>
+            <!-- HERO -->
+            <div class="mb-20 reveal">
+                <p class="hero-eyebrow mb-6">Brisbane · Independent · AI Engineering Practice</p>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-text leading-[1.04] mb-6">
+                    Build your capability.<br>
+                    <em class="font-medium text-primary not-italic opacity-90">Don't rent it.</em>
+                </h1>
+                <p class="text-lg md:text-xl text-text-dim font-light mb-8 max-w-2xl leading-relaxed">
+                    I help operators install AI into the business they actually run. Not as a vendor relationship. As a capability they own.
+                </p>
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <button data-tab="kit" class="cta-pill">Run the AI audit ↓</button>
+                    <button data-tab="start" data-scroll="contact" class="font-mono text-[10px] tracking-[0.2em] uppercase font-semibold border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary px-4 py-2 transition-all">
+                        Book a call
+                    </button>
                 </div>
-                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
-                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">02. Cost Efficiency</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">We route tasks to the right model. Don't burn frontier tokens on spreadsheet formatting. Intelligence costs should scale with complexity.</p>
-                </div>
-                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
-                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">03. Full Sovereignty</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">Local scaffolding means your IP stays on your hardware. No SaaS lock-in, no surprise behavior changes from remote updates.</p>
-                </div>
-                <div class="bg-surface p-10 hover:bg-surface2 transition-all">
-                    <h3 class="text-lg font-bold text-text mb-4 uppercase tracking-tighter">04. Lean Memory</h3>
-                    <p class="text-sm text-text-dim leading-relaxed">We prioritize lightweight custom memory over heavy, token-hungry vector databases unless the scale truly demands it.</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- VISUALIZATION GAP -->
-        <section class="h-[60vh] flex flex-col justify-end pb-12 relative border-b border-primary/10">
-            <div class="max-w-md reveal">
-                <p class="font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-2">Live Visualization</p>
-                <p class="text-xs text-text-dim leading-relaxed">
-                    Background: Simulated representation of an LLM transformer lattice. Data packets (neurons) actively fire across network layers, representing local agentic inference at work.
+                <!-- Now line · cyan live indicator -->
+                <p class="now-line">
+                    <span class="live-dot"></span>
+                    <span class="label">Now</span>
+                    Shipping the onboarding kit · drafting next Field Note · open for new engagements
                 </p>
             </div>
-        </section>
 
-        <!-- PROVING GROUND -->
-        <section class="border-b border-primary/10 pb-24">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Action <div class="h-px bg-primary-dim/40 w-16"></div>
+            <!-- Three-up tile -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-20 reveal">
+                <a href="#kit" data-tab="kit" class="tile">
+                    <div class="lead">For prospects</div>
+                    <h3>The Onboarding Kit</h3>
+                    <p>A real audit you run yourself. Interview, research, brand capture, stack detection, one-page report. 30 minutes. Bring it to a discovery call.</p>
+                    <div class="arrow">Run it →</div>
+                </a>
+                <a href="#notes" data-tab="notes" class="tile">
+                    <div class="lead">Field Notes</div>
+                    <h3>Three pieces worth reading</h3>
+                    <p>Why current AI isn't intelligent. What businesses actually get from it. What a discovery session with me looks like.</p>
+                    <div class="arrow">Read →</div>
+                </a>
+                <a href="#start" data-tab="start" data-scroll="contact" class="tile">
+                    <div class="lead">Direct</div>
+                    <h3>Book a discovery call</h3>
+                    <p>90 minutes, your office or video, no slides. We map your bottlenecks and build one working thing before time's up. First session free.</p>
+                    <div class="arrow">Get in touch →</div>
+                </a>
             </div>
-            <div class="border border-primary/15 bg-surface p-10 md:p-14 relative overflow-hidden reveal">
-                <div class="absolute -top-5 -right-4 font-bold text-[10rem] text-primary/5 select-none pointer-events-none font-sans">2HR</div>
-                <h3 class="text-3xl font-bold text-text mb-6">The 2-Hour Proving Ground</h3>
-                <p class="text-lg text-text-dim max-w-2xl leading-relaxed mb-8">
-                    Walk away with something working. We map your bottlenecks, identify where AI earns its keep, and build a functioning zero-cost workflow before we wrap up. No pitch decks. No bloat.
+
+            <!-- One-paragraph "what I do" -->
+            <div class="mb-20 reveal max-w-2xl">
+                <div class="kicker-row"><span class="kicker">What I do</span><div class="rule"></div></div>
+                <p class="text-text-dim text-base leading-relaxed mb-4">
+                    I build sovereign AI scaffolding and agentic workflows for businesses that want to own the capability rather than rent it from a SaaS vendor. Engineering and law before code. Real client artefacts on file. Brisbane-based, project-engagements only, no retainers.
                 </p>
-                <div class="font-mono text-[10px] tracking-widest text-primary uppercase">
-                    Project-based · No retainers · No lock-in
-                </div>
+                <p class="text-text-dim text-base leading-relaxed">
+                    The tabs above hold the rest: my reading list, the tools I use daily, the people whose work matters, and the kit you can install on your own machine to figure out where AI fits in your business before we talk.
+                </p>
             </div>
-        </section>
 
-        <!-- STACK -->
-        <section id="stack" class="pb-24">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                The Stack <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="space-y-8 reveal">
-                    <h3 class="font-mono text-xs tracking-widest text-primary uppercase border-b border-primary/10 pb-2">Agents</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <span class="block font-bold text-text mb-1 uppercase text-sm tracking-widest">Custom Harnesses</span>
-                            <p class="text-xs text-text-dim">Purpose-built scaffolds for specific workflows. High reliability, low maintenance.</p>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-2 font-bold text-text mb-1 uppercase text-sm tracking-widest flex-wrap">
-                                <a href="https://github.com/nousresearch/hermes-agent" target="_blank" class="text-primary hover:text-primary-light transition-colors flex items-center gap-1">Hermes <span class="text-[9px] opacity-60">↗</span></a> <span class="text-text-dim">/</span> OpenClaw
-                            </div>
-                            <p class="text-xs text-text-dim mt-1">Top-tier open source options when custom builds are overkill.</p>
+            <!-- CONTACT -->
+            <div id="contact" class="pb-10 reveal">
+                <div class="kicker-row"><span class="kicker">Contact</span><div class="rule"></div></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <h2 class="text-3xl font-bold text-text mb-6 italic">Let's build.</h2>
+                        <p class="text-sm text-text-dim leading-relaxed mb-6">
+                            Whether you have a clear brief or just a problem that needs solving, reach out. AI is a tool, not a customer service representative. You'll always be dealing with a human here.
+                        </p>
+                        <div class="space-y-3">
+                            <a href="https://t.me/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
+                                ✈ Telegram: @Chris0x88
+                            </a>
+                            <a href="https://github.com/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
+                                💻 GitHub: Chris0x88
+                            </a>
                         </div>
                     </div>
-                </div>
-                <div class="space-y-8 reveal">
-                    <h3 class="font-mono text-xs tracking-widest text-primary uppercase border-b border-primary/10 pb-2">Intelligence</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex items-center gap-2 font-bold text-text mb-1 uppercase text-sm tracking-widest flex-wrap">
-                                <a href="https://github.com/openai/codex" target="_blank" class="text-primary hover:text-primary-light transition-colors flex items-center gap-1">Codex <span class="text-[9px] opacity-60">↗</span></a> <span class="text-text-dim">/</span> Claude Code
-                            </div>
-                            <p class="text-xs text-text-dim mt-1">The gold standard for rigid execution and architectural reasoning.</p>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-2 font-bold text-text mb-1 uppercase text-sm tracking-widest flex-wrap">
-                                <a href="https://openrouter.ai/rankings" target="_blank" class="text-primary hover:text-primary-light transition-colors flex items-center gap-1">OpenRouter <span class="text-[9px] opacity-60">↗</span></a>
-                            </div>
-                            <p class="text-xs text-text-dim mt-1">Dynamic model switching to keep bills low and capability high.</p>
-                        </div>
-                    </div>
+                    <form id="contactForm" class="flex flex-col gap-3">
+                        <input type="text" name="name" placeholder="Name" required class="bg-surface border border-primary/15 text-text p-3 text-sm focus:border-primary outline-none transition-colors">
+                        <input type="email" name="email" placeholder="Email" required class="bg-surface border border-primary/15 text-text p-3 text-sm focus:border-primary outline-none transition-colors">
+                        <textarea name="message" placeholder="What's the bottleneck?" required class="bg-surface border border-primary/15 text-text p-3 text-sm min-h-[110px] focus:border-primary outline-none transition-colors resize-none"></textarea>
+                        <button type="submit" class="cta-pill mt-1">Send Message</button>
+                        <div id="formSuccess" class="hidden text-accent font-mono text-[10px] tracking-widest uppercase mt-1">✓ Message Received.</div>
+                    </form>
                 </div>
             </div>
+
         </section>
 
-        <!-- FIELD NOTES -->
-        <section class="pb-24 border-b border-primary/10">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Field Notes <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <ul class="space-y-4 reveal">
+        <!-- ===================================================== -->
+        <!-- PANE · NOTES (Field Notes / blog) -->
+        <!-- ===================================================== -->
+        <section class="pane" data-pane="notes">
+            <div class="kicker-row"><span class="kicker">Field Notes · The Series</span><div class="rule"></div></div>
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-text mb-4">Three pieces<br><em class="font-medium text-primary not-italic opacity-80">worth reading</em></h1>
+            <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+                Short essays on what AI is and isn't, what businesses actually get out of it, and what a real discovery engagement looks like. Aimed at decision-makers, written for operators.
+            </p>
+
+            <ul class="space-y-3">
                 <li>
-                    <a href="/blog/ai-not-intelligent.html" class="group flex items-baseline justify-between gap-6 py-2 border-b border-primary/5 hover:border-primary/30 transition-colors">
-                        <span class="text-text group-hover:text-primary transition-colors">AI is not intelligent (yet)</span>
-                        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase shrink-0">2026.04 · 7 min</span>
+                    <a href="/blog/ai-not-intelligent.html" class="block tile">
+                        <div class="lead">Post 01 · 7 min</div>
+                        <h3>AI is not intelligent (yet)</h3>
+                        <p>Frontier models score under 1% on a benchmark a child solves. Here's what that actually means for your business, and why the most expensive component of any working AI deployment is still the human pilot.</p>
+                        <div class="arrow">Read →</div>
                     </a>
                 </li>
                 <li>
-                    <a href="/blog/business-value.html" class="group flex items-baseline justify-between gap-6 py-2 border-b border-primary/5 hover:border-primary/30 transition-colors">
-                        <span class="text-text group-hover:text-primary transition-colors">What businesses actually get from AI</span>
-                        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase shrink-0">2026.04 · 9 min</span>
+                    <a href="/blog/business-value.html" class="block tile">
+                        <div class="lead">Post 02 · 9 min</div>
+                        <h3>What businesses actually get from AI</h3>
+                        <p>Two real value streams, the data-leakage tax, and a hard rule about when not to use the magic robot. Plus, why deterministic code is still cheaper than your favourite agent for the boring jobs.</p>
+                        <div class="arrow">Read →</div>
                     </a>
                 </li>
                 <li>
-                    <a href="/blog/discovery-session.html" class="group flex items-baseline justify-between gap-6 py-2 border-b border-primary/5 hover:border-primary/30 transition-colors">
-                        <span class="text-text group-hover:text-primary transition-colors">The discovery session, what to expect</span>
-                        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase shrink-0">2026.04 · 6 min</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/resources.html" class="group flex items-baseline justify-between gap-6 py-2 border-b border-primary/5 hover:border-primary/30 transition-colors">
-                        <span class="text-text group-hover:text-primary transition-colors">Resources · stack, story, hardware</span>
-                        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase shrink-0">Reference</span>
+                    <a href="/blog/discovery-session.html" class="block tile">
+                        <div class="lead">Post 03 · 6 min</div>
+                        <h3>The discovery session, what to expect</h3>
+                        <p>A walk through the two-hour workshop. What I'll ask, what we'll map, what you walk away with. Designed to give you a working artefact and a roadmap, not a sales deck.</p>
+                        <div class="arrow">Read →</div>
                     </a>
                 </li>
             </ul>
+
+            <div class="kicker-row mt-16"><span class="kicker">Going Deeper</span><div class="rule"></div></div>
+            <a href="/resources.html" class="block tile">
+                <div class="lead">Reference</div>
+                <h3>Resources · stack, story, hardware</h3>
+                <p>The deep dive. Six people worth following, the full ranked tools rotation, the AGI ceiling essay, the industrial wave thesis with named picks, hardware strategy, and a section on staying sane while doing this work.</p>
+                <div class="arrow">Open →</div>
+            </a>
+
         </section>
 
-        <!-- CONTACT -->
-        <section id="contact" class="pb-10">
-            <div class="flex items-center gap-4 font-mono text-[10px] tracking-widest text-primary-dim uppercase mb-8 reveal">
-                Contact <div class="h-px bg-primary-dim/40 w-16"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start reveal">
-                <div>
-                    <h2 class="text-4xl font-bold text-text mb-8 italic">Let's build.</h2>
-                    <p class="text-sm text-text-dim leading-relaxed mb-8">
-                        Whether you have a clear brief or just a problem that needs solving, reach out. We're based in Brisbane and value real conversations. AI is an algorithmic tool, not a Customer Service Representative. Rest assured you will be dealing with a human at all times.
-                    </p>
-                    <div class="space-y-4">
-                        <a href="https://t.me/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
-                            ✈ Telegram: @Chris0x88
-                        </a>
-                        <a href="https://github.com/Chris0x88" target="_blank" class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-primary uppercase hover:text-primary-light transition-colors">
-                            💻 GitHub: Chris0x88
-                        </a>
+        <!-- ===================================================== -->
+        <!-- PANE · STACK -->
+        <!-- ===================================================== -->
+        <section class="pane" data-pane="stack">
+            <div class="kicker-row"><span class="kicker">The Stack</span><div class="rule"></div></div>
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-text mb-4">What I run<br><em class="font-medium text-primary not-italic opacity-80">every day</em></h1>
+            <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+                A multi-model rotation. No single model is best at everything, and the price gap between using a frontier model for a job and a cheaper specialist is enormous. Match the model to the task and the bill drops by more than half without losing quality.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-12">
+                <div class="toolmini">
+                    <div class="logo">
+                        <img src="https://cdn.simpleicons.org/anthropic/d4b87a" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=glyph>CC</span>';">
+                    </div>
+                    <div class="body">
+                        <div class="rank">01 · Architecture & Planning</div>
+                        <h4>Claude Code · Opus 4.7 (heavy)</h4>
+                        <p>Best tool I have for greenfield architecture. Fills in the gaps a senior engineer would fill without being asked.</p>
                     </div>
                 </div>
-                <form id="contactForm" class="flex flex-col gap-4">
-                    <input type="text" name="name" placeholder="Name" required class="bg-surface border border-primary/15 text-text p-4 text-sm focus:border-primary outline-none transition-colors">
-                    <input type="email" name="email" placeholder="Email" required class="bg-surface border border-primary/15 text-text p-4 text-sm focus:border-primary outline-none transition-colors">
-                    <textarea name="message" placeholder="What's the bottleneck?" required class="bg-surface border border-primary/15 text-text p-4 text-sm min-h-[120px] focus:border-primary outline-none transition-colors resize-none"></textarea>
-                    <button type="submit" class="bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-bold tracking-widest uppercase px-8 py-4 transition-all">
-                        Send Message
-                    </button>
-                    <div id="formSuccess" class="hidden text-accent font-mono text-[10px] tracking-widest uppercase mt-2">✓ Message Received.</div>
-                </form>
+                <div class="toolmini">
+                    <div class="logo">
+                        <img src="https://cdn.simpleicons.org/openai/d4b87a" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=glyph>CX</span>';">
+                    </div>
+                    <div class="body">
+                        <div class="rank">02 · Precision & Bugfix</div>
+                        <h4>Codex · GPT 5.5</h4>
+                        <p>Where Opus designs, Codex finishes. More precise on bug-hunting and data-flow correctness. Bundled with ChatGPT.</p>
+                    </div>
+                </div>
+                <div class="toolmini">
+                    <div class="logo"><span class="glyph">中</span></div>
+                    <div class="body">
+                        <div class="rank">03 · Web · Video · Bulk</div>
+                        <h4>Kimi K2 · MiniMax M2 · DeepSeek V4</h4>
+                        <p>Chinese stack. Genuinely competitive on website and video work, dramatically cheaper for bulk parsing.</p>
+                    </div>
+                </div>
+                <div class="toolmini">
+                    <div class="logo">
+                        <img src="https://cdn.simpleicons.org/googlegemini/d4b87a" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=glyph>G</span>';">
+                    </div>
+                    <div class="body">
+                        <div class="rank">04 · Visual · Stuck-Bug Killer</div>
+                        <h4>Gemini 3.1 + Antigravity</h4>
+                        <p>Savant: takes you literally. Useful for that one bug the smarter models keep missing, and for visual layer work.</p>
+                    </div>
+                </div>
             </div>
+
+            <!-- Harnesses -->
+            <div class="kicker-row"><span class="kicker">Agent Harnesses</span><div class="rule"></div></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-12">
+                <div class="pmini">
+                    <div class="role">Primary</div>
+                    <h4>Custom builds</h4>
+                    <p>Purpose-built scaffolds for specific client workflows. High reliability, low maintenance.</p>
+                </div>
+                <div class="pmini">
+                    <div class="role">Open Source</div>
+                    <h4><a href="https://github.com/nousresearch/hermes-agent" target="_blank" rel="noopener" class="hover:text-primary-light underline">Hermes</a></h4>
+                    <p>Nous Research's open agent harness. The one I reach for when a custom build is overkill but you want something local and inspectable.</p>
+                </div>
+                <div class="pmini">
+                    <div class="role">Routing</div>
+                    <h4><a href="https://openrouter.ai/rankings" target="_blank" rel="noopener" class="hover:text-primary-light underline">OpenRouter</a></h4>
+                    <p>Dynamic model switching to keep bills low and capability high. Sits behind whichever harness is on top.</p>
+                </div>
+            </div>
+
+            <a href="/resources.html#tools" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-6 py-3 transition-all">
+                ↗ Full ranked stack on the Resources page
+            </a>
+
+        </section>
+
+        <!-- ===================================================== -->
+        <!-- PANE · WAVE -->
+        <!-- ===================================================== -->
+        <section class="pane" data-pane="wave">
+            <div class="kicker-row"><span class="kicker">The Wave</span><div class="rule"></div></div>
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-text mb-4">First principles<br><em class="font-medium text-primary not-italic opacity-80">and where it's all going</em></h1>
+            <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+                The story of AI is the story of about ten people, four splits, and a power grid that wasn't built for any of this. Here's the sketch. Full version on the Resources page.
+            </p>
+
+            <!-- Principles -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 mb-16">
+                <div class="bg-surface p-7 hover:bg-surface2 transition-all">
+                    <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tight">01 · Deterministic First</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">If code can solve it, write code. AI is the tool for uncertainty, not a replacement for logic.</p>
+                </div>
+                <div class="bg-surface p-7 hover:bg-surface2 transition-all">
+                    <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tight">02 · Cost Efficiency</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">Route tasks to the right model. Don't burn frontier tokens on spreadsheet formatting.</p>
+                </div>
+                <div class="bg-surface p-7 hover:bg-surface2 transition-all">
+                    <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tight">03 · Full Sovereignty</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">Local scaffolding means your IP stays on your hardware. No SaaS lock-in.</p>
+                </div>
+                <div class="bg-surface p-7 hover:bg-surface2 transition-all">
+                    <h3 class="text-base font-bold text-text mb-2 uppercase tracking-tight">04 · Lean Memory</h3>
+                    <p class="text-sm text-text-dim leading-relaxed">Lightweight custom memory over heavy, token-hungry vector databases unless scale truly demands it.</p>
+                </div>
+            </div>
+
+            <!-- People mini-grid -->
+            <div class="kicker-row"><span class="kicker">Six worth following</span><div class="rule"></div></div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-12">
+                <div class="pmini"><div class="role">The Architect</div><h4>Ilya Sutskever</h4><p>AlexNet. OpenAI co-founder. Now SSI.</p></div>
+                <div class="pmini"><div class="role">The Scientist</div><h4>Demis Hassabis</h4><p>DeepMind. AlphaFold. Nobel 2024.</p></div>
+                <div class="pmini"><div class="role">The Teacher</div><h4>Andrej Karpathy</h4><p>nanoGPT. Zero to Hero. Eureka Labs.</p></div>
+                <div class="pmini"><div class="role">The CEO</div><h4>Dario Amodei</h4><p>Anthropic. Machines of Loving Grace.</p></div>
+                <div class="pmini"><div class="role">The Godfather</div><h4>Geoffrey Hinton</h4><p>Turing 2018. Nobel Physics 2024.</p></div>
+                <div class="pmini"><div class="role">The Builder</div><h4>Boris Cherny</h4><p>Lead engineer behind Claude Code.</p></div>
+            </div>
+
+            <!-- Industrial wave teaser -->
+            <div class="border border-primary/15 bg-surface p-8 md:p-10 relative overflow-hidden mb-12">
+                <div class="absolute -top-4 -right-2 font-bold text-[8rem] text-primary/5 select-none pointer-events-none font-sans">⚡</div>
+                <div class="kicker-row mb-3"><span class="kicker">The bottleneck nobody plans for</span><div class="rule"></div></div>
+                <h3 class="text-2xl font-bold text-text mb-3">Electricity is the only ceiling</h3>
+                <p class="text-sm text-text-dim leading-relaxed mb-3 max-w-2xl">
+                    Chips aren't the binding constraint. Algorithms aren't. <strong class="text-text">Power is.</strong> Large grid transformers, generation capacity, and cooling are the picks-and-shovels of this build-out. Lead times on critical equipment have gone from 50 weeks to 2 to 4 years.
+                </p>
+                <p class="text-sm text-text-dim leading-relaxed max-w-2xl">
+                    The Resources page covers the six choke points, named players in each, and the historical pattern (railways, electrification, autos, internet, AI infra) for the people who like to bet on the build.
+                </p>
+            </div>
+
+            <a href="/resources.html#industrials" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-6 py-3 transition-all">
+                ↗ Full Wave on the Resources page
+            </a>
+
+        </section>
+
+        <!-- ===================================================== -->
+        <!-- PANE · KIT -->
+        <!-- ===================================================== -->
+        <section class="pane" data-pane="kit">
+            <div class="kicker-row">
+                <span class="kicker"><span class="live-dot mr-2"></span>The Onboarding Kit · v1</span>
+                <div class="rule"></div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-text mb-4">Run a real audit<br><em class="font-medium text-primary not-italic opacity-80">on your own machine</em></h1>
+            <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+                A markdown skill bundle you point your AI agent at. It interviews you, researches your business from public sources, captures your branding, detects which AI providers you already have configured, and produces a one-page report. Bring the output to a discovery call and we start ten steps ahead.
+            </p>
+
+            <!-- Install one-liner -->
+            <div class="mb-3">
+                <div class="mono-tag mb-2">Install · 30 seconds</div>
+                <div class="install-line"><span class="prompt">$ </span>git clone https://github.com/Chris0x88/Chris0x88.github.io <span class="live-marker">&amp;&amp;</span> cd Chris0x88.github.io/consultant/onboarding-kit</div>
+            </div>
+            <p class="text-xs text-text-dim mb-10 leading-relaxed">
+                Then attach to <a href="/consultant/onboarding-kit/INSTALL.md#claude-code" class="text-primary hover:text-primary-light underline">Claude Code</a>, <a href="/consultant/onboarding-kit/INSTALL.md#openai-codex" class="text-primary hover:text-primary-light underline">Codex</a>, <a href="/consultant/onboarding-kit/INSTALL.md#hermes" class="text-primary hover:text-primary-light underline">Hermes</a>, or any agent that reads markdown. Tell it: "Run the onboarding kit." That's it.
+            </p>
+
+            <!-- 5 phases -->
+            <div class="kicker-row"><span class="kicker">What it does</span><div class="rule"></div></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 mb-12">
+                <div class="bg-surface p-6">
+                    <div class="mono-tag mb-2">01 · Interview</div>
+                    <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Ten questions</h4>
+                    <p class="text-sm text-text-dim leading-relaxed">A short, sharp interview. Pushes back if your answers are vague.</p>
+                </div>
+                <div class="bg-surface p-6">
+                    <div class="mono-tag mb-2">02 · Research</div>
+                    <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Public-source pass</h4>
+                    <p class="text-sm text-text-dim leading-relaxed">The agent researches your company online. Surfaces something you didn't mention.</p>
+                </div>
+                <div class="bg-surface p-6">
+                    <div class="mono-tag mb-2">03 · Branding</div>
+                    <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Brand capture</h4>
+                    <p class="text-sm text-text-dim leading-relaxed">Logo, palette, fonts, voice samples. Useful for any future build work.</p>
+                </div>
+                <div class="bg-surface p-6">
+                    <div class="mono-tag mb-2">04 · Stack</div>
+                    <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Provider detection (opt-in)</h4>
+                    <p class="text-sm text-text-dim leading-relaxed">Read-only existence checks for Anthropic, OpenAI, OpenRouter, etc. Never reads key values.</p>
+                </div>
+                <div class="bg-surface p-6 md:col-span-2">
+                    <div class="mono-tag mb-2">05 · Report</div>
+                    <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">One-page audit, themed to your brand</h4>
+                    <p class="text-sm text-text-dim leading-relaxed">Three ranked AI integration opportunities specific to you, recommended provider config, and a 90-day picture of what good looks like. Plus a structured consultant brief you can send to me when you book a call.</p>
+                </div>
+            </div>
+
+            <!-- What you walk away with -->
+            <div class="kicker-row"><span class="kicker">What you walk away with</span><div class="rule"></div></div>
+            <ul class="space-y-2 mb-12 text-text-dim">
+                <li class="flex items-baseline gap-3"><span class="font-mono text-primary text-xs">→</span> <span><strong class="text-text">audit-report.html</strong> · your one-page client report, themed to your brand</span></li>
+                <li class="flex items-baseline gap-3"><span class="font-mono text-primary text-xs">→</span> <span><strong class="text-text">consultant-brief.md</strong> · structured summary for me, ~400 words</span></li>
+                <li class="flex items-baseline gap-3"><span class="font-mono text-primary text-xs">→</span> <span><strong class="text-text">branding.json</strong> · captured colours, fonts, logos, voice</span></li>
+                <li class="flex items-baseline gap-3"><span class="font-mono text-primary text-xs">→</span> <span><strong class="text-text">stack.json</strong> · what AI providers and tools you already have</span></li>
+            </ul>
+
+            <!-- Privacy -->
+            <div class="border-l-2 border-live bg-surface p-5 mb-12">
+                <div class="mono-tag mb-2" style="color: theme('colors.live');">Privacy posture</div>
+                <p class="text-sm text-text-dim leading-relaxed">
+                    No file content reading. No directory walks. No browser history. No mail. Stack detection is opt-in and existence-checks-only, never reads key values. Nothing is transmitted off your machine. You decide what to share with me. Full <a href="/consultant/onboarding-kit/SECURITY.md" class="text-primary hover:text-primary-light underline">SECURITY.md</a> in the repo.
+                </p>
+            </div>
+
+            <!-- CTAs -->
+            <div class="flex flex-wrap gap-3">
+                <a href="/consultant/onboarding-kit/" class="cta-pill">↗ Open the Kit</a>
+                <a href="/consultant/onboarding-kit/INSTALL.md" class="font-mono text-[10px] tracking-[0.2em] uppercase font-semibold border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary px-4 py-2 transition-all">Install Guide</a>
+                <a href="https://github.com/Chris0x88/Chris0x88.github.io/tree/main/consultant/onboarding-kit" target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.2em] uppercase font-semibold border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary px-4 py-2 transition-all">View on GitHub</a>
+            </div>
+
         </section>
 
     </main>
 
     <footer class="border-t border-primary/10 py-12 wrap text-center">
-        <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Brisbane · Built for Sovereignty</span>
+        <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Chris0x88 · Brisbane · Built for Sovereignty</span>
     </footer>
 
     <script>
+    // ── TAB ROUTING ──
+    const TABS = ['start','notes','stack','wave','kit'];
+    function showTab(t, scrollTo) {
+        if (!TABS.includes(t)) t = 'start';
+        document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+        document.querySelectorAll('[data-pane]').forEach(p => p.classList.toggle('active', p.dataset.pane === t));
+        // Replace history without polluting back-stack on every click
+        if (location.hash !== '#' + t) history.replaceState(null, '', '#' + t);
+        // Re-fire reveals
+        document.querySelectorAll('.reveal').forEach(el => { el.classList.remove('visible'); io.observe(el); });
+        if (scrollTo) {
+            requestAnimationFrame(() => {
+                const el = document.getElementById(scrollTo);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+        }
+    }
+    window.addEventListener('hashchange', () => showTab(location.hash.slice(1)));
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-tab]');
+        if (!btn) return;
+        e.preventDefault();
+        showTab(btn.dataset.tab, btn.dataset.scroll);
+    });
+
+    // ── SCROLL REVEAL ──
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 60);
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── INITIAL TAB ──
+    showTab(location.hash.slice(1) || 'start');
+
+    // ── FORM ──
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('formSuccess').classList.remove('hidden');
+        this.reset();
+    });
+
     // ── TRANSFORMER LATTICE CANVAS ──
     const canvas = document.getElementById('lattice-canvas');
     const ctx = canvas.getContext('2d');
     let W, H;
     let layers = [];
     let packets = [];
-    
+
     function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-      initLattice();
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        initLattice();
     }
 
     function initLattice() {
-      layers = [];
-      packets = [];
-      const isMobile = window.innerWidth < 768;
-      const layerCount = isMobile ? 3 : 6;
-      const nodesPerLayer = isMobile ? 8 : 12;
-      const xSpacing = W / (layerCount + 1);
-      
-      for (let i = 0; i < layerCount; i++) {
-        let layer = [];
-        let ySpacing = H / (nodesPerLayer + 1);
-        for (let j = 0; j < nodesPerLayer; j++) {
-          layer.push({
-            x: xSpacing * (i + 1),
-            y: ySpacing * (j + 1) + (Math.random() - 0.5) * (isMobile ? 100 : 50),
-            originalY: ySpacing * (j + 1)
-          });
+        layers = [];
+        packets = [];
+        const isMobile = window.innerWidth < 768;
+        const layerCount = isMobile ? 3 : 6;
+        const nodesPerLayer = isMobile ? 8 : 12;
+        const xSpacing = W / (layerCount + 1);
+        for (let i = 0; i < layerCount; i++) {
+            let layer = [];
+            let ySpacing = H / (nodesPerLayer + 1);
+            for (let j = 0; j < nodesPerLayer; j++) {
+                layer.push({ x: xSpacing * (i + 1), y: ySpacing * (j + 1) + (Math.random() - 0.5) * (isMobile ? 100 : 50), originalY: ySpacing * (j + 1) });
+            }
+            layers.push(layer);
         }
-        layers.push(layer);
-      }
     }
 
     let t = 0;
     function draw() {
-      ctx.clearRect(0, 0, W, H);
-      t += 0.01;
-      
-      const isMobile = window.innerWidth < 768;
-      ctx.strokeStyle = isMobile ? 'rgba(200, 169, 110, 0.15)' : 'rgba(200, 169, 110, 0.08)';
-      ctx.lineWidth = isMobile ? 1.5 : 1;
-
-      // Draw connections
-      for (let i = 0; i < layers.length - 1; i++) {
-        for (let n1 of layers[i]) {
-          for (let n2 of layers[i+1]) {
-            ctx.beginPath();
-            ctx.moveTo(n1.x, n1.y);
-            ctx.lineTo(n2.x, n2.y);
-            ctx.stroke();
-            
-            // Randomly fire neurons
-            if (Math.random() < 0.0003) {
-              packets.push({
-                start: n1,
-                end: n2,
-                progress: 0,
-                speed: 0.01 + Math.random() * 0.02
-              });
+        ctx.clearRect(0, 0, W, H);
+        t += 0.01;
+        const isMobile = window.innerWidth < 768;
+        ctx.strokeStyle = isMobile ? 'rgba(212, 184, 122, 0.13)' : 'rgba(212, 184, 122, 0.07)';
+        ctx.lineWidth = isMobile ? 1.5 : 1;
+        for (let i = 0; i < layers.length - 1; i++) {
+            for (let n1 of layers[i]) {
+                for (let n2 of layers[i+1]) {
+                    ctx.beginPath();
+                    ctx.moveTo(n1.x, n1.y);
+                    ctx.lineTo(n2.x, n2.y);
+                    ctx.stroke();
+                    if (Math.random() < 0.0003) {
+                        packets.push({ start: n1, end: n2, progress: 0, speed: 0.01 + Math.random() * 0.02, cyan: Math.random() < 0.18 });
+                    }
+                }
             }
-          }
         }
-      }
-
-      // Update and draw nodes
-      layers.forEach((layer, i) => {
-        layer.forEach(n => {
-          n.y = n.originalY + Math.sin(t + i) * 20;
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(200, 169, 110, 0.3)';
-          ctx.fill();
+        layers.forEach((layer, i) => {
+            layer.forEach(n => {
+                n.y = n.originalY + Math.sin(t + i) * 20;
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(212, 184, 122, 0.28)';
+                ctx.fill();
+            });
         });
-      });
-
-      // Draw packets (firing neurons)
-      for (let i = packets.length - 1; i >= 0; i--) {
-        let p = packets[i];
-        p.progress += p.speed;
-        if (p.progress >= 1) {
-          packets.splice(i, 1);
-          continue;
+        for (let i = packets.length - 1; i >= 0; i--) {
+            let p = packets[i];
+            p.progress += p.speed;
+            if (p.progress >= 1) { packets.splice(i, 1); continue; }
+            let x = p.start.x + (p.end.x - p.start.x) * p.progress;
+            let y = p.start.y + (p.end.y - p.start.y) * p.progress;
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = p.cyan ? '#7fd4ff' : '#ecd49a';
+            ctx.shadowBlur = 14;
+            ctx.shadowColor = p.cyan ? '#7fd4ff' : '#d4b87a';
+            ctx.fill();
+            ctx.shadowBlur = 0;
         }
-        
-        let x = p.start.x + (p.end.x - p.start.x) * p.progress;
-        let y = p.start.y + (p.end.y - p.start.y) * p.progress;
-        
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = '#e8c98a';
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = '#c8a96e';
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      }
-
-      requestAnimationFrame(draw);
+        requestAnimationFrame(draw);
     }
-
     window.addEventListener('resize', resize);
     resize();
     draw();
-
-    // ── SCROLL REVEAL ──
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        }
-      });
-    }, { threshold: 0.05 });
-    reveals.forEach(el => observer.observe(el));
-
-    // ── FORM ──
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      document.getElementById('formSuccess').classList.remove('hidden');
-      this.reset();
-    });
     </script>
 </body>
 </html>
