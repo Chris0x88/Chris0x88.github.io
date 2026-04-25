@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<!--
+  Page:    Resources, Stack & The Story
+  Author:  Chris0x88
+  Updated: 2026-04-25
+-->
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources · Stack & Story · Chris0x88</title>
+  <meta name="description" content="The people, tools, repos and hardware I actually use. A reference page for businesses and operators getting serious about agentic AI.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'], mono: ['IBM Plex Mono','monospace'] },
+        colors: {
+          base: '#0d0c0b', surface: '#1a1815', surface2: '#232018',
+          primary: { DEFAULT: '#c8a96e', light: '#e8c98a', dim: '#8a6f3e' },
+          text: { DEFAULT: '#e8e2d5', dim: '#a09888' },
+          accent: '#4a7c5c', rust: '#c4622d'
+        }
+      } }
+    }
+  </script>
+
+  <style>
+    body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+      opacity: 0.04; z-index: 1; pointer-events: none;
+    }
+    .wrap { position: relative; z-index: 2; }
+
+    .pulse-dot { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); animation: pulse 2.5s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,124,92,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,124,92,0); }
+    }
+
+    .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); }
+    .kicker-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .kicker-row .rule { height: 1px; background: theme('colors.primary.dim'); opacity: 0.4; width: 4rem; }
+
+    .mono-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); }
+    .callout { border-left: 2px solid theme('colors.primary.DEFAULT'); background: theme('colors.surface'); padding: 1rem 1.25rem; font-size: 0.875rem; color: theme('colors.text.dim'); }
+
+    .person { background: theme('colors.surface'); border: 1px solid rgba(200,169,110,0.12); padding: 1.75rem; transition: all 0.18s ease; display: flex; flex-direction: column; gap: 0.75rem; }
+    .person:hover { background: theme('colors.surface2'); border-color: rgba(200,169,110,0.3); }
+    .person .role { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); }
+    .person h3 { font-size: 1.4rem; font-weight: 700; color: theme('colors.text.DEFAULT'); letter-spacing: -0.02em; }
+    .person .bio { font-size: 0.9rem; line-height: 1.65; color: theme('colors.text.dim'); }
+    .person .why { font-size: 0.85rem; line-height: 1.6; color: theme('colors.text.DEFAULT'); border-top: 1px solid rgba(200,169,110,0.1); padding-top: 0.75rem; margin-top: 0.25rem; }
+    .person .why strong { color: theme('colors.primary.light'); }
+    .person .links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+    .person .links a { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); border: 1px solid rgba(200,169,110,0.25); padding: 0.35rem 0.7rem; transition: all 0.15s ease; }
+    .person .links a:hover { background: theme('colors.primary.DEFAULT'); color: theme('colors.base'); }
+
+    .tool { background: theme('colors.surface'); border: 1px solid rgba(200,169,110,0.12); padding: 1.5rem; display: flex; gap: 1.25rem; align-items: flex-start; transition: all 0.18s ease; }
+    .tool:hover { background: theme('colors.surface2'); border-color: rgba(200,169,110,0.3); }
+    .tool .logo { width: 44px; height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: theme('colors.base'); border: 1px solid rgba(200,169,110,0.15); }
+    .tool .logo img { width: 24px; height: 24px; object-fit: contain; }
+    .tool .logo .glyph { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 14px; color: theme('colors.primary.DEFAULT'); }
+    .tool .body { flex: 1; min-width: 0; }
+    .tool .rank { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: theme('colors.primary.dim'); margin-bottom: 0.25rem; }
+    .tool h3 { font-size: 1.1rem; font-weight: 700; color: theme('colors.text.DEFAULT'); margin-bottom: 0.4rem; }
+    .tool p { font-size: 0.9rem; line-height: 1.6; color: theme('colors.text.dim'); }
+    .tool p strong { color: theme('colors.text.DEFAULT'); }
+    .tool .meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); margin-top: 0.5rem; }
+
+    .prose p { color: theme('colors.text.dim'); line-height: 1.75; margin-bottom: 1.1rem; font-size: 1rem; }
+    .prose p strong { color: theme('colors.text.DEFAULT'); }
+    .prose a { color: theme('colors.primary.DEFAULT'); text-decoration: underline; text-decoration-color: rgba(200,169,110,0.35); text-underline-offset: 3px; }
+    .prose a:hover { color: theme('colors.primary.light'); }
+
+    /* Lineage diagram */
+    .lineage { position: relative; border: 1px solid rgba(200,169,110,0.15); background: theme('colors.surface'); padding: 1.5rem 1rem; overflow-x: auto; }
+    .lineage svg { display: block; min-width: 720px; width: 100%; height: 360px; }
+    .lineage-node { fill: #1a1815; stroke: #c8a96e; stroke-width: 1; }
+    .lineage-node-text { fill: #e8e2d5; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; }
+    .lineage-node-sub { fill: #a09888; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .lineage-edge { fill: none; stroke: rgba(200,169,110,0.35); stroke-width: 1; }
+    .lineage-edge-dashed { stroke-dasharray: 4 3; stroke: rgba(196,98,45,0.5); }
+    .lineage-label { fill: #8a6f3e; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; }
+
+    .ranked-list { counter-reset: rl; }
+    .ranked-list > * { counter-increment: rl; }
+    .ranked-list .rank::before { content: counter(rl, decimal-leading-zero) " · "; }
+  </style>
+</head>
+<body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
+
+  <nav class="max-w-5xl mx-auto px-6 pt-10">
+    <a href="/" class="font-mono text-[10px] tracking-widest text-text-dim hover:text-primary uppercase">← Chris0x88</a>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-6 pt-10 pb-24 wrap">
+
+    <header class="flex items-center justify-between mb-12 pb-6 border-b border-primary/10 flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
+        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Resources · Updated 2026-04-25</span>
+      </div>
+      <span class="font-mono text-[10px] tracking-widest text-primary-dim uppercase">Living document</span>
+    </header>
+
+    <!-- HERO -->
+    <section class="mb-20">
+      <div class="kicker-row">
+        <span class="kicker">The Stack & The Story</span>
+        <div class="rule"></div>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-text leading-[1.05] mb-8">
+        Resources.<br>
+        <em class="font-medium text-primary not-italic opacity-90">Who, what, and why.</em>
+      </h1>
+      <p class="text-xl md:text-2xl text-text-dim font-light mb-4 max-w-3xl leading-relaxed">
+        The people I follow, the tools I run daily, the repos I lean on, and the hardware I do it on. If you're starting from zero, start here.
+      </p>
+      <p class="text-sm font-mono text-text-dim/70 tracking-widest uppercase">
+        Curated, opinionated, kept current.
+      </p>
+
+      <!-- Section nav -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-px bg-primary/10 border border-primary/10 mt-10">
+        <a href="#people" class="bg-surface hover:bg-surface2 p-4 transition-all">
+          <div class="mono-tag mb-1">01</div>
+          <div class="text-sm text-text">People</div>
+        </a>
+        <a href="#tools" class="bg-surface hover:bg-surface2 p-4 transition-all">
+          <div class="mono-tag mb-1">02</div>
+          <div class="text-sm text-text">Tools</div>
+        </a>
+        <a href="#opensource" class="bg-surface hover:bg-surface2 p-4 transition-all">
+          <div class="mono-tag mb-1">03</div>
+          <div class="text-sm text-text">Open Source</div>
+        </a>
+        <a href="#hardware" class="bg-surface hover:bg-surface2 p-4 transition-all">
+          <div class="mono-tag mb-1">04</div>
+          <div class="text-sm text-text">Hardware</div>
+        </a>
+        <a href="#sanity" class="bg-surface hover:bg-surface2 p-4 transition-all">
+          <div class="mono-tag mb-1">05</div>
+          <div class="text-sm text-text">Sanity</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PEOPLE -->
+    <!-- ============================================ -->
+    <section id="people" class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row"><span class="kicker">01 · People to Follow</span><div class="rule"></div></div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        The four worth your time<br>
+        <em class="font-medium text-primary not-italic opacity-80">Plus how they're tangled together</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+        AI Twitter is a swamp. These four are signal. Each is responsible for an outsized chunk of where we are right now, and each posts publicly enough to actually learn from.
+      </p>
+
+      <!-- Lineage Map -->
+      <div class="mb-12">
+        <div class="mono-tag mb-3">Lineage Map · how they're connected</div>
+        <div class="lineage">
+          <svg viewBox="0 0 720 340" preserveAspectRatio="xMidYMid meet">
+            <!-- Era labels -->
+            <text x="60" y="20" class="lineage-label">2012 · Toronto</text>
+            <text x="240" y="20" class="lineage-label">2015 · OpenAI founded</text>
+            <text x="470" y="20" class="lineage-label">2021–2024 · The splits</text>
+            <text x="640" y="20" class="lineage-label">Now</text>
+
+            <!-- Hinton -->
+            <rect x="20" y="40" width="120" height="44" class="lineage-node"/>
+            <text x="80" y="58" text-anchor="middle" class="lineage-node-text">Geoffrey Hinton</text>
+            <text x="80" y="74" text-anchor="middle" class="lineage-node-sub">"godfather"</text>
+
+            <!-- AlexNet (Sutskever / Krizhevsky / Hinton) -->
+            <rect x="20" y="120" width="120" height="44" class="lineage-node"/>
+            <text x="80" y="138" text-anchor="middle" class="lineage-node-text">AlexNet</text>
+            <text x="80" y="154" text-anchor="middle" class="lineage-node-sub">2012 · imagenet</text>
+
+            <!-- DeepMind (Hassabis) -->
+            <rect x="20" y="200" width="120" height="44" class="lineage-node"/>
+            <text x="80" y="218" text-anchor="middle" class="lineage-node-text">DeepMind</text>
+            <text x="80" y="234" text-anchor="middle" class="lineage-node-sub">2010 · london</text>
+
+            <!-- OpenAI -->
+            <rect x="220" y="120" width="140" height="44" class="lineage-node"/>
+            <text x="290" y="138" text-anchor="middle" class="lineage-node-text">OpenAI</text>
+            <text x="290" y="154" text-anchor="middle" class="lineage-node-sub">2015 · sutskever, altman, musk, karpathy, amodei</text>
+
+            <!-- Google DeepMind -->
+            <rect x="220" y="200" width="140" height="44" class="lineage-node"/>
+            <text x="290" y="218" text-anchor="middle" class="lineage-node-text">Google DeepMind</text>
+            <text x="290" y="234" text-anchor="middle" class="lineage-node-sub">2014 · acquired ~$500M</text>
+
+            <!-- Anthropic -->
+            <rect x="430" y="80" width="140" height="44" class="lineage-node"/>
+            <text x="500" y="98" text-anchor="middle" class="lineage-node-text">Anthropic</text>
+            <text x="500" y="114" text-anchor="middle" class="lineage-node-sub">2021 · amodei split</text>
+
+            <!-- SSI -->
+            <rect x="430" y="160" width="140" height="44" class="lineage-node"/>
+            <text x="500" y="178" text-anchor="middle" class="lineage-node-text">SSI</text>
+            <text x="500" y="194" text-anchor="middle" class="lineage-node-sub">2024 · sutskever solo</text>
+
+            <!-- Tesla / Eureka -->
+            <rect x="430" y="240" width="140" height="44" class="lineage-node"/>
+            <text x="500" y="258" text-anchor="middle" class="lineage-node-text">Tesla → Eureka Labs</text>
+            <text x="500" y="274" text-anchor="middle" class="lineage-node-sub">karpathy</text>
+
+            <!-- Today nodes -->
+            <rect x="600" y="80" width="100" height="44" class="lineage-node"/>
+            <text x="650" y="98" text-anchor="middle" class="lineage-node-text">Claude Code</text>
+            <text x="650" y="114" text-anchor="middle" class="lineage-node-sub">cherny</text>
+
+            <rect x="600" y="160" width="100" height="44" class="lineage-node"/>
+            <text x="650" y="178" text-anchor="middle" class="lineage-node-text">Safe Superintel.</text>
+            <text x="650" y="194" text-anchor="middle" class="lineage-node-sub">stealth</text>
+
+            <rect x="600" y="240" width="100" height="44" class="lineage-node"/>
+            <text x="650" y="258" text-anchor="middle" class="lineage-node-text">Open Education</text>
+            <text x="650" y="274" text-anchor="middle" class="lineage-node-sub">nanoGPT etc.</text>
+
+            <!-- Edges -->
+            <path class="lineage-edge" d="M 140 60 Q 180 60 220 130"/>
+            <path class="lineage-edge" d="M 140 140 L 220 140"/>
+            <path class="lineage-edge" d="M 140 220 L 220 220"/>
+            <path class="lineage-edge lineage-edge-dashed" d="M 360 130 Q 400 100 430 100"/>
+            <path class="lineage-edge lineage-edge-dashed" d="M 360 142 Q 400 175 430 175"/>
+            <path class="lineage-edge lineage-edge-dashed" d="M 360 155 Q 400 250 430 260"/>
+            <path class="lineage-edge" d="M 570 100 L 600 100"/>
+            <path class="lineage-edge" d="M 570 180 L 600 180"/>
+            <path class="lineage-edge" d="M 570 260 L 600 260"/>
+          </svg>
+        </div>
+        <p class="text-xs text-text-dim mt-3 leading-relaxed">
+          Solid arrows = direct lineage. Dashed = founder departure / split. Most of the modern AI industry traces back to two rooms: Hinton's lab in Toronto and the founding of OpenAI.
+        </p>
+      </div>
+
+      <!-- People grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Sutskever -->
+        <div class="person">
+          <div class="role">The Architect</div>
+          <h3>Ilya Sutskever</h3>
+          <p class="bio">
+            Co-author of <a href="https://en.wikipedia.org/wiki/AlexNet" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">AlexNet (2012)</a>, the paper that kicked off modern deep learning. Co-founded OpenAI with Sam Altman, Elon Musk, Andrej Karpathy and others in 2015. Reportedly the technical force behind every major OpenAI breakthrough through GPT-4. Was at the centre of the November 2023 Altman board firing, then the reinstatement that followed, then quietly left and founded <a href="https://ssi.inc" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Safe Superintelligence Inc.</a> in mid-2024.
+          </p>
+          <p class="why"><strong>Why follow:</strong> if you want to understand where the field is actually going (not the press releases), follow Ilya. He doesn't tweet much, which is the point. When he speaks, the field listens.</p>
+          <div class="links">
+            <a href="https://youtu.be/glWvwvhZkQ8" target="_blank" rel="noopener">Interview ↗</a>
+            <a href="https://ssi.inc" target="_blank" rel="noopener">SSI ↗</a>
+          </div>
+        </div>
+
+        <!-- Hassabis -->
+        <div class="person">
+          <div class="role">The Scientist</div>
+          <h3>Demis Hassabis</h3>
+          <p class="bio">
+            Co-founded DeepMind in London in 2010. Sold it to Google in 2014 for around <a href="https://en.wikipedia.org/wiki/DeepMind" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">USD $500–650M</a>. Won a Nobel Prize in Chemistry in 2024 for AlphaFold, which has now released predicted structures for over 200 million proteins. Former chess prodigy and lead designer on the cult game Theme Park before any of this. The most credible voice in the industry that AGI is not three Tuesdays away.
+          </p>
+          <p class="why"><strong>Why follow:</strong> Demis is honest about what AI can and can't do, in a way most CEOs in this space refuse to be. The interview below is the cleanest single explainer of his entire arc.</p>
+          <div class="links">
+            <a href="https://youtu.be/C0gErQtnNFE" target="_blank" rel="noopener">Interview ↗</a>
+            <a href="https://deepmind.google" target="_blank" rel="noopener">Google DeepMind ↗</a>
+          </div>
+        </div>
+
+        <!-- Karpathy -->
+        <div class="person">
+          <div class="role">The Teacher</div>
+          <h3>Andrej Karpathy</h3>
+          <p class="bio">
+            Co-founder of OpenAI, then Director of AI at Tesla, then back to OpenAI briefly, now running <a href="https://eurekalabs.ai" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Eureka Labs</a>. Author of <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">nanoGPT</a>, <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">micrograd</a>, and the <a href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">"Neural Networks: Zero to Hero"</a> YouTube series, which is the gold-standard self-taught path into modern ML. Coined <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">"vibe coding"</a> in February 2025, somewhat hilariously holding out from really trusting agentic coding until late in the cycle. Now he's its loudest advocate.
+          </p>
+          <p class="why"><strong>Why follow:</strong> nobody else makes the inside of these models legible like Karpathy. If you have an engineer on your team you want to level up, send them his videos.</p>
+          <div class="links">
+            <a href="https://x.com/karpathy" target="_blank" rel="noopener">X ↗</a>
+            <a href="https://github.com/karpathy" target="_blank" rel="noopener">GitHub ↗</a>
+            <a href="https://eurekalabs.ai" target="_blank" rel="noopener">Eureka Labs ↗</a>
+          </div>
+        </div>
+
+        <!-- Cherny -->
+        <div class="person">
+          <div class="role">The Builder</div>
+          <h3>Boris Cherny</h3>
+          <p class="bio">
+            Lead engineer behind <a href="https://docs.claude.com/en/docs/agents-and-tools/claude-code/overview" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Claude Code</a> at Anthropic. Author of <em>Programming TypeScript</em> (O'Reilly), formerly at Meta and Addepar. The reason Claude Code feels less like a chatbot and more like an actual engineering partner: that opinionated agent-harness design is largely his.
+          </p>
+          <p class="why"><strong>Why follow:</strong> Boris ships the tool I run all day. His public posts are short, technical, and almost always teach you something specific you can apply tomorrow. The closest you get to insight from inside Anthropic without working there.</p>
+          <div class="links">
+            <a href="https://x.com/bcherny" target="_blank" rel="noopener">X ↗</a>
+            <a href="https://github.com/bcherny" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout mt-8">
+        <span class="mono-tag mr-2">Honourable mentions</span> Dario Amodei (Anthropic CEO, the OpenAI safety split in 2021), François Chollet (creator of <a href="https://arcprize.org" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">ARC-AGI</a> and the keras library), Jeff Dean (Google's chief scientist). Worth knowing, less essential for day-to-day operator wisdom.
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- TOOLS -->
+    <!-- ============================================ -->
+    <section id="tools" class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row"><span class="kicker">02 · The Tools I Actually Use</span><div class="rule"></div></div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        Ranked by daily use<br>
+        <em class="font-medium text-primary not-italic opacity-80">For agentic coding and build work</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+        I run a multi-model stack on purpose. No single model is best at everything, and the price gap between using a frontier model for a job and a cheaper specialist model is enormous. Here's the rotation, in the order I reach for them.
+      </p>
+
+      <div class="space-y-3 ranked-list">
+
+        <div class="tool">
+          <div class="logo">
+            <img src="https://cdn.simpleicons.org/anthropic/c8a96e" alt="Anthropic" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=glyph>CC</span>';">
+          </div>
+          <div class="body">
+            <div class="rank">Primary · Architecture & Planning</div>
+            <h3>Claude Code · Opus 4.7 (heavy mode)</h3>
+            <p>The single best tool for greenfield architecture and planning. Opus consistently fills in the gaps you'd <em>expect</em> a senior engineer to fill without being asked, picks reasonable defaults, and (so far) doesn't pad output with low-value flourishes. It's the model I trust to scope a new system, not just a new file.</p>
+            <p class="meta">Usage · Heavy mode for architecture · Routine work routed elsewhere</p>
+          </div>
+        </div>
+
+        <div class="tool">
+          <div class="logo">
+            <img src="https://cdn.simpleicons.org/openai/c8a96e" alt="OpenAI" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=glyph>CX</span>';">
+          </div>
+          <div class="body">
+            <div class="rank">Precision · Bugfix & Validation</div>
+            <h3>Codex · GPT 5.5</h3>
+            <p>Where Opus designs, Codex finishes. Materially more precise on bug-hunting, data-flow correctness, calculation accuracy, and ensuring the wires actually connect the way you said they did. Bundled with a paid ChatGPT subscription, Codex itself is open source, so the cost-to-quality ratio is excellent for a clean-up pass over Opus's output.</p>
+            <p class="meta">Usage · Second pass after Opus · Cheap and accurate</p>
+          </div>
+        </div>
+
+        <div class="tool">
+          <div class="logo"><span class="glyph">中</span></div>
+          <div class="body">
+            <div class="rank">Specialist · Web, Video, Cheap Bulk</div>
+            <h3>The Chinese open-weight models</h3>
+            <p>For website-heavy work, video pipelines, and bulk parsing, the Chinese stack is now competitive and dramatically cheaper. <strong>Kimi K2</strong> (Moonshot) is excellent for agentic web tasks. <strong>MiniMax M2</strong> shines on video and long-context generation. <strong>DeepSeek V4</strong> just dropped at the time of writing and on early signals looks like the closest competitor to GPT 5.5 on precise systems work and architectural coding. I'd expect to be using it heavily within weeks.</p>
+            <p class="meta">Usage · Specific media tasks · Cost-sensitive batches · Local where possible</p>
+          </div>
+        </div>
+
+        <div class="tool">
+          <div class="logo">
+            <img src="https://cdn.simpleicons.org/googlegemini/c8a96e" alt="Gemini" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=glyph>G</span>';">
+          </div>
+          <div class="body">
+            <div class="rank">Targeted · Visual & Stuck-Bug Killer</div>
+            <h3>Gemini 3.1 + Google Antigravity / AI Studio</h3>
+            <p>Gemini 3.1 isn't as good at filling gaps or working from intuition as Opus or GPT 5.5. It's a savant: it takes you very literally. That makes it surprisingly useful for two things, killing a specific stubborn bug the smarter models keep missing, and building the visual layer of an app or site, especially when paired with Gemini's image generation. <a href="https://antigravity.google" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Google Antigravity</a> is a VS Code-style IDE Google just launched that gives you a clean view of your repo and the agent's edits side-by-side. Genuinely good. Cheap to run.</p>
+            <p class="meta">Usage · Frontend / image work · Targeted bugfix · Cleanup runs</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout mt-8" style="border-left-color: #4a7c5c;">
+        <span class="mono-tag mr-2" style="color: #4a7c5c;">Routing rule</span> Every task is either architectural, precise, visual, or bulk. Match the model to the task and your monthly bill drops by 60%+ without losing quality. This is the single most leveraged habit in the rotation.
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- OPEN SOURCE -->
+    <!-- ============================================ -->
+    <section id="opensource" class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row"><span class="kicker">03 · Open Source & GitHub</span><div class="rule"></div></div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        What I star, what I fork<br>
+        <em class="font-medium text-primary not-italic opacity-80">And why memory is the unsolved problem</em>
+      </h2>
+
+      <div class="prose mb-10 max-w-3xl">
+        <p>Most of the interesting work happening in agentic AI right now lives on GitHub, not behind a paywall. My <a href="https://github.com/Chris0x88?tab=stars" target="_blank" rel="noopener">starred repos</a> are the easiest way to see what I'm actually borrowing from at any given moment. A few categories worth highlighting:</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 mb-10">
+
+        <div class="bg-surface p-7">
+          <div class="mono-tag mb-3">Agentic Frameworks</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Claude Code · Codex · Open agent harnesses</h4>
+          <p class="text-sm text-text-dim leading-relaxed">
+            Anthropic's <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Claude Code</a> and OpenAI's <a href="https://github.com/openai/codex" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Codex CLI</a> are both open source and worth reading line by line if you want to understand modern agent design. I've used both as starting points for custom agents tailored to specific client workflows.
+          </p>
+        </div>
+
+        <div class="bg-surface p-7">
+          <div class="mono-tag mb-3">Skill Libraries</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Superpowers and friends</h4>
+          <p class="text-sm text-text-dim leading-relaxed">
+            Repos like <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">superpowers</a> are curated bundles of skills (markdown templates that standardise how an agent handles common tasks: design work, frontend builds, code review). Drop them into a project and the agent's output gets predictable in a hurry.
+          </p>
+        </div>
+
+        <div class="bg-surface p-7">
+          <div class="mono-tag mb-3">Memory Systems</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">The hard problem</h4>
+          <p class="text-sm text-text-dim leading-relaxed">
+            Memory is how an agent decides what to recall when answering you. Get it wrong in either direction and quality collapses. There are dozens of open source memory layers in active development. None has won yet. <strong>This is where the architecture is most likely to change in the next 18 months.</strong>
+          </p>
+        </div>
+
+        <div class="bg-surface p-7">
+          <div class="mono-tag mb-3">Blockchain Bridges</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Agents that can transact</h4>
+          <p class="text-sm text-text-dim leading-relaxed">
+            A personal interest of mine: open source plugins that let agents interact with blockchain securely (sign transactions, hold custody, pay for data, compensate other agents). The eventual fusion is robotics + agent + wallet, real-world action without a human in every loop.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="prose max-w-3xl">
+        <h3 class="text-text font-bold text-xl mt-8 mb-3 uppercase tracking-tight">A note on context rot</h3>
+        <p>The hardest current problem in agentic AI is memory. Stuff too much into the context window and the agent gets confused about what to prioritise (formally called <strong>context rot</strong>, output quality drops, hallucinations rise). Provide too little and the agent answers shallowly with no history of your project. Both failure modes are common and both are bad.</p>
+        <p><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP servers</a> and skill files are useful, but mildly overrated. They're patches on a deeper architectural shortfall in how today's models retrieve and prioritise information before answering. I'd expect the model and harness architecture to bend significantly toward better memory over the next 18 to 24 months. Until then, summarisation-based memory systems also quietly inflate your bill: many of them call an LLM to re-summarise the entire conversation after every prompt, and important detail leaks out in the process.</p>
+        <p><strong>Until memory is solved, agents are exceptional in single-shot or 3 to 5 turn workflows, and degrade fast past that.</strong> Design accordingly.</p>
+      </div>
+
+      <div class="mt-10">
+        <a href="https://github.com/Chris0x88?tab=stars" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-6 py-3 transition-all">
+          ↗ My GitHub Stars
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- HARDWARE -->
+    <!-- ============================================ -->
+    <section id="hardware" class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row"><span class="kicker">04 · Hardware</span><div class="rule"></div></div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        Buy modestly. Buy soon-ish, not now.<br>
+        <em class="font-medium text-primary not-italic opacity-80">The whole rig is about to get 100× cheaper</em>
+      </h2>
+
+      <div class="prose max-w-3xl mb-10">
+        <p>I run my entire consultancy on a base-model 16GB <a href="https://www.apple.com/shop/buy-mac/mac-mini" target="_blank" rel="noopener">Mac Mini (M4)</a>, around AUD $1,000, paired with an iPhone five generations out of date. That's it. No tower, no GPU rig. The work happens against APIs and cheap subscriptions, not local compute.</p>
+        <p>This is the right setup for almost everyone right now. Compute is improving so fast that any serious hardware purchase you make today will look ridiculous in three years. Independent estimates from <a href="https://epochai.org/blog/algorithmic-progress-in-language-models" target="_blank" rel="noopener">Epoch AI</a> and others put the cost-to-capability gain at roughly 5 to 20× over the next 1 to 2 years, and 100× over 3 to 5 years. Buying frontier-grade compute now is the technological equivalent of buying a plasma TV in 2007.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10 mb-8">
+
+        <div class="bg-surface p-7">
+          <div class="mono-tag mb-3 flex items-center gap-2">
+            <img src="https://cdn.simpleicons.org/apple/c8a96e" alt="" class="w-3 h-3"
+                 onerror="this.style.display='none'">
+            Recommended
+          </div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Mac (M-series)</h4>
+          <p class="text-sm text-text-dim leading-relaxed">
+            For builders and operators, Apple Silicon is the gold standard right now. Cleaner OS integration, fewer driver hellscapes, real efficiency. Base 16GB Mac Mini gets you started. <strong>For comfort, prioritise storage (512GB+) over RAM</strong>, you'll feel storage pressure long before RAM if you're API-first. RAM only matters if you start running local open-weight models like <a href="https://blog.google/technology/developers/gemma-3" target="_blank" rel="noopener" class="text-primary hover:text-primary-light underline">Gemma</a> on-device, in which case shoot for 64GB+.
+          </p>
+        </div>
+
+        <div class="bg-surface p-7">
+          <div class="mono-tag mb-3" style="color: #c4622d;">Tread carefully</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tight">Intel · AMD · Nvidia rigs</h4>
+          <p class="text-sm text-text-dim leading-relaxed">
+            All capable. All currently a mess of driver compatibility issues, motherboard chipset bugs, and Linux support gaps thanks to how rapidly the underlying silicon has changed. If you already have a working Linux + CUDA workstation, great. Don't build one from scratch right now if you can avoid it. Wait one cycle for the dust to settle.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="callout">
+        <span class="mono-tag mr-2">Strategy</span> Run a high subscription bias for now (Anthropic, OpenAI, OpenRouter). Maintain a modest local machine. Reassess in 12 to 18 months when consumer-grade compute that can host capable local models becomes genuinely affordable. The infrastructure refresh is coming, and it's going to be brutal for early movers who paid in 2025.
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SANITY -->
+    <!-- ============================================ -->
+    <section id="sanity" class="mb-24 border-b border-primary/10 pb-24">
+      <div class="kicker-row"><span class="kicker">05 · Mental Health</span><div class="rule"></div></div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        AI psychosis is real<br>
+        <em class="font-medium text-primary not-italic opacity-80">Don't catch it</em>
+      </h2>
+
+      <div class="prose max-w-3xl">
+        <p>The pace and excitement around AI is genuinely too much for a normal human nervous system to keep up with. People are getting weird about it. Some are doing 18-hour sessions and grinding themselves into the ground. Others are forming actual emotional attachments to chatbots and slipping into magical thinking. Both are bad outcomes and both are increasingly common.</p>
+        <p>A few rules I run on, professional and personal:</p>
+        <ul class="list-none space-y-2 my-5">
+          <li><strong class="text-text">·</strong> <strong class="text-text">Long, deep sessions are fine for hard work.</strong> Architecting a complex system or hunting a tricky bug benefits from staying in flow. Take real breaks between, sleep properly, eat actual food.</li>
+          <li><strong class="text-text">·</strong> <strong class="text-text">Light, fun work in short bursts.</strong> Dashboards, websites, image-heavy projects, do them in a morning, ship them, move on. Don't over-stay these.</li>
+          <li><strong class="text-text">·</strong> <strong class="text-text">Stuck on a model? Wait two weeks.</strong> A new release will probably solve the bug for you. The advantage of moving fast is real, but the advantage of moving fast in the <em>right direction</em> is much bigger. Shipping a wrong-thing-fast is a special form of expensive.</li>
+          <li><strong class="text-text">·</strong> <strong class="text-text">The model is not alive.</strong> It is a probabilistic next-token predictor running on enormous matrices of numbers. It is genuinely impressive, sometimes uncanny, and absolutely not conscious. If you find yourself emotionally attached to it, log off and go talk to a person.</li>
+          <li><strong class="text-text">·</strong> <strong class="text-text">Local beats global.</strong> Most of the value left on the table is in combining these tools in clever ways for <em>your</em> specific business or workflow. You don't need to compete with OpenAI to win.</li>
+        </ul>
+        <p>Move fast. Don't move at break-neck speed. There's a difference, and the difference is whether you're still functional in three months.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="border border-primary/15 bg-surface p-10 md:p-14 relative overflow-hidden">
+      <div class="absolute -top-5 -right-4 font-bold text-[10rem] text-primary/5 select-none pointer-events-none font-sans">⌖</div>
+      <div class="kicker-row"><span class="kicker">Use this stack with me</span><div class="rule"></div></div>
+      <h3 class="text-3xl font-bold text-text mb-4">Want this configured for your business?</h3>
+      <p class="text-text-dim max-w-2xl leading-relaxed mb-8">
+        The stack on this page is what I bring into every engagement. The <a href="/blog/discovery-session.html" class="text-primary hover:text-primary-light underline">two-hour discovery session</a> is where we figure out which slice of it is right for you. First session is on me.
+      </p>
+      <a href="/#contact" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-medium tracking-widest uppercase px-8 py-4 transition-all hover:-translate-y-px shadow-xl">
+        ↓ Start a Conversation
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-primary/10 py-12 wrap text-center">
+    <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Chris0x88 · Brisbane · <a href="/" class="hover:text-primary">Home</a></span>
+  </footer>
+
+</body>
+</html>
