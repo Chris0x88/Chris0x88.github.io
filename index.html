@@ -172,7 +172,6 @@
         .tile-img {
             margin: -28px -28px 8px -28px;
             aspect-ratio: 16 / 9;
-            max-height: 240px;
             background: theme('colors.base');
             overflow: hidden;
             border-bottom: 1px solid rgba(212,184,122,0.15);
@@ -245,7 +244,7 @@
                 <button class="tab-btn" data-tab="start">Start</button>
                 <button class="tab-btn" data-tab="blog">Blog</button>
                 <button class="tab-btn" data-tab="stack">Stack</button>
-                <a href="/resources.html" class="tab-btn flex items-center justify-center" style="text-decoration:none;">Resources</a>
+                <a href="https://chris0x88.github.io/resources.html" target="_blank" class="tab-btn flex items-center justify-center" style="text-decoration:none;"><!-- KI: always use absolute URL and _blank for resources so tabs don't vanish -->Resources ↗</a>
                 <button class="tab-btn" data-tab="builds">Builds</button>
                 <button class="tab-btn" data-tab="kit">Kit</button>
             </nav>
@@ -363,7 +362,7 @@
                 Three serious papers on where AI actually is, where it isn't, and what to do with the gap. Months of research and field work behind each one. Not LinkedIn slop, not a recycled vendor pitch, and not the sanitised version most consultants give you. Written for operators who'd rather think than be sold to.
             </p>
 
-            <ul class="space-y-3">
+            <ul class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <li>
                     <a href="/blog/discovery-session.html" class="block tile">
                         <div class="tile-img">
@@ -403,7 +402,8 @@
             </ul>
 
             <div class="kicker-row mt-16"><span class="kicker">Going Deeper</span><div class="rule"></div></div>
-            <a href="/resources.html" class="block tile">
+            <a href="https://chris0x88.github.io/resources.html" target="_blank" class="block tile">
+                <!-- KI: always use absolute URL and _blank for resources -->
                 <div class="tile-img">
                     <img src="images/blog/resources.png" alt="AI Resources and Tech Stack Visualization" loading="lazy">
                     <span class="corner-tag">Deep Dive</span>
@@ -487,7 +487,8 @@
                 </div>
             </div>
 
-            <a href="/resources.html#tools" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-6 py-3 transition-all">
+            <a href="https://chris0x88.github.io/resources.html#tools" target="_blank" class="inline-flex items-center gap-2 border border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-mono text-[11px] font-medium tracking-widest uppercase px-6 py-3 transition-all">
+                <!-- KI: always use absolute URL and _blank for resources -->
                 ↗ Full ranked stack on the Resources page
             </a>
 
