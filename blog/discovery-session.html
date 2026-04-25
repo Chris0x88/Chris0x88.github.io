@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<!--
+  Post:    Discovery Session · What to Expect
+  Author:  Chris0x88
+  Date:    2026-04-25
+-->
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Discovery Session · What to Expect · Chris0x88</title>
+  <meta name="description" content="A walkthrough of the two-hour AI discovery workshop. What I'll ask, what we'll map, what you'll walk away with. Designed to give you a working artefact and a roadmap, not a sales deck.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'], mono: ['IBM Plex Mono','monospace'] },
+        colors: {
+          base: '#0d0c0b', surface: '#1a1815', surface2: '#232018',
+          primary: { DEFAULT: '#c8a96e', light: '#e8c98a', dim: '#8a6f3e' },
+          text: { DEFAULT: '#e8e2d5', dim: '#a09888' },
+          accent: '#4a7c5c', rust: '#c4622d'
+        }
+      } }
+    }
+  </script>
+
+  <style>
+    body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+      opacity: 0.04; z-index: 1; pointer-events: none;
+    }
+    .wrap { position: relative; z-index: 2; }
+
+    .pulse-dot { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); animation: pulse 2.5s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,124,92,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,124,92,0); }
+    }
+
+    .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); }
+    .kicker-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .kicker-row .rule { height: 1px; background: theme('colors.primary.dim'); opacity: 0.4; width: 4rem; }
+
+    .mono-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); }
+    .callout { border-left: 2px solid theme('colors.primary.DEFAULT'); background: theme('colors.surface'); padding: 1rem 1.25rem; font-size: 0.875rem; color: theme('colors.text.dim'); }
+
+    .prose p { color: theme('colors.text.dim'); line-height: 1.75; margin-bottom: 1.25rem; font-size: 1.0625rem; }
+    .prose p strong { color: theme('colors.text.DEFAULT'); font-weight: 600; }
+    .prose a { color: theme('colors.primary.DEFAULT'); text-decoration: underline; text-decoration-color: rgba(200,169,110,0.35); text-underline-offset: 3px; }
+    .prose a:hover { color: theme('colors.primary.light'); }
+    .prose ul { color: theme('colors.text.dim'); margin-bottom: 1.25rem; padding-left: 1.25rem; }
+    .prose ul li { margin-bottom: 0.5rem; line-height: 1.7; }
+
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .chev { transform: rotate(90deg); }
+    .chev { display: inline-block; transition: transform 0.15s ease; }
+  </style>
+</head>
+<body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
+
+  <nav class="max-w-4xl mx-auto px-6 pt-10">
+    <a href="/" class="font-mono text-[10px] tracking-widest text-text-dim hover:text-primary uppercase">← Chris0x88</a>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-10 pb-24 wrap">
+
+    <header class="flex items-center justify-between mb-12 pb-6 border-b border-primary/10 flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
+        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Field Notes · 2026-04-25</span>
+      </div>
+      <span class="font-mono text-[10px] tracking-widest text-primary-dim uppercase">Post 03 of 03</span>
+    </header>
+
+    <!-- HERO -->
+    <section class="mb-20">
+      <div class="kicker-row">
+        <span class="kicker">The Two-Hour Proving Ground</span>
+        <div class="rule"></div>
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-text leading-[1.05] mb-8">
+        Discovery session.<br>
+        <em class="font-medium text-primary not-italic opacity-90">What to expect.</em>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-text-dim font-light mb-10 max-w-2xl leading-relaxed">
+        Two hours, your office or mine, no slides. We map your bottlenecks, build one working thing, and you keep everything we make.
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Format</div>
+          <div class="text-sm text-text">2-hour workshop</div>
+        </div>
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Cost</div>
+          <div class="text-sm text-text">First session, free</div>
+        </div>
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Output</div>
+          <div class="text-sm text-text">Working artefact + roadmap</div>
+        </div>
+        <div class="bg-surface p-5">
+          <div class="mono-tag mb-1">Lock-in</div>
+          <div class="text-sm text-text">None. Project-based only.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTENT -->
+    <section class="mb-24">
+      <div class="prose">
+        <p>I run discovery sessions because I refuse to quote work without seeing the inside of the business first. Generic AI consulting is how you end up with a six-figure invoice for a chatbot nobody uses. <strong>Specific consulting starts with looking.</strong></p>
+        <p>Here's exactly what happens when you book one. No mystery, no theatrics. The whole point is that you walk in prepared and walk out with something tangible.</p>
+      </div>
+    </section>
+
+    <!-- THE THREE PHASES -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">The session, in three phases</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        Map. Sort. Build.<br>
+        <em class="font-medium text-primary not-italic opacity-80">In that order.</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-12 leading-relaxed">
+        The agenda below is the default. We can flex it if you arrive with a specific bottleneck already in mind, but most clients benefit from working through all three phases at least once.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+
+        <details class="bg-surface hover:bg-surface2 transition-all">
+          <summary class="p-8 block">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="mono-tag mb-4">Phase 01 · ~30 min</div>
+                <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Map the day</h3>
+                <p class="text-sm text-text-dim leading-relaxed">We walk through a typical week, app by app, click by click. The goal is to find the workflows that actually eat time, not the ones that <em>feel</em> like they do.</p>
+              </div>
+              <span class="chev text-primary text-xl pt-1 shrink-0">›</span>
+            </div>
+          </summary>
+          <div class="px-8 pb-8 -mt-2 border-t border-primary/10 pt-5 text-sm text-text-dim leading-relaxed space-y-3">
+            <p>I'll ask you to literally show me your screen. Open the apps you use. Talk me through the Monday-morning routine, the Friday-afternoon report, the thing your operations manager keeps complaining about.</p>
+            <p>I take notes on three things: <strong>repeated clicks</strong>, <strong>copy-paste between systems</strong>, and <strong>data that arrives in a slightly different shape every time</strong>. Each of those is a different kind of opportunity.</p>
+            <p>You don't need to prepare a deck. The messier and more honest the walkthrough, the better the output.</p>
+          </div>
+        </details>
+
+        <details class="bg-surface hover:bg-surface2 transition-all">
+          <summary class="p-8 block">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="mono-tag mb-4">Phase 02 · ~30 min</div>
+                <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Sort the work</h3>
+                <p class="text-sm text-text-dim leading-relaxed">Each bottleneck gets routed into one of three buckets: <strong>code it</strong>, <strong>agent it</strong>, or <strong>leave it alone</strong>. Most "AI projects" get this wrong on day one.</p>
+              </div>
+              <span class="chev text-primary text-xl pt-1 shrink-0">›</span>
+            </div>
+          </summary>
+          <div class="px-8 pb-8 -mt-2 border-t border-primary/10 pt-5 text-sm text-text-dim leading-relaxed space-y-3">
+            <p>If a job has uniform inputs and a uniform output (a daily CSV, a templated report, a known API call), it goes in the <strong>deterministic</strong> bucket. We solve it with a script. AI compute is overkill and probabilistic drift will eventually bite you.</p>
+            <p>If a job has messy, non-uniform input (résumés, support tickets, free-text emails, a folder of inconsistent invoices), it goes in the <strong>agentic</strong> bucket. That's where the model earns its keep.</p>
+            <p>And some things stay manual. If a workflow is genuinely better as a human task, judgement-heavy, high-stakes, low frequency, I'll tell you that. The honest answer matters more than the billable answer.</p>
+          </div>
+        </details>
+
+        <details class="bg-surface hover:bg-surface2 transition-all">
+          <summary class="p-8 block">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="mono-tag mb-4">Phase 03 · ~60 min</div>
+                <h3 class="text-lg font-bold text-text mb-3 uppercase tracking-tighter">Build one thing</h3>
+                <p class="text-sm text-text-dim leading-relaxed">We pick the smallest meaningful win and ship it before time's up. A working skill, a script, a starter agent, something you can demo to your team on Monday.</p>
+              </div>
+              <span class="chev text-primary text-xl pt-1 shrink-0">›</span>
+            </div>
+          </summary>
+          <div class="px-8 pb-8 -mt-2 border-t border-primary/10 pt-5 text-sm text-text-dim leading-relaxed space-y-3">
+            <p>This is the non-negotiable bit. <strong>You don't leave the room without a working artefact.</strong> The form depends on what we mapped, could be a Claude Code skill that does your weekly reconciliation, a Python script that parses your messy invoices, a starter agent wired to your Telegram.</p>
+            <p>It will not be polished. It will work. That's the point. Polish is a separate engagement; proof-of-life is what discovery is for.</p>
+            <p>You keep all the code, all the prompts, all the configs. No SaaS account I control, no key tied to me, nothing you'd lose if I disappeared.</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- WHAT TO BRING -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">How to prepare</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        What to bring<br>
+        <em class="font-medium text-primary not-italic opacity-80">Less than you'd think</em>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Required</div>
+          <ul class="text-sm text-text-dim space-y-3 leading-relaxed">
+            <li>· <strong class="text-text">A laptop</strong> with the systems you use day-to-day already logged in.</li>
+            <li>· <strong class="text-text">One person</strong> who can answer "why do we do it this way?" with more than a shrug. Often the founder, sometimes the ops lead.</li>
+            <li>· <strong class="text-text">A real example</strong> of one repeating job. Last week's report, an actual customer email, a representative invoice. Not a sanitised demo version.</li>
+          </ul>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Helpful but optional</div>
+          <ul class="text-sm text-text-dim space-y-3 leading-relaxed">
+            <li>· A list of your current SaaS subscriptions (and a rough monthly spend).</li>
+            <li>· Any AI experiments you've already tried, even the ones that flopped. Especially those.</li>
+            <li>· A vague problem statement. "We feel like our finance team is drowning" is enough to start with.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout mt-8">
+        <span class="mono-tag mr-2">Don't</span> Don't pre-write a brief. Don't sanitise the workflow. Don't tidy your desktop. The faster I see the actual mess, the more useful the session.
+      </div>
+    </section>
+
+    <!-- WHAT YOU LEAVE WITH -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">The deliverable</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        What you walk out with<br>
+        <em class="font-medium text-primary not-italic opacity-80">Three things, every time</em>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">01 · Working artefact</div>
+          <p class="text-sm text-text-dim leading-relaxed">A skill, script, or starter agent that solves one real bottleneck. Demonstrably running on your hardware before I leave.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">02 · Written debrief</div>
+          <p class="text-sm text-text-dim leading-relaxed">A short document, like <a href="/canex/debrief.html" class="text-primary hover:text-primary-light underline">this one I wrote for Canex</a>, covering what we found, what we built, and a sequenced roadmap. Yours to share internally.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">03 · Honest verdict</div>
+          <p class="text-sm text-text-dim leading-relaxed">A frank read on whether you need ongoing help, a one-off build, or just an internal hire and a nudge in the right direction. Sometimes the answer is "you've got this." That's a fine outcome.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOVEREIGNTY CHECK -->
+    <section class="mb-32 border-b border-primary/10 pb-24">
+      <div class="kicker-row">
+        <span class="kicker">A bit we always cover</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Sovereignty audit<br>
+        <em class="font-medium text-primary not-italic opacity-80">Where is your data going?</em>
+      </h2>
+      <p class="text-text-dim max-w-2xl mb-10 leading-relaxed">
+        Most businesses have no idea how much of their proprietary data is currently passing through American hyperscaler infrastructure every single day. We sketch the map. As I argued in <a href="/blog/business-value.html" class="text-primary hover:text-primary-light underline">post two</a>, agents are a much leakier boundary than chat, and most modern AI deployments are quietly graduating from one to the other.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Cheap & fast</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tighter">Hosted frontier models</h4>
+          <p class="text-sm text-text-dim leading-relaxed">Best capability per dollar. Right answer for most workflows. Trade-off: your prompts and any data they touch live, briefly or permanently, on someone else's machine.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-3">Defensive</div>
+          <h4 class="text-base font-bold text-text mb-2 uppercase tracking-tighter">Local open-weight stack</h4>
+          <p class="text-sm text-text-dim leading-relaxed">Your hardware, your network, your data never leaves the building. Capability is a notch behind frontier. Right answer when sensitivity beats raw output quality.</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-text-dim max-w-2xl mt-8 leading-relaxed">
+        We decide which workflows belong on which side of that line, and the rationale gets written into the debrief. <strong>Most businesses end up running a mix.</strong> A small set of sensitive jobs locally, the rest on cheap API calls.
+      </p>
+    </section>
+
+    <!-- AFTER -->
+    <section class="mb-24">
+      <div class="kicker-row">
+        <span class="kicker">After the session</span>
+        <div class="rule"></div>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">
+        Three honest paths<br>
+        <em class="font-medium text-primary not-italic opacity-80">No retainers, ever</em>
+      </h2>
+
+      <div class="space-y-px bg-primary/10 border border-primary/10">
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-2">Path A</div>
+          <h4 class="text-base font-bold text-text mb-2">You take it from here.</h4>
+          <p class="text-sm text-text-dim leading-relaxed">Plenty of clients leave the discovery session with enough direction to run the playbook themselves, especially if they already have a sharp internal hire. That's a win for me. Send me a postcard when it ships.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-2">Path B</div>
+          <h4 class="text-base font-bold text-text mb-2">Project-based build.</h4>
+          <p class="text-sm text-text-dim leading-relaxed">We agree on a defined scope from the roadmap, usually two to six weeks, and I build it. Fixed fee, defined deliverables. When it ships, the engagement ends. Easy to start, easy to finish.</p>
+        </div>
+        <div class="bg-surface p-8">
+          <div class="mono-tag mb-2">Path C</div>
+          <h4 class="text-base font-bold text-text mb-2">Ongoing pilot training.</h4>
+          <p class="text-sm text-text-dim leading-relaxed">If your bet is on training a junior internal AI pilot, usually the highest-leverage move, I work alongside them as a coach for an agreed window. They drive, I review, they level up fast. Then I leave.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="border border-primary/15 bg-surface p-10 md:p-14 relative overflow-hidden mb-12">
+      <div class="absolute -top-5 -right-4 font-bold text-[10rem] text-primary/5 select-none pointer-events-none font-sans">2HR</div>
+      <div class="kicker-row"><span class="kicker">Book a session</span><div class="rule"></div></div>
+      <h3 class="text-3xl font-bold text-text mb-4">Ready when you are.</h3>
+      <p class="text-text-dim max-w-2xl leading-relaxed mb-8">
+        Brisbane in person, anywhere on a video call. The first session is on me, I'd rather earn the next one with a working artefact than a slide deck.
+      </p>
+      <a href="/#contact" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-base font-mono text-[11px] font-medium tracking-widest uppercase px-8 py-4 transition-all hover:-translate-y-px shadow-xl">
+        ↓ Start a Conversation
+      </a>
+    </section>
+
+    <!-- ARCHIVE -->
+    <section class="mt-16 pt-10 border-t border-primary/10">
+      <div class="kicker-row"><span class="kicker">The Series</span><div class="rule"></div></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="/blog/ai-not-intelligent.html" class="block bg-surface hover:bg-surface2 transition-all p-6 border border-primary/15">
+          <div class="kicker mb-2">Post 01</div>
+          <h4 class="text-lg font-bold text-text mb-1">AI is not intelligent (yet)</h4>
+          <p class="text-sm text-text-dim">Why the smartest models on earth fail a benchmark a child solves, and what it means for your business.</p>
+        </a>
+        <a href="/blog/business-value.html" class="block bg-surface hover:bg-surface2 transition-all p-6 border border-primary/15">
+          <div class="kicker mb-2">Post 02</div>
+          <h4 class="text-lg font-bold text-text mb-1">What businesses actually get from AI</h4>
+          <p class="text-sm text-text-dim">Two real value streams, the data-leakage tax, and when to use code instead of an agent.</p>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-primary/10 py-12 wrap text-center">
+    <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Chris0x88 · Brisbane · <a href="/" class="hover:text-primary">Home</a></span>
+  </footer>
+
+</body>
+</html>

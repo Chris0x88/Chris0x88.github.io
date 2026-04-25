@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+  Post:    AI Is Not Intelligent (Yet)
+  Author:  Chris0x88
+  Date:    2026-04-25
+-->
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Is Not Intelligent (Yet) · Chris0x88</title>
+  <meta name="description" content="Frontier models score under 1% on a benchmark a child can solve. Here's what that actually means for your business, and why a good AI pilot is still the most expensive component of the stack.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'], mono: ['IBM Plex Mono','monospace'] },
+        colors: {
+          base: '#0d0c0b', surface: '#1a1815', surface2: '#232018',
+          primary: { DEFAULT: '#c8a96e', light: '#e8c98a', dim: '#8a6f3e' },
+          text: { DEFAULT: '#e8e2d5', dim: '#a09888' },
+          accent: '#4a7c5c', rust: '#c4622d'
+        }
+      } }
+    }
+  </script>
+
+  <style>
+    body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+      opacity: 0.04; z-index: 1; pointer-events: none;
+    }
+    .wrap { position: relative; z-index: 2; }
+
+    .pulse-dot { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); animation: pulse 2.5s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,124,92,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,124,92,0); }
+    }
+
+    .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); }
+    .kicker-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .kicker-row .rule { height: 1px; background: theme('colors.primary.dim'); opacity: 0.4; width: 4rem; }
+
+    .prose p { color: theme('colors.text.dim'); line-height: 1.75; margin-bottom: 1.25rem; font-size: 1.0625rem; }
+    .prose p strong { color: theme('colors.text.DEFAULT'); font-weight: 600; }
+    .prose a { color: theme('colors.primary.DEFAULT'); text-decoration: underline; text-decoration-color: rgba(200,169,110,0.35); text-underline-offset: 3px; }
+    .prose a:hover { color: theme('colors.primary.light'); }
+    .prose h2 { color: theme('colors.text.DEFAULT'); font-size: 1.875rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 3rem; margin-bottom: 1rem; }
+    .prose h3 { color: theme('colors.text.DEFAULT'); font-size: 1.25rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: -0.01em; }
+    .prose ul { color: theme('colors.text.dim'); margin-bottom: 1.25rem; padding-left: 1.25rem; }
+    .prose ul li { margin-bottom: 0.5rem; line-height: 1.7; }
+    .prose blockquote { border-left: 2px solid theme('colors.primary.DEFAULT'); background: theme('colors.surface'); padding: 1rem 1.25rem; margin: 1.5rem 0; color: theme('colors.text.dim'); font-style: italic; }
+    .prose code { font-family: 'IBM Plex Mono', monospace; color: theme('colors.primary.light'); background: theme('colors.surface'); padding: 0.1rem 0.4rem; font-size: 0.9em; }
+
+    .stat-card { background: theme('colors.surface'); border: 1px solid rgba(200,169,110,0.15); padding: 1.5rem; }
+    .stat-num { font-size: 2.5rem; font-weight: 700; color: theme('colors.rust'); font-family: 'IBM Plex Mono', monospace; line-height: 1; }
+    .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: theme('colors.text.dim'); margin-top: 0.5rem; }
+  </style>
+</head>
+<body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
+
+  <nav class="max-w-3xl mx-auto px-6 pt-10">
+    <a href="/" class="font-mono text-[10px] tracking-widest text-text-dim hover:text-primary uppercase">← Chris0x88</a>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 pt-10 pb-24 wrap">
+
+    <header class="flex items-center justify-between mb-12 pb-6 border-b border-primary/10 flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
+        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Field Notes · 2026-04-25</span>
+      </div>
+      <span class="font-mono text-[10px] tracking-widest text-primary-dim uppercase">Post 01 of 03</span>
+    </header>
+
+    <section class="mb-16">
+      <div class="kicker-row">
+        <span class="kicker">First Principles</span>
+        <div class="rule"></div>
+      </div>
+
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-text leading-[1.05] mb-8">
+        AI is not intelligent.<br>
+        <em class="font-medium text-primary not-italic opacity-90">Yet.</em>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-text-dim font-light mb-6 leading-relaxed">
+        It is, however, a phenomenally fast librarian with a photographic memory and absolutely no idea what to do on its day off.
+      </p>
+
+      <p class="text-sm font-mono text-text-dim/70 tracking-widest uppercase">
+        ~7 min read · Setting expectations
+      </p>
+    </section>
+
+    <article class="prose">
+
+      <p>People walk into AI consults with their eyes shining. They've been told their business is about to be replaced by a sentient toaster, that the singularity is queued behind their morning coffee, and that whoever ships the next chatbot wins the universe.</p>
+
+      <p>I love the enthusiasm. I have to gently dismantle most of it.</p>
+
+      <p>Here's the unromantic truth: <strong>today's frontier AI is not particularly intelligent.</strong> What it is, and this part is genuinely impressive, is the fastest, broadest, most ridiculously well-read intern humanity has ever produced. It has read everything. It has understood almost none of it. And the gap between those two things is where my consulting work lives.</p>
+
+      <h2>The smoking gun: a benchmark a child beats</h2>
+
+      <p>If you only click one link in this post, click this one: the <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC-AGI leaderboard</a>.</p>
+
+      <p>ARC-AGI is the benchmark created by François Chollet specifically to be the thing AI <em>can't</em> brute-force. It's a set of small visual puzzles, grid in, grid out, that require you to spot a pattern from a couple of examples and apply it. A bright eight-year-old can solve most of them in an afternoon. The third generation, <a href="https://arcprize.org/arc-agi/3" target="_blank" rel="noopener">ARC-AGI 3</a>, raises the bar further: tiny custom-built 2D games with no instructions. You have to figure out the rules by playing.</p>
+
+      <div class="grid grid-cols-2 gap-4 my-10">
+        <div class="stat-card">
+          <div class="stat-num">0.6%</div>
+          <div class="stat-label">Top frontier model · ARC-AGI-3 (interactive)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">A motivated human · same benchmark</div>
+        </div>
+      </div>
+
+      <p>That's the entire industry's current ceiling on a task a primary-schooler shrugs off. Sixty hundredths of one percent. The models that write your sales emails, draft your contracts, and refactor your codebase cannot work out the rules of a game they haven't seen before, which is, depending on how you squint, the actual definition of intelligence.</p>
+
+      <blockquote>
+        ARC-AGI is the only formal benchmark that has resisted brute-force memorisation since 2019. The puzzles are private. There is no Stack Overflow answer to copy. There is no Reddit thread to scrape. The model has to <em>think</em>, and that turns out to be the part it's worst at.
+      </blockquote>
+
+      <h2>So what is AI actually doing?</h2>
+
+      <p>Stripped of the marketing, a large language model is doing one thing astonishingly well: <strong>compressing the internet into a probability function.</strong> You give it some text, and it produces the statistically most plausible continuation, conditioned on every byte of human writing it ate during training.</p>
+
+      <p>That sounds reductive. It is reductive. It's also why these systems work. Almost every model you've used since ChatGPT launched is the same core idea trained on more data with more compute. The current race is a scaling race, not an intelligence race, and so far nothing has come along that genuinely changes that.</p>
+
+      <p>What you're paying for when you call GPT-5 or Claude Opus 4.7 is:</p>
+
+      <ul>
+        <li><strong>Breadth.</strong> The model has read more medicine, law, code, history and Tagalog poetry than any human alive. Any time your problem benefits from "what does the world generally know about X?", it's a superpower.</li>
+        <li><strong>Speed.</strong> It can produce a passable first draft of almost anything in seconds. First drafts are where most knowledge work bottlenecks.</li>
+        <li><strong>Tool use.</strong> Modern models score very high on operating computers, clicking buttons, calling APIs, running code, because they've seen millions of examples of how those tools work. They are excellent <em>imitators</em> of established workflows.</li>
+      </ul>
+
+      <p>What you are <strong>not</strong> paying for:</p>
+
+      <ul>
+        <li><strong>Genuine reasoning from first principles.</strong> When the problem is novel, the model degrades to confident-sounding nonsense. This is the famous "hallucination", it's not a bug, it's the architecture doing exactly what it was built to do.</li>
+        <li><strong>On-the-spot learning.</strong> An LLM can't really update from one conversation to the next. Every chat starts cold. There's interesting work being done on this front, but nothing in production has cracked it yet.</li>
+        <li><strong>Discovery without a leash.</strong> Point an agent at a vague goal with no direction and it will produce something. It will also, frequently, produce the wrong thing very efficiently.</li>
+      </ul>
+
+      <h2>Why this is good news for your business</h2>
+
+      <p>If frontier models were genuinely intelligent, you wouldn't be reading this. You'd be reading a redundancy notice.</p>
+
+      <p>Because they aren't, the value you extract from AI is <strong>almost entirely bottlenecked by the human pointing it at the right problems.</strong> Three things that <em>don't</em> bottleneck you anymore:</p>
+
+      <ul>
+        <li><strong>Knowledge.</strong> The models carry more than your team will ever need.</li>
+        <li><strong>Price.</strong> A tier-one API call costs cents. Most workflows are cheaper than the coffee that fuels them.</li>
+        <li><strong>Setup.</strong> You can install a serious agentic stack on your laptop in under an hour.</li>
+      </ul>
+
+      <p>What does bottleneck you:</p>
+
+      <ul>
+        <li><strong>Knowing which problem to give the AI.</strong> This is taste, judgement, and business context, the things models still can't fake.</li>
+        <li><strong>Building the scaffolding around the AI</strong> so it produces consistent output rather than artisanal prose every Tuesday.</li>
+        <li><strong>Evaluating the output.</strong> If you can't tell when the model is confidently wrong, you cannot deploy it safely. Period.</li>
+      </ul>
+
+      <p>This is the part nobody putting up billboards about "AI transformation" wants to say out loud, so I will: <strong>the most expensive component of any working AI deployment is still the human pilot.</strong> The model is the engine. The pilot decides where the plane goes, when to pull up, and whether the runway is even pointing the right direction.</p>
+
+      <h2>The honest test for "real" intelligence</h2>
+
+      <p>I've adopted a personal benchmark, and you can borrow it: <strong>I'll start calling AI "intelligent" when a frontier model crosses 5% on ARC-AGI-3 without bespoke fine-tuning.</strong> Not 100%, 5%. The threshold where the system has demonstrably learned <em>something</em> from scratch on a problem it has never seen.</p>
+
+      <p>Until then, what we have is a sublime statistical mimic. Worth every cent. Just not the thing the press release said it was.</p>
+
+      <h2>Where I come in</h2>
+
+      <p>If your business is going to get value out of AI in 2026, it will be because someone, internal or external, knows the difference between the parts of the system that are genuinely capable and the parts that are theatre. That's the work I do. Two-hour proving ground, no retainer, no PowerPoint. We pick a real bottleneck, we build something that works, and you keep it.</p>
+
+      <p>If that sounds like the conversation you've been meaning to have, <a href="/#contact">drop me a line</a>.</p>
+
+    </article>
+
+    <!-- Sources -->
+    <section class="mt-20 pt-10 border-t border-primary/10">
+      <div class="kicker-row"><span class="kicker">Sources & Further Reading</span><div class="rule"></div></div>
+      <ul class="space-y-3 text-sm text-text-dim">
+        <li>· <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">ARC Prize, Leaderboard</a>, live scores for every frontier model</li>
+        <li>· <a href="https://arcprize.org/arc-agi/3" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">ARC-AGI 3</a>, the interactive benchmark with no instructions</li>
+        <li>· <a href="https://arcprize.org/blog" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">ARC Prize Blog</a>, ongoing analysis of where the frontier actually is</li>
+      </ul>
+    </section>
+
+    <!-- Next post -->
+    <section class="mt-16 pt-10 border-t border-primary/10">
+      <a href="/blog/business-value.html" class="block bg-surface hover:bg-surface2 transition-all p-8 border border-primary/15">
+        <div class="kicker mb-3">Next · Post 02</div>
+        <h3 class="text-2xl font-bold text-text mb-2">What businesses actually get from AI</h3>
+        <p class="text-sm text-text-dim">The real value streams, the data-leakage tax, and why deterministic code is still cheaper than your favourite agent. →</p>
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-primary/10 py-12 wrap text-center">
+    <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Chris0x88 · Brisbane · <a href="/" class="hover:text-primary">Home</a></span>
+  </footer>
+
+</body>
+</html>

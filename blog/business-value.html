@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+  Post:    What Businesses Actually Get From AI
+  Author:  Chris0x88
+  Date:    2026-04-25
+-->
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Businesses Actually Get From AI · Chris0x88</title>
+  <meta name="description" content="The two real value streams, the data-leakage tax, and why deterministic code still beats agents on the boring jobs. A field guide to extracting value from AI in 2026 without bankrupting yourself or leaking your IP.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'], mono: ['IBM Plex Mono','monospace'] },
+        colors: {
+          base: '#0d0c0b', surface: '#1a1815', surface2: '#232018',
+          primary: { DEFAULT: '#c8a96e', light: '#e8c98a', dim: '#8a6f3e' },
+          text: { DEFAULT: '#e8e2d5', dim: '#a09888' },
+          accent: '#4a7c5c', rust: '#c4622d'
+        }
+      } }
+    }
+  </script>
+
+  <style>
+    body { background-color: theme('colors.base'); color: theme('colors.text.DEFAULT'); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+      opacity: 0.04; z-index: 1; pointer-events: none;
+    }
+    .wrap { position: relative; z-index: 2; }
+
+    .pulse-dot { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); animation: pulse 2.5s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,124,92,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,124,92,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,124,92,0); }
+    }
+
+    .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.dim'); }
+    .kicker-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .kicker-row .rule { height: 1px; background: theme('colors.primary.dim'); opacity: 0.4; width: 4rem; }
+
+    .prose p { color: theme('colors.text.dim'); line-height: 1.75; margin-bottom: 1.25rem; font-size: 1.0625rem; }
+    .prose p strong { color: theme('colors.text.DEFAULT'); font-weight: 600; }
+    .prose a { color: theme('colors.primary.DEFAULT'); text-decoration: underline; text-decoration-color: rgba(200,169,110,0.35); text-underline-offset: 3px; }
+    .prose a:hover { color: theme('colors.primary.light'); }
+    .prose h2 { color: theme('colors.text.DEFAULT'); font-size: 1.875rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 3rem; margin-bottom: 1rem; }
+    .prose h3 { color: theme('colors.text.DEFAULT'); font-size: 1.25rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: -0.01em; }
+    .prose ul { color: theme('colors.text.dim'); margin-bottom: 1.25rem; padding-left: 1.25rem; }
+    .prose ul li { margin-bottom: 0.5rem; line-height: 1.7; }
+    .prose blockquote { border-left: 2px solid theme('colors.primary.DEFAULT'); background: theme('colors.surface'); padding: 1rem 1.25rem; margin: 1.5rem 0; color: theme('colors.text.dim'); font-style: italic; }
+    .prose code { font-family: 'IBM Plex Mono', monospace; color: theme('colors.primary.light'); background: theme('colors.surface'); padding: 0.1rem 0.4rem; font-size: 0.9em; }
+
+    .col2 { display: grid; grid-template-columns: 1fr; gap: 1px; background: rgba(200,169,110,0.10); border: 1px solid rgba(200,169,110,0.10); margin: 2rem 0; }
+    @media (min-width: 768px) { .col2 { grid-template-columns: 1fr 1fr; } }
+    .col2 > div { background: theme('colors.surface'); padding: 1.75rem; }
+    .col2 .head { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: theme('colors.primary.DEFAULT'); margin-bottom: 0.75rem; }
+    .col2 h4 { font-size: 1.05rem; font-weight: 700; color: theme('colors.text.DEFAULT'); margin-bottom: 0.5rem; }
+    .col2 p { font-size: 0.9rem; color: theme('colors.text.dim'); line-height: 1.6; }
+  </style>
+</head>
+<body class="bg-base text-text antialiased selection:bg-primary selection:text-base">
+
+  <nav class="max-w-3xl mx-auto px-6 pt-10">
+    <a href="/" class="font-mono text-[10px] tracking-widest text-text-dim hover:text-primary uppercase">← Chris0x88</a>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 pt-10 pb-24 wrap">
+
+    <header class="flex items-center justify-between mb-12 pb-6 border-b border-primary/10 flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
+        <span class="font-mono text-[10px] tracking-widest text-text-dim uppercase">Field Notes · 2026-04-25</span>
+      </div>
+      <span class="font-mono text-[10px] tracking-widest text-primary-dim uppercase">Post 02 of 03</span>
+    </header>
+
+    <section class="mb-16">
+      <div class="kicker-row">
+        <span class="kicker">Value Streams</span>
+        <div class="rule"></div>
+      </div>
+
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-text leading-[1.05] mb-8">
+        What businesses<br>
+        <em class="font-medium text-primary not-italic opacity-90">actually get from AI</em>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-text-dim font-light mb-6 leading-relaxed">
+        Two real value streams, one data-leakage tax, and a hard rule about when <em>not</em> to use the magic robot.
+      </p>
+
+      <p class="text-sm font-mono text-text-dim/70 tracking-widest uppercase">
+        ~9 min read · For decision makers
+      </p>
+    </section>
+
+    <article class="prose">
+
+      <p>Last post I argued that <a href="/blog/ai-not-intelligent.html">AI is not intelligent yet</a>. Some of you read that and concluded "great, I can ignore it for another year." Wrong conclusion.</p>
+
+      <p>The right conclusion is the opposite: precisely <em>because</em> the models aren't going to wake up next Thursday and run your business for you, the value left on the table is enormous, and almost all of it is operational rather than visionary. You don't need superintelligence to delete forty hours of copy-paste a week. You need a competent operator and the patience to wire things up properly.</p>
+
+      <p>Here's the practical map.</p>
+
+      <h2>The hyperscaler reality (or: why you don't own this)</h2>
+
+      <p>Before we talk value, let's talk who's actually selling it. Today's frontier models live on stacks of Nvidia H100 and B200 GPUs that retail for around <a href="https://www.tomshardware.com/news/nvidia-h100-gpus-cost" target="_blank" rel="noopener">USD $25–40k <em>each</em></a>, get bolted into eight-GPU servers that run six figures, and get racked in data centres that cost more than small countries' GDPs. The <a href="https://en.wikipedia.org/wiki/Stargate_LLC" target="_blank" rel="noopener">Stargate joint venture announced in early 2025</a> alone earmarked USD $500 billion for AI infrastructure. Microsoft, Google, Meta and Amazon collectively committed somewhere north of <a href="https://www.reuters.com/technology/artificial-intelligence/big-tech-set-pour-billions-more-into-ai-investors-eye-returns-2025-02-06/" target="_blank" rel="noopener">USD $300 billion in AI capex</a> for 2025 alone.</p>
+
+      <p>You are not going to outspend them. Almost no one is. For the next one to three years, "doing AI" for 99% of businesses means <strong>renting frontier intelligence over an API.</strong></p>
+
+      <p>That subscription model has consequences, and ignoring them is how you wake up two years from now realising your competitive moat got pasted into a training set.</p>
+
+      <h3>The data-leakage tax</h3>
+
+      <p>Every prompt you send to ChatGPT, Claude, Gemini, or any hosted model is a packet of data crossing a border into a data centre, usually American, owned by a company whose entire business model depends on getting smarter. Even when "training on your data" is officially off (and it is, on most enterprise tiers, see <a href="https://openai.com/enterprise-privacy/" target="_blank" rel="noopener">OpenAI's enterprise privacy policy</a> and <a href="https://www.anthropic.com/legal/commercial-terms" target="_blank" rel="noopener">Anthropic's commercial terms</a>), your queries shape product priorities, surface evaluation data, and exist as logs in someone else's jurisdiction.</p>
+
+      <p>When you give an agent control of your computer, this gets worse, not better. The whole point of an agent is to read whatever it needs to read to complete the task. That now includes your CRM, your shared drive, and that one folder labelled <code>do_not_open_legal</code>. <strong>LLMs were already a porous data boundary. Agents are a sieve.</strong></p>
+
+      <blockquote>
+        Rule of thumb: assume any data your agent touches has, in some form, been observed by the platform. Build accordingly.
+      </blockquote>
+
+      <p>For most businesses this is an acceptable cost, the upside dwarfs the leakage. For a handful (regulated industries, IP-heavy R&D, anyone with genuinely defensible proprietary data), it's a five-alarm problem and the answer is <strong>local-first scaffolding</strong>: open-weight models, your hardware, your network, your rules. That's a different conversation. <a href="/#contact">Have it with me if it applies to you.</a></p>
+
+      <h3>The compute-cost glide path</h3>
+
+      <p>Here's a data point worth tucking away: <strong>compute is getting roughly an order of magnitude cheaper every two to three years</strong>, before you even count algorithmic gains. Independent research (see Epoch AI's tracking of <a href="https://epochai.org/blog/algorithmic-progress-in-language-models" target="_blank" rel="noopener">algorithmic progress in language models</a>) shows the compute required to reach a given capability halves every eight months or so on top of hardware gains.</p>
+
+      <p>Compounded across hardware <em>and</em> software, a credible 100x improvement in cost-per-capability over the next three to five years is not science fiction. The training run that costs a hyperscaler $2M today plausibly fits on a $20k box in 2030.</p>
+
+      <p>What does that mean for you? <strong>Don't build your strategy on today's prices.</strong> Things you write off as "too expensive to AI-ify" right now will be trivial in 36 months. Things that look like permanent moats may not be.</p>
+
+      <h2>Value Stream 01 · Custom software, suddenly affordable</h2>
+
+      <p>This is the one that quietly changes everything, and almost nobody is talking about it correctly.</p>
+
+      <p>Until recently, building a piece of bespoke software for a specific quirk of your business (the weird invoice-reconciliation thing, the odd report your operations manager assembles every Monday, the integration between two SaaS products that almost-but-not-quite work together) meant hiring a developer at $100k+ a year, or paying an agency $30k for something fragile. So you didn't. You bought a SaaS subscription instead, and added it to the pile.</p>
+
+      <p>That calculus is broken. With a coding agent like <a href="https://docs.claude.com/en/docs/agents-and-tools/claude-code/overview" target="_blank" rel="noopener">Claude Code</a> or <a href="https://github.com/openai/codex" target="_blank" rel="noopener">OpenAI Codex</a>, a competent operator with no formal CS background can ship working internal tools in days. <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener">Andrej Karpathy called this "vibe coding"</a>, describing what you want, watching the agent build it, course-correcting when it goes off the rails. It is genuinely a new mode of software production.</p>
+
+      <p>Two corollaries that founders consistently miss:</p>
+
+      <div class="col2">
+        <div>
+          <div class="head">A · Custom Replaces SaaS</div>
+          <h4>You can in-house the boring tools</h4>
+          <p>Most of your subscription stack is doing something narrow that an agent can rebuild in an afternoon. Form builder, internal dashboard, email parser, spreadsheet glue, simple CRM. <strong>Audit your subscription bill. Half of it is now optional.</strong></p>
+        </div>
+        <div>
+          <div class="head">B · GitHub Is the Lego Box</div>
+          <h4>Open source is the starting point, not the destination</h4>
+          <p>An astonishing amount of high-quality software is sitting on <a href="https://github.com" target="_blank" rel="noopener">GitHub</a> for free. Companies open-source their core code and monetise the data pipeline. Your agent can clone it, customise it for your context, and run it on your hardware. That's a different cost curve to "buy SaaS forever."</p>
+        </div>
+      </div>
+
+      <h3>The deterministic discipline</h3>
+
+      <p>Here is where I diverge from the breathless takes. <strong>Once your custom workflow exists, do not run it through an LLM every time.</strong></p>
+
+      <p>If your inputs arrive in the same shape every day (a CSV at 9am, an invoice on the same template, an API response with a known schema), the right answer is plain old code. Hardcode it. <code>If this, then that.</code> Local CPU cycles cost effectively nothing; an agent run costs cents-to-dollars and produces slightly different output every time because the underlying model is, by design, probabilistic.</p>
+
+      <p>People complain about "context rot", agents losing the plot at the back end of a long task, and I have sympathy for them, because they're using the wrong tool. <strong>LLMs build the software. Deterministic code runs the software.</strong> When something breaks, you bring the agent back in to fix it.</p>
+
+      <p>This is the single biggest cost mistake I see businesses make: spinning up a frontier-model agent to do a job a Python script could do for free. It's the AI equivalent of taking a helicopter to the corner shop.</p>
+
+      <h2>Value Stream 02 · Discovery, research, and irregular data</h2>
+
+      <p>The other half of the value lives at the opposite end of the spectrum: situations where the input <em>isn't</em> uniform.</p>
+
+      <p>A résumé arrives in a different format every time. A customer email goes off on three tangents before getting to the point. A folder of contracts spans fifteen years of formatting drift. <strong>Probabilistic input is exactly where probabilistic models earn their pay.</strong> An agent can read that mess and turn it into structured data your deterministic pipelines can then digest cleanly. You're using the LLM as a translator into uniform shape, not as a worker on the uniform shape itself.</p>
+
+      <p>One layer up from that, and this is the part that surprises clients, is <strong>discovery</strong>. Pointing an agent at a business and saying "find me five processes that are wasting time" is not magic. It's directed inquiry. A capable operator who knows the business can lead an agent through the codebase, the SaaS stack, the meeting notes, the customer support tickets, and surface patterns that would take a human consultant a fortnight.</p>
+
+      <p>Note the word <em>directed</em>. The agent does not do this on its own. Refer back to <a href="/blog/ai-not-intelligent.html">post one</a>: untethered, the model produces confident output regardless of whether the question made sense. Tethered to a human who knows what they're looking for, it's a force multiplier of the highest order.</p>
+
+      <h2>The bottleneck, again</h2>
+
+      <p>I'll keep saying it because it's the only thing that matters: <strong>the limiting factor is the human pilot.</strong></p>
+
+      <p>Every other component of the AI stack is improving rapidly and getting cheaper. The chips will change. The cooling will change. The model architectures will change. The agentic harnesses will change, Codex, Claude Code, whatever ships next quarter. The languages will probably change. None of that touches the bottleneck.</p>
+
+      <p>What does touch the bottleneck is having <strong>at least one person in your organisation</strong>, internal hire, external partner, doesn't matter, who can:</p>
+
+      <ul>
+        <li>Tell deterministic problems from probabilistic ones, and route accordingly.</li>
+        <li>Read AI output critically enough to catch when it's confidently wrong.</li>
+        <li>Sequence the work, build the small obvious win first, prove the pattern, expand.</li>
+        <li>Build local scaffolding when the data sensitivity demands it, and call frontier APIs when it doesn't.</li>
+        <li>Keep the bill rational. (See "helicopter to the corner shop", above.)</li>
+      </ul>
+
+      <p>If that person already exists in your team, brilliant, get out of their way and give them budget. If they don't, you have two options: hire and train one, or rent one for a focused engagement until you do.</p>
+
+      <h2>What to do this week</h2>
+
+      <p>Three concrete moves while the kettle boils:</p>
+
+      <ul>
+        <li><strong>Audit your SaaS bill.</strong> Circle the line items that do something narrow. Those are candidates for in-housing once you have a pilot in place.</li>
+        <li><strong>Pick one repeating, deterministic task</strong> in your week (the Monday report, the daily reconciliation, whatever it is). That's your first build target.</li>
+        <li><strong>Pick one messy, irregular data flow</strong> (résumés, support tickets, vendor invoices). That's your first agent target.</li>
+      </ul>
+
+      <p>If you want a sharper version of this list specific to your business, that's literally what my <a href="/#contact">two-hour proving ground</a> is for. Walk in with a problem; walk out with something working. No retainer, no PowerPoint, no charge for the chat.</p>
+
+    </article>
+
+    <!-- Sources -->
+    <section class="mt-20 pt-10 border-t border-primary/10">
+      <div class="kicker-row"><span class="kicker">Sources & Further Reading</span><div class="rule"></div></div>
+      <ul class="space-y-3 text-sm text-text-dim">
+        <li>· <a href="https://epochai.org/blog/algorithmic-progress-in-language-models" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">Epoch AI · Algorithmic Progress in Language Models</a>, measured rate of compute-efficiency gains</li>
+        <li>· <a href="https://en.wikipedia.org/wiki/Stargate_LLC" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">Stargate (USD $500B AI infrastructure JV)</a></li>
+        <li>· <a href="https://openai.com/enterprise-privacy/" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">OpenAI · Enterprise Privacy</a> · <a href="https://www.anthropic.com/legal/commercial-terms" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">Anthropic · Commercial Terms</a></li>
+        <li>· <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">Karpathy · "Vibe coding"</a> (Feb 2025)</li>
+        <li>· <a href="https://docs.claude.com/en/docs/agents-and-tools/claude-code/overview" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">Claude Code</a> · <a href="https://github.com/openai/codex" target="_blank" rel="noopener" class="text-primary hover:text-primary-light">OpenAI Codex</a></li>
+      </ul>
+    </section>
+
+    <!-- Next post -->
+    <section class="mt-16 pt-10 border-t border-primary/10">
+      <a href="/blog/discovery-session.html" class="block bg-surface hover:bg-surface2 transition-all p-8 border border-primary/15">
+        <div class="kicker mb-3">Next · Post 03</div>
+        <h3 class="text-2xl font-bold text-text mb-2">What a discovery session with me actually looks like</h3>
+        <p class="text-sm text-text-dim">A two-hour walkthrough of the workshop format. Show up prepared, leave with something working. →</p>
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-primary/10 py-12 wrap text-center">
+    <span class="font-mono text-[10px] tracking-widest text-text-dim/50 uppercase">© 2026 · Chris0x88 · Brisbane · <a href="/" class="hover:text-primary">Home</a></span>
+  </footer>
+
+</body>
+</html>
